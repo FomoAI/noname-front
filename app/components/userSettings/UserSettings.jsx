@@ -202,7 +202,7 @@ export default function UserSettings({disconnect,user}) {
            </button>
         </div>
         <div className={styles.row}>
-           <button onClick={() => router.push('https://discord.com/api/oauth2/authorize?client_id=1082648354053427210&redirect_uri=https%3A%2F%2Fnoname-server-production.up.railway.app%2Fdiscord&response_type=code&scope=identify')} className={styles.btn}>
+           <button onClick={() => router.push('https://discord.com/api/oauth2/authorize?client_id=1082648354053427210&redirect_uri=https%3A%2F%2Fnoname-backend-production.up.railway.app%2Fdiscord&response_type=code&scope=identify')} className={styles.btn}>
               <Image alt={'discord'} src={discordSvg}/>
               <span className={styles.blueText}>
                 {user?.discordData?.username ? user?.discordData?.username : 'Connect Discord'}

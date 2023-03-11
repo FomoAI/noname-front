@@ -26,7 +26,7 @@ export default function UsersTable({users}) {
 
     const downloadData = async () => {
         await getUsersData()
-        router.push('https://noname-server-production.up.railway.app/api/static/users.xlsx')
+        router.push('https://noname-backend-production.up.railway.app/api/static/users.xlsx')
     }
 
     const filteredUsers = useMemo(() => {
