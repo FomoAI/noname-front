@@ -1,0 +1,43 @@
+.btn {
+  width: 100%;
+  padding: 12px 10px;
+  background: #ffe5ec;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 23px;
+  text-align: center;
+  cursor: pointer;
+  color: #ff507d;
+
+  transition: all 0.3s ease;
+  &:hover {
+    color: #ffffff;
+    background: #fd2f66;
+  }
+}
+.btnRed {
+  width: 100%;
+  padding: 12px 10px;
+  background: #FF507D;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 23px;
+  text-align: center;
+  cursor: pointer;
+  color: #FFFFFF;
+
+  transition: all 0.3s ease;
+
+  &:hover {
+    color: #ffffff;
+    background: #fe1b53;
+  }
+  
+  &:disabled{
+    background: #ff507ca0;
+    cursor: default;
+  }
+
+}

@@ -1,0 +1,171 @@
+import useModal from '../../hooks/useModal'
+import logo from '../../assets/img/logo.svg'
+import ventures from '../../assets/img/ventures.svg'
+import styles from '../styles/info.module.scss'
+import Image from 'next/image'
+import MainBtn from '../UI/buttons/MainBtn'
+import Form from '../../assets/components/form/Form'
+import SubTitle from '../../assets/components/subTitle/SubTitle'
+import Gallery from '../../assets/components/gallery/Gallery'
+import Accordion from '../accordion/Accordion'
+import Roadmap from '../../assets/components/roadmap/Roadmap'
+import Community from '../community/Community'
+
+const links = [
+    {
+        name:'About us',
+        href:'#about-us'
+    },
+    {
+        name:'Portfolio',
+        href:'#portfolio'
+    },
+    {
+        name:'Partners',
+        href:'#partners'
+    },
+    {
+        name:'Contact',
+        href:'#contact'
+    },
+]
+
+export default function Info({data}) {
+    const {modalHandler,state} = useModal()
+    
+  return (
+    <div className={styles.body}>
+        <div className={styles.joinUs}>
+            <div className={styles.logo}>
+                <Image src={logo} width={166} alt='logo'/>
+            </div>
+            <nav className={styles.nav}>
+                {links.map((link,index) => {
+                    return (
+                        <a key={index} href={link.href}>
+                            {link.name}
+                        </a>
+                    )
+                })}
+            </nav>
+            <div className={styles.ventures}>
+                <Image src={ventures} alt='ventures'/>
+            </div>
+            <div className={styles.text}>
+            No name is a multichain investments platform 
+            which enables the possibility to invest in
+            various assets. No name plays at both sides: 
+            allows you to set up your own startup or find 
+            an attractive asset/project to invest in.
+            </div>
+            <MainBtn text={'Join us'} handler={modalHandler}/>
+            <Form handler={modalHandler} isVisible={state}/>
+        </div>
+        <div id='about-us' className={styles.about}>
+            <div className={styles.aboutInfo}>
+                <SubTitle>
+                About us
+                </SubTitle>
+                <div className={styles.aboutText}>
+                <p>
+                    No name is an investment platform designed to open 
+                    the world of investments for you. It is said that the
+                     main rule of every investor is to diversify their assets,
+                      which means to  put your eggs in different baskets. 
+                </p>
+                <b>
+                    That is why No name offers you various assets to invest in, such as:
+                </b>
+                <ul>
+                    <li>Real estate</li>
+                    <li>Startups</li>
+                    <li>Crypto.</li>
+                </ul>
+                <p>
+                    For that, we have built a website with a simple and convenient 
+                    interface. Every project available for investing will have detailed
+                     descriptions about terms, perspectives etc. 
+                </p>
+                <b>
+                    On the other hand, No name offers a chance for would-be businessmen 
+                    to receive the help and support that is needed. It includes:
+                </b>
+                <ul>
+                    <li>Funding</li>
+                    <li>Consulting (legal and accounting)</li>
+                    <li>Partnership with other entrepreneurs</li>
+                    <li>Advertising, etc.</li>
+                </ul>
+                <p>
+                    With No name, the world of investments will become simple and available for everyone. 
+                </p>
+                </div>
+            </div>
+            <div className={styles.features}>
+                <SubTitle>
+                Why No name?
+                </SubTitle>
+                <div className={styles.featuresText}>
+                    <p style={{'textAlign':'center'}}>
+                    Learn from others, share your work, and extend your tool set with a diverse group
+                    </p>
+                    <div className={styles.featuresColums}>
+                        <div className={styles.featuresColum}>
+                            <b>Not only money</b>
+                            <p style={{'textAlign':'center'}}>
+                            Alongside with funding No name offers a capable
+                             team of professionals, including lawyers, accountants,
+                             business consultants, advertising specialists who are 
+                             willing to help you anyway they can
+                            </p>
+                        </div>
+                        <div className={styles.featuresColum}>
+                            <b>24/7</b>
+                            <p style={{'textAlign':'center'}}>
+                            Our support is not limited by time. Once you have started - we are always
+                             here with you and for you. Step by step we help to move on, we help to overcome,
+                              we help to be successful. Our strategy is simple: Your success is our success
+                            </p>
+                        </div>
+                        <div className={styles.featuresColum}>
+                            <b>Easy and fast </b>
+                            <p style={{'textAlign':'center'}}>
+                            Start your own business within minutes with 
+                            No name and support that we provide
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id='portfolio'>
+            <Gallery
+            text={'Gems which we have invested in'}
+            title={'Portfolio'} 
+            items={data.portfolio}
+            />
+        </div>
+        <div id='partners' className={styles.partners}>
+            <Gallery 
+            text={'Projects and companies which we trust to work with'} 
+            title={'Partners'} 
+            items={data.partners}
+            />
+        </div>
+        <div className={styles.faq}>
+            <Accordion items={data.faq} title={'FAQ'} />
+        </div>
+        <div className={styles.risks}>
+            <Accordion items={data.risks} title={'Risks'} />
+        </div>
+        <div className={styles.roadmap}>
+            <Roadmap items={data.roadmap}/>
+        </div>
+        <div id='contact'>
+            <Community/>
+        </div>
+    </div>
+  )
+}
+
+
