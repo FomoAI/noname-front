@@ -18,7 +18,7 @@ const News = ({news}) => {
     
     return (
       <>
-      <HeadBlock title={'News'}/>
+      <HeadBlock title={'Blog'}/>
       <Layout>
         <NewsPage news={news}/>
       </Layout>

@@ -11,7 +11,7 @@ const NewsItem = ({newsItem}) => {
     const router = useRouter()
 
     return (
-        <div onClick={() => router.push(`/news/${newsItem._id}`)} className={styles.newItem}>
+        <div onClick={() => router.push(`/blog/${newsItem._id}`)} className={styles.newItem}>
             <div className={styles.img}>
                 <Image 
                 loader={() => loader(newsItem.img)}

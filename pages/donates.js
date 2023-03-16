@@ -5,6 +5,7 @@ import fetchProjects from '../app/services/fetchProjects.js'
 import { useDispatch } from 'react-redux'
 import {setProjects} from '../app/store/slices/allProjects'
 import { useEffect } from 'react'
+import Hidden from '../app/assets/components/HiddenComponent/Hidden'
 
 export async function getServerSideProps() {
   const {projects} = await fetchProjects('donates')
@@ -68,10 +69,13 @@ export default function donates({projects}) {
     <>
     <HeadBlock title={'Donates'}/>
     <Layout>
-      <Main 
+      {/* <Main 
       info={pageInfo}
       type={'Donates'} 
-      />
+      /> */}
+      <Hidden>
+      A bit of patience... coming soon
+      </Hidden>
     </Layout>
     </>
   )

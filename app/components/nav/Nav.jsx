@@ -21,8 +21,8 @@ import NavModal from '../../assets/components/navModal/NavModal';
 
 const links = [
     {
-        title:'News',
-        href:'/news'
+        title:'Blog',
+        href:'/blog'
     },
     {
         title:'Calendar',
@@ -40,8 +40,8 @@ const links = [
 
 const mobileLinks = [
     {
-        title:'News',
-        href:'/news'
+        title:'Blog',
+        href:'/blog'
     },
     {
         title:'Calendar',

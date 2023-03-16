@@ -28,7 +28,7 @@ export default function news({news}) {
 
   return (
     <>
-      <HeadBlock title={'News'}/>
+      <HeadBlock title={'Blog'}/>
       <Layout>
         <News/>
       </Layout> 

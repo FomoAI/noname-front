@@ -15,8 +15,8 @@ const links = [
     {
         img:rocketSvg,
         href:'/startups',
-        title:'Startups',
-        description:'Become an angel investor of a promising startup ',
+        title:'NFT Launch',
+        description:'A brand new launchpad  enabling NFT cryptoprojects to launch their INO and IDO',
     },
     {
         img:donateSvg,
@@ -32,9 +32,9 @@ const links = [
     },
     {
         img:realEstateSvg,
-        href:'/realestate',
-        title:'Real estate',
-        description:'Invest in the best proposition of the real estate market',
+        href:'/business',
+        title:'Business',
+        description:'Invest in various assets including startups, real estate etc. We provide the best options for mid-term and long-term investnents.',
     },
 ]
 

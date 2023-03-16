@@ -77,8 +77,8 @@ export default function Info({data}) {
                     That is why No name offers you various assets to invest in, such as:
                 </b>
                 <ul>
-                    <li>Real estate</li>
-                    <li>Startups</li>
+                    <li>Business</li>
+                    <li>NFT Launch</li>
                     <li>Crypto.</li>
                 </ul>
                 <p>

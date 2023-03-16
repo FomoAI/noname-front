@@ -31,36 +31,13 @@ export default function Home({projects}) {
   },[])
 
 const pageInfo = {
-  title:'Startups',
+  title:'NFT Launch',
   description:
   `
-  <div>
+  <div class="center-text">
     <p>
-      The definition for startup is a company in the first
-      stages of operations. Startups are founded by one or 
-      more entrepreneurs who want to develop a product or 
-      service for which they believe there is demand.
-    </p>
-    <p>
-      Investments in successful startups have the potential
-      to deliver returns in excess of 10x money on money. 
-      However, as with all investments, there's also the 
-      risk that a business does not perform as expected 
-      resulting in potential losses.
-    </p>
-  </div>
-  <div>
-    <b>
-      There are several reasons to invest in startup: 
-    </b>
-    <ul>
-     <li>an attractive valuation at early stage;</li>
-     <li>a successful startup can potentially 
-     change an industry and be highly profitable.</li>
-    </ul>
-    <p>
-      Who knows, maybe that one of the startups that 
-      are offered at No name will be the next Google or Apple.
+      The best place for NFT projects to start. Fair terms and conditions for
+      IDO and INO. Build your audience, get funding, do the marketing and launch your project with us.
     </p>
   </div>
   `
@@ -72,7 +49,7 @@ const pageInfo = {
       <Layout>    
         <Main 
         info={pageInfo}
-        type={'Startup'} 
+        type={'NFT Launch'} 
         />
       </Layout>
     </>
