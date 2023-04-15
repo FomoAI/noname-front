@@ -59,7 +59,8 @@
   margin-bottom: 14px;
 }
 .tag {
-  max-width: 94px;
+  max-width: fit-content;
+  min-width: 94px;
   width: 100%;
   font-weight: 600;
   font-size: 14px;

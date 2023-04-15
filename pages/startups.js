@@ -36,8 +36,10 @@ const pageInfo = {
   `
   <div class="center-text">
     <p>
-      The best place for NFT projects to start. Fair terms and conditions for
-      IDO and INO. Build your audience, get funding, do the marketing and launch your project with us.
+      The best place for NFT projects to start. Build your projects 
+      with us in zkSynk L2 ecosystem. Fast and safe transactions, 
+      fair terms and conditions for IDO and INO. Attract new audiences,
+      get funding, do the marketing and launch right to the moon. 
     </p>
   </div>
   `

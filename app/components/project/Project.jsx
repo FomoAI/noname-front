@@ -7,6 +7,13 @@ import loader from '../../utils/loader'
 import useDates from '../../hooks/useDates'
 import hiddenSvg from '../../assets/icons/hidden.svg'
 
+const getProjectPath = (path) => {
+    if(path === 'realestate'){
+        return 'realestate'
+    }
+    return path
+}
+
 export default function Project({type,project,index,filter}) {
     const [isAuth,setIsAuth] = useState(false)
     const [time,setTime] = useState({d:0,h:0,m:0})
@@ -17,7 +24,7 @@ export default function Project({type,project,index,filter}) {
     const router = useRouter()
 
     const navigation = () => {
-        router.push(`/${project.path}/${project._id}`)
+        router.push(`/${getProjectPath(project.path)}/${project._id}`)
     }
 
     useEffect(() => {

@@ -24,7 +24,7 @@ export default function ProjectInfoBlock({tags,img,text}) {
         isVideo
         ?
         <div className={styles.video}>
-          <ReactPlayer controls playing={false} url={`https://noname-server-production.up.railway.app/api/static${img}`}/>
+          <ReactPlayer controls playing={false} url={`https://noname-backend-production.up.railway.app/api/static${img}`}/>
         </div>
         :
         <div className={styles.img}>

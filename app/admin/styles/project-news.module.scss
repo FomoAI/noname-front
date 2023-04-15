@@ -3,9 +3,9 @@
 }
 .news{
     display: flex;
+    flex-wrap: wrap;
     gap: 20px;
     @media (max-width:1400px) {
-        flex-wrap: wrap;
     }
 }
 .newsItem{

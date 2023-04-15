@@ -28,7 +28,7 @@ const links = [
         img:cryptoSvg,
         href:'/crypto',
         title:'Crypto',
-        description:'Invest in the best proposition of the сrypto market',
+        description:'The best crypto startups powered by zkSync and other beneficial offers from the cryptomarket',
     },
     {
         img:realEstateSvg,

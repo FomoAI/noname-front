@@ -22,7 +22,7 @@ export default function InfoPage({info}) {
     < >
       <HeadBlock title={'Info'}/>
       <Layout>
-      <Info data={info[0]}/>
+        <Info data={info[0]}/>
       </Layout>
     </>
   )

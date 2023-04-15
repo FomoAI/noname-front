@@ -144,6 +144,12 @@
       top: -1.4px;
       right: -7px;
     }
+    @media (max-width:1400px) {
+      font-size: 14px;
+    }
+  }
+  @media (max-width:1400px) {
+    margin-right: 5px;
   }
 }
 .rotate{

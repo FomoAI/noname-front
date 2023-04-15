@@ -71,12 +71,14 @@
 }
 .inwork {
   width: 6px;
+  min-width:6px;
   height: 6px;
   background: #f9a353;
   border-radius: 50%;
 }
 .upcoming {
   width: 6px;
+  min-width:6px;
   height: 6px;
   background: #b9c0ca;
   border-radius: 50%;
@@ -94,6 +96,7 @@
   margin-bottom: 8px;
 }
 .list {
+  max-width:330px;
   @media (max-width: 660px) {
     min-width: fit-content;
   }

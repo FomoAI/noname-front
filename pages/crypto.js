@@ -35,25 +35,13 @@ const pageInfo = {
   title:'Crypto',
   description:
   `
-  <div>
+  <div className='center-text'>
     <p>
-      Cryptocurrency is a highly volatile asset. Mostly it is a short-term investment.
-      It allows users to multiply their money, sometimes easily. However, as mentioned 
-      it is volatile, which makes it very risky and there is a good chance to lose big. 
-      It is no secret that any cryptoproject can go bankrupt overnight.
-    </p>
-    <p>
-      With No name those risks will be significantly lowered as we would not offer you a 
-      project in which we would not invest. 
-    </p>
-  </div>
-  <div>
-    <p className='no-margin'>
-      No name has an experienced team that has been in crypto since 2017.
-      We are responsible for every choice we make about offering a project to invest in. 
-    </p>
-    <p className='no-margin'>
-      No name offers you a gem which will go to the moon.
+      In this section you will find crypto startups which are based on one
+      of the best Layer 2 solutions - zkSynk. Choose the best for you and
+      invest using our simple interface. Also, here you will find other 
+      interesting and beneficial cryptoprojects which fit our understanding
+      of a qualitative and safe project. Only the best offers here.
     </p>
   </div>
   `
