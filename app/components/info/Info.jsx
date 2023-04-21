@@ -52,11 +52,14 @@ export default function Info({data}) {
                 <Image src={ventures} alt='ventures'/>
             </div>
             <div className={styles.text}>
-            No name is a multichain investments platform 
-            which enables the possibility to invest in
-            various assets. No name plays at both sides: 
-            allows you to set up your own startup or find 
-            an attractive asset/project to invest in.
+            No name is a multichain investments platform which 
+            enables the possibility to invest in various assets. 
+            No name plays at both sides: allows you to set up your
+            own startup or find an attractive asset/project to
+            invest in. We are aiming at building our ecosystem 
+            in zkSync. All projects that are represented on our 
+            platform will use zkSync too. Building a safe and 
+            fast ecosystem is our top priority. 
             </div>
             <MainBtn text={'Join us'} handler={modalHandler}/>
             <Form handler={modalHandler} isVisible={state}/>
@@ -68,23 +71,18 @@ export default function Info({data}) {
                 </SubTitle>
                 <div className={styles.aboutText}>
                 <div>
-                    No name is an investment platform designed
-                    to open the world of investments for you. 
-                    We are building a whole new ecosystem using 
-                    zkSynk L2 which ensures safety and rapidity
-                    of transactions. Growing up fast, zkSynk L2
-                    is one of the best solutions for Ethereum
-                    network with low gas prices and safety 
-                    that is guaranteed by zero- knowledge protocol.
+                    No name is a multichain investments platform which 
+                    enables the possibility to invest in various assets.
+                     No name plays at both sides: allows you to set up
+                      your own startup or find an attractive asset/project
+                    to invest in. We are aiming at building our ecosystem 
+                    in zkSync. All projects that are represented on our 
+                    platform will use zkSync too. Building a safe and 
+                    fast ecosystem is our top priority. 
                     <br/>
                     <p>
-                    It is said that No name is a multichain investments platform 
-                    which enables the possibility to invest in
-                    various assets. No name plays at both sides: 
-                    allows you to set up your own startup or find 
-                    an attractive asset/project to invest in.We are aiming at building our ecosystem in zkSynk2. 
-                    All projects represented on our platform will use zkSynk too. 
-                    Building a safe and fast ecosystem is our top priority. 
+                    It is said that the main rule of every investor is to diversify their assets,
+                     which means to put your eggs in different baskets.
                     </p>
                 </div>
                 <b>
