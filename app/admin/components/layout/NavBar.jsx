@@ -11,7 +11,7 @@ const links = [
         href:'/admin',
     },
     {
-        name:'Startups',
+        name:'NFT Launch',
         href:'/admin/startups',
     },
     {
@@ -23,7 +23,7 @@ const links = [
         href:'/admin/crypto',
     },
     {
-        name:'Real Estate',
+        name:'Bussines',
         href:'/admin/realestate',
     },
     {

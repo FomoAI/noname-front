@@ -8,8 +8,8 @@ export default function MapCustom({location}) {
   return (
       <Map mapLib={maplibregl} 
         initialViewState={{
-          longitude: Number(longitude) ? Number(longitude) : 16.62662018,
-          latitude: Number(latitude) ? Number(latitude) : 49.2125578,
+          longitude: !isNaN(Number(longitude)) && Number(longitude) < 90 ? Number(longitude) : 16,
+          latitude:  !isNaN(Number(latitude)) && Number(latitude) < 90? Number(latitude) : 49,
           zoom: 14
         }}
         style={{width: "100vw", height: "280px"}}
@@ -17,8 +17,8 @@ export default function MapCustom({location}) {
       >
         <NavigationControl position="top-left" />
         <Marker
-        longitude={Number(longitude) ? Number(longitude) : 16.62662018}
-        latitude={Number(latitude) ? Number(latitude) : 49.2125578}
+        longitude={!isNaN(Number(longitude))  && Number(longitude) < 90 ? Number(longitude) : 16}
+        latitude={!isNaN(Number(latitude)) && Number(latitude) < 90 ? Number(latitude) : 49}
         color='#FF507D'
         />
       </Map>

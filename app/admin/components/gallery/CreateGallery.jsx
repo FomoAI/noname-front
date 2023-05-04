@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import styles from '../../styles/create-gallery.module.scss'
 import AddBtn from '../../UI/AddBtn'
-import Image from 'next/image'
 import Input from '../../UI/Input'
 import FileInput from '../../UI/FileInput'
 import loader from '../../../utils/loader'

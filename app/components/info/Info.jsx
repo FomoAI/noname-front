@@ -52,7 +52,7 @@ export default function Info({data}) {
                 <Image src={ventures} alt='ventures'/>
             </div>
             <div className={styles.text}>
-            No name is a multichain investments platform which 
+            No name is a multipurpose investments platform which 
             enables the possibility to invest in various assets. 
             No name plays at both sides: allows you to set up your
             own startup or find an attractive asset/project to

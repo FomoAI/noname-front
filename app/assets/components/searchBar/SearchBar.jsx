@@ -6,6 +6,21 @@ import useProjects from "../../../hooks/useProjects";
 import { openModal, closeModal } from "../../../store/slices/modalsSlice";
 import SearchProject from "../searchProject/SearchProject";
 
+const isFinded = (searchValue,result) => {
+  return (
+    searchValue 
+  && 
+  result?.projects?.length 
+  || 
+  result?.donates?.length 
+  || 
+  result?.realestate?.length 
+  || 
+  result?.crypto?.length
+  )
+}
+
+
 const SearchBar = () => {
   const [searchValue, setSearchValue] = useState("");
   const searchState = useSelector((state) => state.modals.search.state);
@@ -25,9 +40,7 @@ const SearchBar = () => {
 
     allProjects
       .filter((project) => {
-        return String(project.title)
-          .toLowerCase()
-          .includes(searchValue.toLowerCase());
+        return String(project.title).toLowerCase().includes(searchValue.toLowerCase());
       })
       .forEach((project) => {
         if (project.path === "donate") {
@@ -51,7 +64,7 @@ const SearchBar = () => {
       dispatch(closeModal("search"));
     }
   }, [searchValue]);
-
+  
   return (
     <div className={styles.body}>
       <TextField
@@ -60,7 +73,7 @@ const SearchBar = () => {
         handler={searchHandler}
       />
       {searchState ? (
-        (searchValue && result?.projects?.length) || result?.donates?.length ? (
+        (isFinded(searchValue,result)) ? (
           <div className={styles.searchResults}>
             {result.projects.length ? (
               <>

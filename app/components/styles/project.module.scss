@@ -138,9 +138,14 @@
 
 .projectWrapper{
   position: relative;
+  max-width: 289px;
+  width: 100%;
 }
 .hidden{
+  max-width: 289px;
+  width: 100%;
   filter: blur(3px);
+
 }
 .hiddenImg{
   position: absolute;

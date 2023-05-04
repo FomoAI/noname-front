@@ -1,7 +1,7 @@
 import styles from './roadmap.module.scss'
 import SubTitle from '../subTitle/SubTitle'
 
-const checkStatus = (status) => {
+export const checkStatus = (status) => {
     if(status === 'done'){
         return (
             <div className={styles.done}></div>

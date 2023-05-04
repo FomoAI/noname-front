@@ -24,16 +24,12 @@ export default function index({children}) {
     }
   })
   const dispatch = useDispatch()
-  const router = useRouter()
   const modals = useSelector((state) => state.modals)
-
-
 
   useEffect(() => {
     if(JSON.parse(localStorage.getItem('headerAndFooter'))){
       setData(JSON.parse(localStorage.getItem('headerAndFooter')))
     }
-
     const getData = async () => {
       try{
         const {header} = await getHeader()

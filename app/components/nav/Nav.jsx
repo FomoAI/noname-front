@@ -29,6 +29,10 @@ const links = [
         href:'/calendar'
     },
     {
+        title:'Leaderboard',
+        href:'/leaderboard'
+    },
+    {
         title:'Dashboard',
         href:'/dashboard'
     },
@@ -46,6 +50,10 @@ const mobileLinks = [
     {
         title:'Calendar',
         href:'/calendar'
+    },
+    {
+        title:'Leaderboard',
+        href:'/leaderboard'
     },
     {
         title:'Dashboard',

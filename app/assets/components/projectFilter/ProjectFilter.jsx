@@ -31,8 +31,8 @@ export default function ProjectFilter({filtersInitialState,project}) {
             return (
                 project[filter.title.toLowerCase()].length
             )
-        }).title
-        setFilter(actualFilter)
+        })
+        setFilter(actualFilter?.title || '')
         setFilters(filters.map((filter) => {
             if(filter.title === actualFilter){
                 return {...filter,isSelect:true}

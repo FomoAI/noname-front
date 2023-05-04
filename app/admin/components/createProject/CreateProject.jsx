@@ -141,6 +141,16 @@ const inputs = [
     name:'maxInvest',
     placeholder:'$1000.00'
   },
+  {
+    label:'All Time High:',
+    name:'high',
+    placeholder:'3.9'
+  },
+  {
+    label:'Total Raise:',
+    name:'totalRaise',
+    placeholder:'$300.000'
+  },
 ]
 
 export default function CreateProject({type,status,id}) {
@@ -434,9 +444,6 @@ export default function CreateProject({type,status,id}) {
             </div>
             <RatingSelect handler={inputsHandler} name={'rating'}/>
           </div>
-
-       
-
       </div>
 
       <div className={styles.tags}>

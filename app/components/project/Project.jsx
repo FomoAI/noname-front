@@ -45,7 +45,7 @@ export default function Project({type,project,index,filter}) {
         <div className={styles.hiddenImg}>
             <Image src={hiddenSvg} alt='hidden'/>
         </div>
-    <div className={styles.project + " " + styles.hidden}>
+        <div className={styles.project + " " + styles.hidden}>
         <div className={styles.rows}>
             <div className={styles.row}>
                 <div className={styles.colums}>
@@ -120,7 +120,7 @@ export default function Project({type,project,index,filter}) {
                 </>
             }
         </div>
-    </div>
+        </div>
     </div>
     :
     <div onClick={navigation} className={styles.project}>
