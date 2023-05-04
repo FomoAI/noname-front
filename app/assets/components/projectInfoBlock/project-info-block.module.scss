@@ -57,6 +57,9 @@
   align-items: center;
   gap: 8px;
   margin-bottom: 14px;
+  @media (max-width:800px) {
+    flex-wrap: wrap;
+  }
 }
 .tag {
   max-width: fit-content;
