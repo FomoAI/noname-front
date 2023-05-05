@@ -23,7 +23,7 @@ const links = [
         href:'/admin/crypto',
     },
     {
-        name:'Bussines',
+        name:'Business',
         href:'/admin/realestate',
     },
     {
