@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import loader from '../../utils/loader'
 import useDates from '../../hooks/useDates'
 import hiddenSvg from '../../assets/icons/hidden.svg'
+import { useSelector } from 'react-redux'
 
 const getProjectPath = (path) => {
     if(path === 'realestate'){
@@ -15,9 +16,9 @@ const getProjectPath = (path) => {
 }
 
 export default function Project({type,project,index,filter}) {
-    const [isAuth,setIsAuth] = useState(false)
     const [time,setTime] = useState({d:0,h:0,m:0})
     const {days,hours,minutes} = useDates(project.dateStart,project.timeStart,project.status === 'Upcoming')
+    const isAuth = useSelector((state) => state.auth.userData.isAuth)
     const progress = useMemo(() => {
         return project?.funded && parseFunded(project.funded)
     },[project])
@@ -28,9 +29,6 @@ export default function Project({type,project,index,filter}) {
     }
 
     useEffect(() => {
-        setIsAuth(
-            JSON.parse(localStorage.getItem('userData'))?.isAuth
-        )
         setTime({
             d:days,
             h:hours,

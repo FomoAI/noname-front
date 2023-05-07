@@ -48,3 +48,27 @@
   color: gray;
   background: rgba(234, 242, 251, 0.5019607843);
 }
+.projectWrapper{
+  position: relative;
+  width: 100%;
+}
+.projectWrapper .project{
+  cursor: auto;
+  &:hover{
+    background: transparent;
+  }
+}
+.hidden{
+  width: 100%;
+  filter: blur(3px);
+}
+.hiddenImg{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-40%,-50%);
+  z-index: 1;
+}
+.hiddenImg img{
+  max-width: 72%;
+}

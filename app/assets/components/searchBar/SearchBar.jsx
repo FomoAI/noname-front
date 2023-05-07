@@ -29,7 +29,7 @@ const SearchBar = () => {
   const searchHandler = (event) => {
     setSearchValue(event.target.value);
   };
-  
+
   const result = useMemo(() => {
     if (!searchValue) return
     
