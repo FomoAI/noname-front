@@ -63,7 +63,9 @@ export default function ProjectPage({project}) {
         />
     </div>
     <div className={styles.filtersInfo}>
-      <ProjectFilter project={project} filtersInitialState={filtersInitialState}/>  
+      <ProjectFilter 
+      project={project} 
+      filtersInitialState={filtersInitialState}/>  
     </div>
     <div className={styles.about}>
       <AboutCompany project={project}/>
@@ -78,7 +80,9 @@ export default function ProjectPage({project}) {
       <RecommendedNews news={project.news}/>
     </div>
     <div className={styles.becomeParticipant}>
-      <BecomeParticipant modalHandler={modalHandler} project={project}/>
+      <BecomeParticipant 
+      modalHandler={modalHandler} 
+      project={project}/>
     </div>
     <div className={styles.links}>
       <ProjectLinks links={project.links}/>

@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { setUserData } from '../../../store/slices/authSlice'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
+import { toggleModal } from '../../../store/slices/modalsSlice'
 
 
 export default function BecomeParticipant({project,modalHandler}) {
@@ -39,7 +40,8 @@ export default function BecomeParticipant({project,modalHandler}) {
       <div>
         <div className={styles.btns}>
             <SquareBtn 
-            handler={() => router.push(`/participate/${project.path}/${project._id}`)} 
+            handler={() => dispatch(toggleModal('offers'))} 
+            // handler={() => router.push(`/participate/${project.path}/${project._id}`)} 
             width='524' 
             text={'Participate'} />
             <button onClick={addProject} type={'button'} className={styles.likeBtn}>
