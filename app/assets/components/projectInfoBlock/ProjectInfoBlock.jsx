@@ -4,7 +4,6 @@ import HTMLReactParser from 'html-react-parser'
 import loader from '../../../utils/loader'
 import dynamic from 'next/dynamic';
 
-
 export default function ProjectInfoBlock({tags,img,text}) {
   const ReactPlayer = dynamic(() => import('react-player/lazy'), { ssr: false });
   const isVideo = img.split('.').pop().includes('mp4')
@@ -24,7 +23,11 @@ export default function ProjectInfoBlock({tags,img,text}) {
         isVideo
         ?
         <div className={styles.video}>
-          <ReactPlayer controls playing={false} url={`https://noname-backend-production.up.railway.app/api/static${img}`}/>
+          <ReactPlayer 
+          controls 
+          playing={false} 
+          url={`https://noname-backend-production.up.railway.app/api/static${img}`}
+          />
         </div>
         :
         <div className={styles.img}>

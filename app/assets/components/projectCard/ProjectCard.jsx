@@ -128,7 +128,10 @@ export default function ProjectCard({modalHandler,project}) {
         </div>
         </div>
         <div className={styles.btns}>
-            <SquareBtn handler={() => router.push(`/participate/${project.path}/${project._id}`)} text={'Participate'} width={'524'}/>
+            <SquareBtn
+            handler={() => dispatch(toggleModal('offers'))} 
+            // handler={() => router.push(`/participate/${project.path}/${project._id}`)} 
+            text={'Participate'} width={'524'}/>
             <button onClick={addProject} type={'button'} className={styles.likeBtn}>
                 <Image src={heartSvg} alt='btn'/>
             </button>                   

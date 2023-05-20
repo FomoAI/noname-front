@@ -1,3 +1,6 @@
+import { useRouter } from 'next/router'
+import { useDispatch,useSelector } from 'react-redux'
+import { toggleModal ,closeModal} from '../../store/slices/modalsSlice'
 import styles from '../styles/project-page.module.scss'
 import ProjectCard from '../../assets/components/projectCard/ProjectCard'
 import ProjectInfoBlock from '../../assets/components/projectInfoBlock/ProjectInfoBlock'
@@ -11,7 +14,7 @@ import Modal from '../../assets/components/modal/Modal'
 import Success from '../../assets/components/success/Success'
 import useModal from '../../hooks/useModal'
 import SquareBtn from '../UI/buttons/SquareLightBtn'
-import { useRouter } from 'next/router'
+import OffersModal from '../../assets/components/offersModal/OffersModal'
 
 const filtersInitialState = [
   {
@@ -30,17 +33,34 @@ const filtersInitialState = [
 
 export default function ProjectPage({project}) {
   const {state,modalHandler} = useModal()
+  const dispatch = useDispatch()
+  const isBuyModal = useSelector((state) => state.modals.offers.state)
   const router = useRouter()
+
+  const buyModalHandler = (event,data) => {
+    if(typeof event !== 'string' && event.target.id === 'toggle-modal'){
+      event.stopPropagation()
+      dispatch(closeModal('offers'))
+      return
+    }
+    if(event !== 'confirm-offers') return
+
+      dispatch(closeModal('offers'))
+  }
   
   return (
     <>
     <div className={styles.container}>
     <div className={styles.body}>
-        <ProjectCard modalHandler={modalHandler} project={project} />
+        <ProjectCard 
+        modalHandler={modalHandler} 
+        project={project} 
+        />
         <ProjectInfoBlock 
         tags={project.tags}
         img={project?.projectImg ? project?.projectImg : ''} 
-        text={project?.descriptionFull ? project?.descriptionFull : ''}/>
+        text={project?.descriptionFull ? project?.descriptionFull : ''}
+        />
     </div>
     <div className={styles.filtersInfo}>
       <ProjectFilter project={project} filtersInitialState={filtersInitialState}/>  
@@ -64,6 +84,9 @@ export default function ProjectPage({project}) {
       <ProjectLinks links={project.links}/>
     </div>
     </div>
+    <Modal handler={buyModalHandler} isVisible={isBuyModal}>
+      <OffersModal handler={buyModalHandler}/>
+    </Modal>
     <Modal handler={modalHandler} isVisible={state} >
       <Success/>
       <div className={styles.successBtn}>

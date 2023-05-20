@@ -90,7 +90,7 @@ const useParticipate = ({type = '' ,id='',project}) => {
         blockScroll()
         return
       }
-      modalsHandler('open','confirm')
+      modalsHandler('open','offers')
     }
 
     const confirmStaking = (event) => {
@@ -103,6 +103,48 @@ const useParticipate = ({type = '' ,id='',project}) => {
       if(event && event.target.id !== 'confirm') return
 
       modalsHandler('close','confirm')
+      setCards(cards.map((card) => {
+        if(card.title === 'Staking'){
+          return   {
+            title: "Staking",
+            start: "2022-06-09 16:00",
+            end: "2022-06-09 16:00",
+            state: false,
+            btnName: "Stake",
+            nft: null,
+        }}
+        if(card.title === 'Purchase'){
+          return {
+            title: "Purchase",
+            start: "2022-06-09 16:00", 
+            end: "2022-06-09 16:00",
+            state: false,
+            btnName: "Participate",
+            purchase: null,
+          }
+        }
+        if(card.title === 'Claim'){
+          return {
+            title: "Claim",
+            start: "2022-06-09 16:00",
+            end: "2022-06-09 16:00",
+            state: true,
+            btnName: "Claim",
+            claim: stakeValue,
+          }
+        }
+      }))
+    }
+
+    const confirmOffers = (event,data) => {
+      if(typeof event !== 'string' && event.target.id === 'toggle-modal'){
+        event.stopPropagation()
+        modalsHandler('close','offers')
+        return
+      }
+      if(event !== 'confirm-offers') return
+
+      modalsHandler('close','offers')
       setCards(cards.map((card) => {
         if(card.title === 'Staking'){
           return   {
@@ -254,7 +296,7 @@ const useParticipate = ({type = '' ,id='',project}) => {
       modalsHandler,isAuth,isActual,
       connectHandler,openWallet,
       selectNft,value:stakeValue,handler:stakeValueHandler,
-      participate,claim,confirmStaking
+      participate,claim,confirmStaking,confirmOffers
     };
 }
 

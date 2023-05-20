@@ -6,13 +6,14 @@ const modalsSlice = createSlice({
         connect:{state:false},
         complete:{state:false},
         buy:{state:false},
+        offers:{state:false},
         confirm:{state:false},
         wallet:{state:false},
         search:{state:false},
         settings:{state:false},
         nav:{state:false},
         share:{state:false},
-        cookie:{state:false}
+        cookie:{state:false},
     },
     reducers:{
         closeModal(state,action){

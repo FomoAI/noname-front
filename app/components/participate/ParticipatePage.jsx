@@ -9,6 +9,7 @@ import ConnectWalletModal from "../../assets/components/connectWalletModal/Conne
 import BuyModal from "../../assets/components/BuyModal/BuyModal";
 import ConfirmModal from "../../assets/components/confirmModal/ConfirmModal";
 import useDates from "../../hooks/useDates";
+import OffersModal from "../../assets/components/offersModal/OffersModal";
 
 export default function ParticipatePage({ project, type, id }) {
   const {
@@ -23,6 +24,7 @@ export default function ParticipatePage({ project, type, id }) {
     value,
     handler,
     confirmStaking,
+    confirmOffers
   } = useParticipate({ type, id, project });
 
   const {days,hours,minutes} = useDates(project.dateEnd,project.timeEnd, true);
@@ -56,6 +58,9 @@ export default function ParticipatePage({ project, type, id }) {
       </Modal>
       <Modal handler={connectHandler} isVisible={modals.buy.state}>
         <BuyModal closes={{days,hours,minutes}} handler={selectNft} />
+      </Modal>
+      <Modal handler={confirmOffers} isVisible={modals.offers.state}>
+          <OffersModal handler={confirmOffers}/>
       </Modal>
       <Modal handler={confirmStaking} isVisible={modals.confirm.state}>
         <ConfirmModal closes={{days,hours,minutes}} confirm={confirmStaking} card={project} />
