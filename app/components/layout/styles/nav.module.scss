@@ -51,7 +51,7 @@
 .input {
   display: flex;
   align-items: center;
-  max-width: 460px;
+  max-width: 360px;
   width: 100%;
   margin: 0px 22px 0px 19px;
   @media (max-width: 780px) {
@@ -63,7 +63,7 @@
 }
 .links {
   display: flex;
-  gap: 24px;
+  gap: 18px;
   font-weight: 400;
   @media (max-width: 1500px) {
     gap: 18px;
@@ -105,27 +105,7 @@
     display: none;
   }
 }
-.wlModal {
-  position: absolute;
-  right: -30px;
-  top: -50px;
-  max-width: 360px;
-  width: 100%;
-  @media (max-width: 1500px) {
-    right: -10px;
-  }
-  @media (max-width: 1450px) {
-    right: 40px;
-  }
-  @media (max-width: 541px) {
-    top: -65px;
-    right: 10%;
-  }
-  @media (max-width: 441px) {
-    right: 0%;
-    left: 0%;
-  }
-}
+
 
 .investsBtn{
   button{

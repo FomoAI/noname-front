@@ -45,12 +45,16 @@ export default function ProjectFilter({filtersInitialState,project}) {
     <>
     <div id='block' onClick={filtersHandler} className={styles.filters}>
     {filters.filter((filter) => project[filter.title.toLowerCase()].length)
-    .map((filter,index) => {
+    .map((filterItem,index) => {
             return (
             <button 
-            className={filter.isSelect ? styles.filterBtnSelected : styles.filterBtn} 
-            key={filter.title}>
-                {filter.title}
+            className={
+                filterItem.title.toLowerCase() === filter.toLowerCase() 
+                ? styles.filterBtnSelected 
+                : styles.filterBtn
+            } 
+            key={filterItem.title}>
+                {filterItem.title}
             </button>
         )
     })}

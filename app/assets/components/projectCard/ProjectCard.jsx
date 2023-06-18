@@ -8,7 +8,7 @@ import parseFunded from '../../../utils/parseFunded'
 import favourites from '../../../services/favourites'
 import { useSelector, useDispatch } from 'react-redux'
 import { setUserData } from '../../../store/slices/authSlice'
-import { toggleModal } from '../../../store/slices/modalsSlice'
+import { toggleModal, toggleModalWithoutBlock } from '../../../store/slices/modalsSlice'
 import shareSvg from '../../../assets/icons/share.svg'
 import shareLinkSvg from '../../../assets/icons/share-link.svg'
 import telegramSvg from '../../../assets/icons/telegram.svg'
@@ -91,7 +91,7 @@ export default function ProjectCard({modalHandler,project}) {
                         </div>
                     </div>
                     <div className={styles.shareBtn}>
-                        <button onClick={() => dispatch(toggleModal('share'))}>
+                        <button onClick={() => dispatch(toggleModalWithoutBlock('share'))}>
                             <Image src={shareSvg} alt='share'/>
                             <span>Share</span>
                         </button>

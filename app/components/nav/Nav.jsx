@@ -1,4 +1,4 @@
-import { useState , useCallback , useEffect} from 'react';
+import { useState , useMemo , useEffect} from 'react';
 import styles from '../layout/styles/nav.module.scss'
 import Image from 'next/image';
 import logo from '../../assets/img/logo-beta.svg'
@@ -15,18 +15,18 @@ import {setUserData} from '../../store/slices/authSlice'
 import { useAccount} from 'wagmi'
 import useWallet from '../../hooks/useWallet';
 import useAuth from '../../hooks/useAuth';
-import { closeModal, toggleModal } from '../../store/slices/modalsSlice';
+import { closeModal, openModal, openModalWithoutBlock, toggleModal ,toggleModalWithoutBlock} from '../../store/slices/modalsSlice';
 import SearchBar from '../../assets/components/searchBar/SearchBar';
 import NavModal from '../../assets/components/navModal/NavModal';
+import LoaderCustom from '../../assets/components/loader/Loader';
+import SuccessWalletConnect from '../../assets/components/SuccessWalletConnect/SuccessWalletConnect';
+import { useRef } from 'react';
+import CustomAlert from '../../assets/components/CustomAlert/CustomAlert';
 
 const links = [
     {
-        title:'Blog',
-        href:'/blog'
-    },
-    {
-        title:'Calendar',
-        href:'/calendar'
+        title:'NFT Marketplace',
+        href:'/marketplace'
     },
     {
         title:'Leaderboard',
@@ -36,6 +36,15 @@ const links = [
         title:'Dashboard',
         href:'/dashboard'
     },
+    {
+        title:'Blog',
+        href:'/blog'
+    },
+    {
+        title:'Calendar',
+        href:'/calendar'
+    },
+
     {
         title:'Waiting list',
         href:'/waitinglist'
@@ -44,12 +53,8 @@ const links = [
 
 const mobileLinks = [
     {
-        title:'Blog',
-        href:'/blog'
-    },
-    {
-        title:'Calendar',
-        href:'/calendar'
+        title:'NFT Marketplace',
+        href:'/marketplace'
     },
     {
         title:'Leaderboard',
@@ -58,6 +63,14 @@ const mobileLinks = [
     {
         title:'Dashboard',
         href:'/dashboard'
+    },
+    {
+        title:'Blog',
+        href:'/blog'
+    },
+    {
+        title:'Calendar',
+        href:'/calendar'
     },
     {
         title:'Waiting list',
@@ -74,29 +87,50 @@ const Nav = ({userData}) => {
     const navModalState = useSelector((state) => state.modals.nav.state)
     const [modal,setModal] = useState(false)
     const [config,setConfig] = useState({})
-    const {connectWallet} = useWallet()
+    const {loading,connectWallet} = useWallet()
     const {open} = useWeb3Modal();
     const dispatch = useDispatch()
     const {changeAccount} = useAuth()
 
     const disconnectHandler = () => {
         dispatch(setUserData({address:'',balance:'',isAuth:false}))
+        dispatch(closeModal('settings'))
     }
 
     const { address, isConnected ,status} = useAccount({onConnect:changeAccount,onDisconnect:disconnectHandler})
 
-    const walletsHandler = (event) => {
-        if(event){
-            event.preventDefault()
-        }
-        dispatch(toggleModal('wallet'))
+    const checkDiscord = (user) => {
+        return user?.discordData
+        && 
+        localStorage.getItem('connectWalletStep') === '4'
     }
-    
+
+    const walletsHandler = (event) => {
+        event && event.preventDefault()
+
+        const user = JSON.parse(localStorage.getItem('userData')) 
+
+        const isThirdStep = checkDiscord(user)
+        
+        const isSecondStep = 
+        user?.address?.length 
+        && 
+        localStorage.getItem('connectWalletStep') === '1'
+
+        !isSecondStep && !isThirdStep && dispatch(toggleModal('wallet'))
+
+        isSecondStep && dispatch(openModal('successConnect'))
+
+        isThirdStep && dispatch(openModal('successConnect'))
+
+    }
+
     const connect = async (config,wallet) => {
       if(wallet === 'Connect Wallet'){
         setConfig(config)
         open()
       }
+
       if(wallet === 'Metamask'){
         if(!window?.ethereum?.isMetaMask){
             setConfig(config)
@@ -104,6 +138,8 @@ const Nav = ({userData}) => {
             return
         }
         await connectWallet('Metamask',walletsHandler)
+
+        return
       }
       if(wallet === 'TrustWallet'){
         if(!window?.ethereum?.isTrustWallet){
@@ -115,13 +151,6 @@ const Nav = ({userData}) => {
       }
     }
 
-    useEffect(() => {
-        if(isConnected){
-            changeAccount(address)
-            walletsHandler(false)
-        }
-    },[isConnected])
-
     const modalHandler = (event) => {
         event.stopPropagation()
         if(event.target.id === 'remove-block'){
@@ -132,11 +161,29 @@ const Nav = ({userData}) => {
             setModal(!modal)
             dispatch(closeModal('settings'))
             dispatch(closeModal('nav'))
-            blockScroll()
         }
     }
 
+    useEffect(() => {
+        if(isConnected){
+            walletsHandler(false)
+            localStorage.setItem('connectWalletStep','1')
+            setTimeout(() => {
+                dispatch(openModal('successConnect'))
+              },100)  
+        }
+    },[isConnected])
+
+    const isDiscordConnected = useMemo(() =>{
+        return checkDiscord(userData)
+    },[userData])
+   
+    if(loading){
+        return <LoaderCustom/>
+    }
+
     return (
+        <>
         <div onClick={modalHandler} className={styles.row}>
             <div className={styles.logo}>
                 <Link href={'/'}>
@@ -156,7 +203,7 @@ const Nav = ({userData}) => {
                 <li className={styles.investsBtn}>
                     <button 
                     className={navModalState ? styles.rotate : 'none'}
-                    onClick={() => dispatch(toggleModal('nav'))}>
+                    onClick={() => dispatch(toggleModalWithoutBlock('nav'))}>
                         Invest
                     </button>
                 </li>
@@ -171,12 +218,15 @@ const Nav = ({userData}) => {
                     ?
                     <UserSettings user={userData} disconnect={disconnectHandler}/>
                     :
-                    <PinkBtn handler={walletsHandler} text={'Connect wallet'} href={''} id={'wallet-btn'}/>
+                    <PinkBtn 
+                    handler={walletsHandler} 
+                    text={isDiscordConnected ? 'Login to No Name' : 'Connect wallet'} 
+                    href={''} 
+                    id={'wallet-btn'}
+                    />
                 }
             </div>
-            <div className={styles.wlModal}>
-                <Wallets config={config} connect={connect} handler={walletsHandler} isVisible={walletState}/>
-            </div>
+            <Wallets config={config} connect={connect} handler={walletsHandler} isVisible={walletState}/>
             <Burger/>
             <MobileNav 
             navModalState={navModalState}
@@ -189,7 +239,9 @@ const Nav = ({userData}) => {
             links={mobileLinks}
             />
             <NavModal isVisible={navModalState}/>
+            <SuccessWalletConnect userData={userData}/>
         </div>
+        </>
     );
 }
 

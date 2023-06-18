@@ -124,7 +124,9 @@ input{
 }
 .hide-scroll {
   overflow: hidden;
+  max-height: 100%;
 }
+
 input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
@@ -166,4 +168,7 @@ input[type="range"]::-moz-range-track {
 .center-text{
   margin: 0 auto;
   text-align: center;
+}
+.loading-modal{
+  z-index: 100000;
 }

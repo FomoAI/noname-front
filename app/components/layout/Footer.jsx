@@ -17,7 +17,7 @@ const Footer = ({footerData}) => {
 
     return(
         <>
-        <footer className={styles.footer}>
+        <footer id='footer-block' className={styles.footer}>
             <div className={styles.container}>
                 <div className={styles.textLight}>
                    Noname.io ©{new Date().getFullYear()}

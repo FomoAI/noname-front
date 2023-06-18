@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux"
 import { setUserData } from "../store/slices/authSlice"
 import auth from "../services/auth"
 import blockScroll from "../utils/blockScroll"
+import { closeModal } from "../store/slices/modalsSlice"
 
 export default function useAuth() {
     const dispatch = useDispatch()
@@ -18,11 +19,12 @@ export default function useAuth() {
             let address = data?.selectedAddress || data
             address = address?.address ? address.address : address
             balanceParse(address.toString()).then(async (balance) => {
-                blockScroll()
                 const {success,user} = await auth({address:address.toString().toLowerCase(),balance})
-                blockScroll()
+
+                const isAuth = !!user?.discordData?.username
+
                 if(success){
-                    dispatch(setUserData({...user,isAuth:true}))
+                    dispatch(setUserData({...user,isAuth:isAuth}))
                 }else{
                     alert('Something going wrong')
                 }

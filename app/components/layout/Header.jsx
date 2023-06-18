@@ -1,22 +1,26 @@
-import { useState , useRef, useLayoutEffect} from 'react';
-import { useSelector } from 'react-redux';
+import { useState , useRef,} from 'react';
+import { useRouter } from 'next/router';
+import { useSelector , useDispatch} from 'react-redux';
 import Image from 'next/image';
 import styles from './styles/header.module.scss'
 import Nav from '../nav/Nav';
 import useTimer from '../../hooks/useTimer'
 import closeSvg from '../../assets/icons/close-gray.svg'
+import { toggleModal } from '../../store/slices/modalsSlice';
 
 const bannerInitialState = {
     message:'Deals closing soon!',
     date:'28.02.2024',
     time:'24:00',
     linkName:'View closing soon',
-    href:'http://localhost:3000/startup/63f49638840aa9b51b7375cb'
+    href:'https://no-name.io'
 }
 
 const Header = ({headerData}) => {
     const [banner,setBanner] = useState(true)
     const {userData} = useSelector((state) => state.auth)
+    const dispatch = useDispatch()
+    const router = useRouter()
     const bannerRef = useRef(null)
     const time = useTimer(
         headerData.date ? headerData.date : bannerInitialState.date,
@@ -28,6 +32,15 @@ const Header = ({headerData}) => {
         setTimeout(() => {
             bannerRef.current.style.display = 'none'
         },400)
+    }
+
+    const checkAuthAndNavigate = () => {
+        if(!userData.isAuth){
+            dispatch(toggleModal('wallet'))
+            return
+        }
+        router.replace(headerData.href)
+
     }
     
     return (
@@ -50,9 +63,12 @@ const Header = ({headerData}) => {
                     </div>
                 </div>
                 <div className={styles.linkBody}>
-                    <a target='_blank' href={headerData.href}>
+                    <button
+                    className={styles.projectLink}
+                    onClick={checkAuthAndNavigate}
+                    >
                         {headerData.linkName}
-                    </a>
+                    </button>
                     <button onClick={hideBanner} className={styles.close}>
                         <Image src={closeSvg} alt='close'/>
                     </button>

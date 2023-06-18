@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import blockScroll from "../../utils/blockScroll";
 
 const modalsSlice = createSlice({
     name:'modals',
@@ -14,19 +15,38 @@ const modalsSlice = createSlice({
         nav:{state:false},
         share:{state:false},
         cookie:{state:false},
+        successConnect:{state:false},
+        discordConnect:{state:false},
+        loginResult:{state:false},
+        nonameDao:{state:false}
     },
     reducers:{
         closeModal(state,action){
             state[action.payload].state = false
+            blockScroll('remove')
+        },
+        closeModalWithoutBlock(state,action){
+            state[action.payload].state = false
         },
         openModal(state,action){
+            state[action.payload].state = true
+            blockScroll('add')
+        },
+        openModalWithoutBlock(state,action){
             state[action.payload].state = true
         },
         toggleModal(state,action){
             state[action.payload].state = !state[action.payload].state
-        }
+            blockScroll('toggle')
+        },
+        toggleModalWithoutBlock(state,action){
+            state[action.payload].state = !state[action.payload].state
+        },
     }
 })
     
-export const {closeModal,openModal,toggleModal} = modalsSlice.actions
+export const {
+    closeModal,openModal,openModalWithoutBlock,toggleModal,
+    toggleModalWithoutBlock,closeModalWithoutBlock
+} = modalsSlice.actions
 export default modalsSlice.reducer

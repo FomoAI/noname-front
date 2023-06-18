@@ -3,7 +3,7 @@ import PinkBtn from '../../../components/UI/buttons/PinkBtn';
 import UserSettings from '../../../components/userSettings/UserSettings'
 import Link from 'next/link'
 import { useDispatch } from 'react-redux';
-import { toggleModal } from '../../../store/slices/modalsSlice';
+import { toggleModalWithoutBlock } from '../../../store/slices/modalsSlice';
 
 const MobileNav = ({navModalState,isAuth,walletsHandler,isVisible,modalHandler,links,user,disconnect}) => {
     const dispatch = useDispatch()
@@ -24,7 +24,7 @@ const MobileNav = ({navModalState,isAuth,walletsHandler,isVisible,modalHandler,l
                 <li className={styles.investsBtn}>
                     <button 
                     className={navModalState ? styles.rotate : 'none'}
-                    onClick={() => dispatch(toggleModal('nav'))}>
+                    onClick={() => dispatch(toggleModalWithoutBlock('nav'))}>
                         Invest
                     </button>
                 </li>

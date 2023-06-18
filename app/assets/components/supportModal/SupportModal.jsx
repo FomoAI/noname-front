@@ -11,6 +11,7 @@ import arrowRotate from '../../icons/arrow-rotate.svg'
 import loader from '../../../utils/loader'
 import form from '../../../services/form'
 import styles from './support.module.scss'
+import ProjectsList from '../projectsList/ProjectsList'
 
 export default function SupportModal({isVisible,handler,success,setSuccess,user}) {
     const [projectList,setProjectList] = useState(false)
@@ -25,7 +26,7 @@ export default function SupportModal({isVisible,handler,success,setSuccess,user}
     const selectProject = useCallback((project) => {
         setProjectList(false)
         setSupportData((state) => ({...state,project:project}))
-    },[supportData,projectList])
+    },[supportData,projectList,allProjects])
 
     const fileHandler = (event) => {
         event.preventDefault()
@@ -33,6 +34,7 @@ export default function SupportModal({isVisible,handler,success,setSuccess,user}
             setSupportData({...supportData,file:event.target.files[0]});
         }
     }
+
     const submitForm = async (event) => {
         event.preventDefault()
         const formData = new FormData()
@@ -53,7 +55,7 @@ export default function SupportModal({isVisible,handler,success,setSuccess,user}
             <Loader/>
         )
     }
-
+   
   return (
     <Modal
     bodyClass="top-modal"
@@ -117,7 +119,7 @@ export default function SupportModal({isVisible,handler,success,setSuccess,user}
                             {
                                 projectList
                                 ?
-                                <SearchProject 
+                                <ProjectsList 
                                 withLink={false}
                                 handler={selectProject}
                                 projects={allProjects}/>

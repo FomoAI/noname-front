@@ -1,14 +1,20 @@
+import { useState } from "react";
 import { ethers } from "ethers";
 import Web3Modal from 'web3modal'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import useAuth from "./useAuth";
+import { useDispatch } from "react-redux";
+import { openModal } from "../store/slices/modalsSlice";
 
 
 export default function useWallet() {
     const {disconnectHandler,changeAccount} = useAuth()
+    const [loading,setLoading] = useState(false)
+    const dispatch = useDispatch()
     
     async function connectWallet (walletType,modalHandler) {
         try{
+          setLoading(true)
           let providerOptions = null
           
           if(walletType === 'Metamask'){
@@ -40,11 +46,19 @@ export default function useWallet() {
           const web3ModalInstance = await new web3modal.connect()
           const web3ModalProvider = new ethers.providers.Web3Provider(web3ModalInstance)
           const web3Accounts = await web3ModalProvider.listAccounts();
+          localStorage.setItem('connectWalletStep','1')
+
+          setTimeout(() => {
+            dispatch(openModal('successConnect'))
+          },100)  
+
           modalHandler(false)
+
+          setLoading(false)
         }catch(e){
           console.log(e)
         }
     }
 
-  return {connectWallet}
+  return {connectWallet,loading}
 }

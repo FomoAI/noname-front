@@ -16,6 +16,7 @@ export default function discord({news}) {
               const {success,user} = await updateUser({discordData:router.query})
               setLoading(false)
               if(success){
+                  localStorage.setItem('connectWalletStep','4')
                   router.push('/')
               }
             }

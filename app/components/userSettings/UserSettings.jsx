@@ -5,7 +5,7 @@ import { useState , useRef} from 'react'
 import { Transition } from 'react-transition-group'
 import { useSelector , useDispatch} from 'react-redux'
 import { useRouter } from 'next/router'
-import { toggleModal } from '../../store/slices/modalsSlice'
+import { toggleModal, toggleModalWithoutBlock } from '../../store/slices/modalsSlice'
 import closeSvg from '../../assets/icons/close-gray.svg'
 import KYCsvg from '../../assets/icons/kyc.svg'
 import supportSvg from '../../assets/icons/support.svg'
@@ -76,7 +76,7 @@ export default function UserSettings({disconnect,user}) {
       <Transition in={state} timeout={1000}>
       {(state) => {
         return(
-          <div onClick={() => dispatch(toggleModal('settings'))} className={styles.button}>
+          <div onClick={() => dispatch(toggleModalWithoutBlock('settings'))} className={styles.button}>
             <div className={styles.photo}>
               {
                        user?.discordData?.avatar
@@ -128,7 +128,7 @@ export default function UserSettings({disconnect,user}) {
                   </div>
                   <button 
                   className={styles.closeBtn} 
-                  onClick={() => dispatch(toggleModal('settings'))}>
+                  onClick={() => dispatch(toggleModalWithoutBlock('settings'))}>
                     <Image src={closeSvg} alt='close-modal'/>
                   </button>
                 </div>
@@ -202,7 +202,8 @@ export default function UserSettings({disconnect,user}) {
            </button>
         </div>
         <div className={styles.row}>
-           <button onClick={() => router.push('https://discord.com/api/oauth2/authorize?client_id=1082648354053427210&redirect_uri=https%3A%2F%2Fnoname-backend-production.up.railway.app%2Fdiscord&response_type=code&scope=identify')} className={styles.btn}>
+           <button 
+           onClick={() => router.push('https://discord.com/api/oauth2/authorize?client_id=1082648354053427210&redirect_uri=https%3A%2F%2Fnoname-backend-production.up.railway.app%2Fdiscord&response_type=code&scope=identify')} className={styles.btn}>
               <Image alt={'discord'} src={discordSvg}/>
               <span className={styles.blueText}>
                 {user?.discordData?.username ? user?.discordData?.username : 'Connect Discord'}

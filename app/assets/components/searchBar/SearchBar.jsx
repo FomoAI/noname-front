@@ -3,7 +3,7 @@ import TextField from "../../../components/UI/inputs/TextField";
 import { useState, useMemo ,useEffect} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import useProjects from "../../../hooks/useProjects";
-import { openModal, closeModal } from "../../../store/slices/modalsSlice";
+import { openModalWithoutBlock, closeModal } from "../../../store/slices/modalsSlice";
 import SearchProject from "../searchProject/SearchProject";
 
 const isFinded = (searchValue,result) => {
@@ -59,7 +59,7 @@ const SearchBar = () => {
 
   useEffect(() => {
     if(searchValue){
-      dispatch(openModal("search"));
+      dispatch(openModalWithoutBlock("search"));
     }else{
       dispatch(closeModal("search"));
     }

@@ -19,7 +19,7 @@ const filtersInitialState = [
 ]
 
 export default function Projects({type}) {
-    const [filters,setFilters] = useState(filtersInitialState)
+    const [filters,setFilters] = useState([])
     const [filter,setFilter] = useState('Active')
     const [projects,setProjects] = useState([])
     const allProjects = useSelector((state) => {
@@ -39,6 +39,7 @@ export default function Projects({type}) {
             }
             return false
         })
+
         if(!findedProjects?.length){
             setProjects([])
             setFilter(availableFilters[0]?.title ? availableFilters[0]?.title : 'Active')
@@ -48,6 +49,7 @@ export default function Projects({type}) {
                 }
                 return item
             }))
+            
             return
         }
         setFilters(availableFilters)
@@ -74,16 +76,22 @@ export default function Projects({type}) {
             }
         }
     },[filter])
-
+ 
   return (
     <div className={styles.projects}>
         <div id='block' onClick={filtersHandler} className={styles.filters}>
-            {filters.map((filter) => {
+            {filters.map((filterItem) => {
                 return (
                     <button 
-                    className={filter.isSelect ? styles.filterBtnSelected : styles.filterBtn} 
-                    key={filter.title}>
-                        {filter.title}
+                    className=
+                    {
+                        filterItem.title.toLowerCase() === filter.toLowerCase()
+                        ? styles.filterBtnSelected 
+                        : 
+                        styles.filterBtn
+                    } 
+                    key={filterItem.title}>
+                        {filterItem.title}
                     </button>
                 )
             })}
