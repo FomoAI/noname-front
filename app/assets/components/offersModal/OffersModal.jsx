@@ -3,6 +3,7 @@ import styles from './offers.module.scss'
 import BlueInput from '../../../components/UI/inputs/BlueInput'
 import SquareBtn from '../../../components/UI/buttons/SquareLightBtn'
 import LoadingModal from '../LoadingModal/LoadingModal'
+import CustomAlert from '../CustomAlert/CustomAlert'
 
 export default function OffersModal({handler}) {
     const [data,setData] = useState({quantity:'',price:''})
