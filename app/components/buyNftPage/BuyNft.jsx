@@ -6,6 +6,7 @@ import SquareBtn from '../UI/buttons/SquareLightBtn'
 import styles from '../styles/buy-nft.module.scss'
 import NftDetails from '../../assets/components/nftDetails/NftDetails'
 import CustomAlert from '../../assets/components/CustomAlert/CustomAlert'
+import nftImage from '../../assets/img/nft-image.png'
 
 export default function BuyNft({nft}) {
   const [isCustomAlert,setIsCustomAlert] = useState(false)
@@ -46,7 +47,7 @@ export default function BuyNft({nft}) {
       </div>    
       <div className={styles.main}>
         <div className={styles.img}>
-          <img src={nft.image} alt={'nft image'}/>
+          <Image src={nftImage} alt={'nft image'}/>
         </div>      
         <div className={styles.info}>
           <div className={styles.creator}>
@@ -69,7 +70,7 @@ export default function BuyNft({nft}) {
           </div>
           <div className={styles.buyBlock}>
             <div className={styles.buyInfo}>
-              <img src={nft.image} alt='img'/>
+              <Image src={nftImage} alt='img'/>
               <div className={styles.buyDetails}>
                 <div className={styles.buyNftName}>
                   <span>Listed on </span>No name

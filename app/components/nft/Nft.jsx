@@ -1,6 +1,8 @@
+import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useSelector,useDispatch } from 'react-redux'
 import { toggleModal } from '../../store/slices/modalsSlice'
+import nftImage from '../../assets/img/nft-image.png'
 import useCart from '../../hooks/useCart'
 import styles from '../styles/nft.module.scss'
 
@@ -25,10 +27,10 @@ export default function Nft({collectionIndex,toggleShowAllBtn,nft}) {
     onMouseEnter={toggleShowAllBtn ? () => toggleShowAllBtn('over') : () => {}}
     onMouseLeave={toggleShowAllBtn ? () => toggleShowAllBtn('out') : () => {}}
     className={styles.body + ' ' + 'nft-body'}>
-        <img 
+        <Image 
         onClick={navigateToCollection}
         className={styles.nftImage}
-        src={nft.image} 
+        src={nftImage} 
         alt='nft image'/>
         <div 
         onClick={navigateToCollection}

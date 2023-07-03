@@ -8,8 +8,9 @@ import SquareBtn from '../../../components/UI/buttons/SquareLightBtn'
 import CustomAlert from '../CustomAlert/CustomAlert'
 import Modal from '../modal/Modal'
 import deleteSvg from '../../icons/delete.svg'
-import styles from './cart-modal.module.scss'
 import { setCart } from '../../../store/slices/cartSlice'
+import nftImage from '../../img/nft-image.png'
+import styles from './cart-modal.module.scss'
 
 export default function CartModal() {
   const [isCustomAlert,setIsCustomAlert] = useState(false)
@@ -68,10 +69,10 @@ export default function CartModal() {
                             key={cartItem._id}
                             tabIndex={0}
                             className={styles.item}>
-                                <img
+                                <Image
                                 className={styles.itemImg}
                                 loading='lazy' 
-                                src={cartItem.image} 
+                                src={nftImage   } 
                                 alt="nft image"/>
                                 <div className={styles.itemInfo}>
                                     <div className={styles.title}>
