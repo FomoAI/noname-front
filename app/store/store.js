@@ -6,6 +6,7 @@ import authSlice from './slices/authSlice'
 import modalsSlice from './slices/modalsSlice'
 import allProjects from './slices/allProjects'
 import communitySlice from './slices/communitySlice'
+import cartSlice from './slices/cartSlice'
 
 export const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
     auth:authSlice,
     modals:modalsSlice,
     allProjects:allProjects,
-    community:communitySlice
+    community:communitySlice,
+    cart:cartSlice
   } 
 })

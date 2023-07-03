@@ -5,6 +5,7 @@ import Image from 'next/image';
 import styles from './styles/header.module.scss'
 import Nav from '../nav/Nav';
 import useTimer from '../../hooks/useTimer'
+import AccessToNonameDao from '../../assets/components/AccessNonameDao/AccessToNonameDao';
 import closeSvg from '../../assets/icons/close-gray.svg'
 import { toggleModal } from '../../store/slices/modalsSlice';
 
@@ -39,6 +40,12 @@ const Header = ({headerData}) => {
             dispatch(toggleModal('wallet'))
             return
         }
+
+        // if(!userData.isNftAccess){
+        //     dispatch(toggleModal('nonameDao'))
+        //     return
+        // }
+
         router.replace(headerData.href)
 
     }
@@ -89,5 +96,6 @@ const Header = ({headerData}) => {
         </header>
     );
 }
+
 
 export default Header;

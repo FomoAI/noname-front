@@ -1,8 +1,8 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
-import BannerSlide from '../bannerSlide/BannerSlide';
 import 'swiper/css';
 import 'swiper/css/pagination';
+import BannerSlide from '../bannerSlide/BannerSlide';
 
 export default ({slides}) => {
   return (

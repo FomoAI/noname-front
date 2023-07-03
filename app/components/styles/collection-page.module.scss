@@ -1,0 +1,52 @@
+.body{
+    max-width: 1215px;
+    width: 100%;
+    margin: 40px auto 100px;
+
+    @media (max-width:1250px) {
+        padding: 0px 15px;
+    }
+}
+.actionsRow{
+    margin: 20px 0 33px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    @media (max-width:880px) {
+        max-width: 600px;
+        margin: 15px auto;
+        flex-direction: column-reverse;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 20px;
+    }
+}
+.filterAndSort{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 42px;
+    @media (max-width:500px) {
+        gap: 25px;
+    }
+}
+
+.nfts{
+    max-width: 1220px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 17px;
+    row-gap: 70px;
+
+    @media (max-width:1250px) {
+        justify-content: center;
+    }
+}
+
+.notFounded{
+    font-size: 42px;
+    font-weight: 700;
+    flex: 1 1;
+    margin:20px 0 250px 0;
+}

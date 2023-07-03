@@ -21,13 +21,13 @@ const links = [
     {
         img:donateSvg,
         href:'/donates',
-        title:'Donates',
-        description:'Help to fight consequences of the war in Ukraine',
+        title:'Early rounds',
+        description:'Promising projects to invest in on early stages',
     },
     {
         img:cryptoSvg,
         href:'/crypto',
-        title:'Crypto',
+        title:'Public Launch',
         description:'The best crypto startups powered by zkSync and other beneficial offers from the cryptomarket',
     },
     {

@@ -5,16 +5,18 @@ import { useState , useRef} from 'react'
 import { Transition } from 'react-transition-group'
 import { useSelector , useDispatch} from 'react-redux'
 import { useRouter } from 'next/router'
-import { toggleModal, toggleModalWithoutBlock } from '../../store/slices/modalsSlice'
+import { openModal, toggleModal, toggleModalWithoutBlock } from '../../store/slices/modalsSlice'
 import closeSvg from '../../assets/icons/close-gray.svg'
-import KYCsvg from '../../assets/icons/kyc.svg'
-import supportSvg from '../../assets/icons/support.svg'
+import KYCsvg from '../../assets/icons/user/kyc.svg'
+import supportSvg from '../../assets/icons/user/support.svg'
 import discordSvg from '../../assets/icons/discordBlue.svg'
+import cartSvg from '../../assets/icons/user/cart.svg'
+import anotherSvg from '../../assets/icons/user/another-wallet.svg'
 import KYCModal from '../../assets/components/KYCModal/KYCModal'
 import MultichainModal from '../../assets/components/multichainwallets/MultichainModal'
 import SupportModal from '../../assets/components/supportModal/SupportModal'
 import copyText from '../../utils/copyText'
-import loader from '../../utils/loader'
+import CustomAlert from '../../assets/components/CustomAlert/CustomAlert'
 
 export default function UserSettings({disconnect,user}) {
   const [KYCmodal,setKYCmodal] = useState(false)
@@ -22,9 +24,11 @@ export default function UserSettings({disconnect,user}) {
   const [support,setSupport] = useState(false)
   const [success,setSuccess] = useState(false)
   const [refCoppied,setRefCoppied] = useState(false)
+  const [isCustomAlert,setIsCustomAlert] = useState(false)
   const router = useRouter()
 
   const state = useSelector((state) => state.modals.settings.state)
+  const cart = useSelector((state) => state.cart.cart)
   const dispatch = useDispatch()
   const nodeRef = useRef(null)
   const referall = useRef(null)
@@ -66,9 +70,9 @@ export default function UserSettings({disconnect,user}) {
 
   const copyRef = () => {
     setRefCoppied(true)
+    setIsCustomAlert(true)
     copyText(user._id)
   }
-
 
   return (
     <>
@@ -100,7 +104,6 @@ export default function UserSettings({disconnect,user}) {
         )
       }}
       </Transition>
-
       <Transition in={state} timeout={1000}>
       {
         (state) => {
@@ -156,13 +159,29 @@ export default function UserSettings({disconnect,user}) {
            0
          </span>
         </div>
+        <div className={styles.row}>
+         <span className={styles.key}>
+         Score:
+         </span>
+         <span className={styles.value}>
+           0
+         </span>
+        </div>
 
         <div className={styles.btns}>
+        <div className={styles.row}>
+           <button onClick={() => dispatch(openModal('cart'))} className={styles.btn}>
+              <Image alt={'cart'} src={cartSvg}/>
+              <span>Cart</span>
+           </button>
+           <span className={styles.value}>{cart.length}</span>
+        </div>
         <div className={styles.row}>
            <button className={styles.btn}>
               <Image alt={'stale'} src={icons.stake}/>
               <span>Stake</span>
            </button>
+           <span className={styles.value}>0</span>
         </div>
         <div className={styles.row}>
            <button className={styles.btn}>
@@ -176,16 +195,24 @@ export default function UserSettings({disconnect,user}) {
               <Image alt={'nft'} src={icons.nft}/>
               <span>NFT</span>
            </button>
+           <span className={styles.value}>0</span>
         </div>
         <div className={styles.row}>
-           <button className={styles.btn}>
-              <Image alt={'connect'} src={icons.connect}/>
-              <span>Connect another wallet</span>
+           <button onClick={copyRef} className={styles.btn}>
+              <Image alt={'copy'} src={icons.copy}/>
+              <span>Copy referall link</span>
+              {
+                refCoppied
+                ?
+                <span className={styles.copied}>Copied</span>
+                :
+                ''
+              }
            </button>
         </div>
         <div className={styles.row}>
            <button onClick={() => setMultiChain((state) => !state)} className={styles.btn}>
-              <Image alt={'connect'} src={icons.connect}/>
+              <Image alt={'connect'} src={icons.copy}/>
               <span>Multi-chain wallet</span>
            </button>
         </div>
@@ -211,22 +238,26 @@ export default function UserSettings({disconnect,user}) {
            </button>
         </div>
         <div className={styles.row}>
-           <button onClick={copyRef} className={styles.btn}>
-              <Image alt={'copy'} src={icons.copy}/>
-              <span>Copy referall link</span>
-              {
-                refCoppied
-                ?
-                <span className={styles.copied}>Copied</span>
-                :
-                ''
-              }
+           <button className={styles.btn}>
+              <Image alt={'connect'} src={anotherSvg}/>
+              <span>Connect another wallet</span>
            </button>
         </div>
         </div>
         <div className={styles.logout}>
           <button onClick={disconnect} type={'button'}>Log out</button>
         </div>
+        {
+          !user.isNftAccess
+          ?
+          <div className={styles.nftError}>
+            <Image src={icons.nftError} alt='Buy nft'/>
+            <span>To gain a full access buy No name NFT!</span>
+          </div>
+          :
+          <></>
+        }
+
       </div>
           )
         }
@@ -253,6 +284,13 @@ export default function UserSettings({disconnect,user}) {
     success={success}
     setSuccess={setSuccess}
     isVisible={support}
+    />
+    <CustomAlert
+    type={'success'}
+    title={'Сopied!'}
+    text={`You have successfully copied a referral link`}
+    isVisible={isCustomAlert}
+    handler={() => setIsCustomAlert(false)}
     />
     </>
   

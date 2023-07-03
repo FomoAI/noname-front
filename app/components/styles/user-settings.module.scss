@@ -27,7 +27,7 @@
     height: 3px;
   }
 }
-.modalPhoto{
+.modalPhoto {
   display: flex;
   border-radius: 50%;
   overflow: hidden;
@@ -50,14 +50,13 @@
   max-height: 100%;
   width: 100%;
 }
-.userInfo{
+.userInfo {
   display: flex;
   align-items: center;
   gap: 6px;
   max-width: 300px;
-  overflow: hidden;
-  @media (max-width:600px) {
-  max-width: 200px;
+  @media (max-width: 600px) {
+    max-width: 200px;
   }
 }
 .modal {
@@ -66,23 +65,27 @@
   right: 0;
   z-index: 10000;
   max-width: 360px;
-  height: 100vh;
+  height: 100%;
   overflow-y: auto;
   width: 100%;
   transition: all 0.3s ease;
   background: #ffffff;
-  border: 1px solid #F5F9FD;
+  border: 1px solid #f5f9fd;
   box-shadow: -4px 0px 25px rgba(0, 0, 0, 0.1);
   padding: 16px 16px 16px 14px;
 
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
+
+  @media (max-width: 1500px) {
+    gap: 10px;
+  }
 
   @media (max-width: 541px) {
     top: -2px;
   }
-  @media (max-height:630px) {
+  @media (max-height: 630px) {
     padding: 8px 16px 8px 14px;
   }
 }
@@ -108,9 +111,12 @@
 .btns {
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  margin: 8px 0 10px;
-  @media (max-height:580px) {
+  gap: 21px;
+  margin: 7px 0 10px;
+  @media (max-width: 1500px) {
+    gap: 16px;
+  }
+  @media (max-height: 580px) {
     gap: 16px;
   }
 }
@@ -141,38 +147,51 @@
     }
   }
 }
-.username{
+.username {
   max-width: fit-content;
   overflow: hidden;
 }
-.closeBtn{
+.closeBtn {
   display: flex;
   position: absolute;
   right: 7px;
 }
-.userInfo{
+.userInfo {
   display: flex;
   justify-content: space-between;
   margin: 8px 0 10px;
 }
-.usernameInfo{
+.usernameInfo {
   max-width: 250px;
   overflow: hidden;
   display: flex;
   align-items: center;
   gap: 6px;
 }
-.kyc{
+.kyc {
   margin-left: 2px;
 }
-.blueText{
-  color: #2082EA;
+.blueText {
+  color: #2082ea;
 }
-.copied{
+.copied {
   position: absolute;
   right: 0px;
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
-  color: #05C9A1;
+  color: #05c9a1;
+}
+.nftError {
+  max-width: 220px;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 19px;
+
+  color: #e42736;
 }

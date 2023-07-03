@@ -5,12 +5,8 @@ import { useEffect } from 'react'
 import { useState } from 'react'
 import getSlides from '../../admin/services/bannerServices/getSlides'
 
-const slidesInitialState = [
- 
-]
-
 export default function Banner() {
-    const [slides,setSlides] = useState(slidesInitialState)
+    const [slides,setSlides] = useState([])
 
     useEffect(() => {
         getSlides().then(({slides}) => setSlides(slides))

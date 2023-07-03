@@ -2,7 +2,8 @@ import styles from './project-card.module.scss'
 import Image from 'next/image'
 import SquareBtn from '../../../components/UI/buttons/SquareLightBtn'
 import heartSvg from '../../icons/heart.svg'
-import { useMemo } from 'react'
+import heartFillSvg from '../../icons/heartFill.svg'
+import { useMemo, useState } from 'react'
 import { useRouter } from 'next/router'
 import parseFunded from '../../../utils/parseFunded'
 import favourites from '../../../services/favourites'
@@ -18,12 +19,34 @@ import { TelegramShareButton,TwitterShareButton} from 'react-share';
 import { url } from '../../../config/api'
 import icons from '../../icons/socialmedia/socialmedia'
 
+const participateSteps = [
+    {
+        title:'Staking',
+        description:'Preparing for whitelist',
+        isActive:true,
+    },
+    {
+        title:'Purchase',
+        description:'You can fill your allocations',
+        isActive:true,
+    },
+    {
+        title:'Distribution',
+        description:'Claim allocations',
+        isActive:false,
+    }
+]
+
 export default function ProjectCard({modalHandler,project}) {
     const shareModalState = useSelector((state) => state.modals.share.state)
+    const [steps,setSteps] = useState(participateSteps)
     const userData = useSelector((state) => state.auth.userData)
+    const isFavourite = userData?.favourites?.includes(project._id)
+
     const progress = useMemo(() => {
         return project?.funded && parseFunded(project.funded)
     },[project])
+
     const dispatch = useDispatch()
     
     const addProject = async () => {
@@ -108,12 +131,25 @@ export default function ProjectCard({modalHandler,project}) {
         <div className={styles.details}>
         <div className={styles.dates}>
             <div className={styles.startDate}>
-                <span className={styles.key}>Start date: </span>
+                <span className={styles.key}>Staking start: </span>
                 <span className={styles.value}>{project.dateStart}</span>
             </div>
             <div className={styles.endDate}>
-                <span className={styles.key}>End date: </span>
+                <span className={styles.key}>Staking end: </span>
                 <span className={styles.value}>{project.dateEnd}</span>
+            </div>
+            <div className={styles.startDate}>
+                <span className={styles.key}>Purchase start: </span>
+                <span className={styles.value}>{project?.purchaseDates?.from || '-'}</span>
+            </div>
+            <div className={styles.endDate}>
+                <span className={styles.key}>Purchase end: </span>
+                <span className={styles.value}><span className={styles.value}>
+                    {project?.purchaseDates?.to || '-'}</span></span>
+            </div>
+            <div className={styles.endDate}>
+                <span className={styles.key}>Distribution start: </span>
+                <span className={styles.value}>{project.distributionStart || '-'}</span>
             </div>
         </div>
         <div className={styles.investments}>
@@ -125,7 +161,45 @@ export default function ProjectCard({modalHandler,project}) {
                 <span className={styles.key}>Max.investment: </span>
                 <span className={styles.value}>{`$${project.maxInvest}`}</span>
             </div>
+            {
+                project.price
+                ?
+                <div className={styles.endDate}>
+                    <span className={styles.key}>Price: </span>
+                    <span className={styles.value}>{`$${project.price}`}</span>
+                </div>
+                :
+                <></>
+            }
+            <div className={styles.endDate}>
+                <span className={styles.key}>Allocation pool: </span>
+                <span className={styles.value}>{`$${project.allocationPool || 0}`}</span>
+            </div>
         </div>
+        </div>
+        <div className={styles.participateSteps}>
+            {
+                steps.map((step,index) => {
+                    return (
+                    <div key={step.title} className={styles.step}>
+                        <div 
+                        className={
+                            step.isActive ? styles.stepNumber + ' ' + styles.active : styles.stepNumber
+                        }>
+                            {index + 1}
+                        </div>
+                        <div className={styles.stepInfo}>
+                            <div className={styles.stepTitle}>
+                                {step.title}
+                            </div>
+                            <div className={styles.stepDescription}>
+                                {step.description}
+                            </div>
+                        </div>
+                    </div>
+                    )
+                })
+            }
         </div>
         <div className={styles.btns}>
             <SquareBtn
@@ -133,7 +207,13 @@ export default function ProjectCard({modalHandler,project}) {
             // handler={() => router.push(`/participate/${project.path}/${project._id}`)} 
             text={'Participate'} width={'524'}/>
             <button onClick={addProject} type={'button'} className={styles.likeBtn}>
-                <Image src={heartSvg} alt='btn'/>
+                {
+                    isFavourite
+                    ?
+                    <Image className={styles.blocked} src={heartFillSvg} alt='btn'/>
+                    :
+                    <Image src={heartSvg} alt='btn'/>
+                }
             </button>                   
         </div>
         <div 

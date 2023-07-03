@@ -3,6 +3,7 @@ import Layout from '../app/components/layout/index'
 import Info from '../app/components/info/Info'
 import getInfo from '../app/admin/services/infoServices/getInfo'
 
+
 export async function getServerSideProps() {
   try{
     const {info} = await getInfo()

@@ -1,4 +1,3 @@
-import React from 'react'
 import styles from './info.module.scss'
 
 export default function Info({title,text}) {

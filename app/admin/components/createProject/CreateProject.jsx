@@ -151,6 +151,51 @@ const inputs = [
     name:'totalRaise',
     placeholder:'$300.000'
   },
+  {
+    label:'Price:',
+    name:'price',
+    placeholder:'100.0'
+  },
+  {
+    label:'Allocation Pool:',
+    name:'allocationPool',
+    placeholder:'1000.0'
+  },
+  {
+    label:'Listed:',
+    name:'listed',
+    placeholder:'400'
+  },
+  {
+    label:'Revenue:',
+    name:'revenue',
+    placeholder:'15%'
+  },
+  {
+    label:'Market Cap:',
+    name:'marketCap',
+    placeholder:'$1.38 M'
+  },
+  {
+    label:'Supply:',
+    name:'supply',
+    placeholder:'10000'
+  },
+  {
+    label:'Owners:',
+    name:'owners',
+    placeholder:'394'
+  },
+  {
+    label:'Total Volume:',
+    name:'totalVolume',
+    placeholder:'1000$'
+  },
+  {
+    label:'Royalty Fee:',
+    name:'royaltyFee',
+    placeholder:'0.5%'
+  },
 ]
 
 export default function CreateProject({type,status,id}) {
@@ -165,6 +210,11 @@ export default function CreateProject({type,status,id}) {
         from: 'ТBA',
         to:'ТBA'
       },
+      purchaseDates:{
+        from: 'ТBA',
+        to:'ТBA'
+      },
+      distributionStart:'TBA',
       status:status ? status : 'Active',
       field:'',
       goal:'',
@@ -413,9 +463,27 @@ export default function CreateProject({type,status,id}) {
 
           <div className={styles.calendar}>
             <div className={styles.subTitle}>
-              Start - End:
+              Staking start - Staking end:
             </div>
             <CustomCalender stateHandler={inputsHandler} name={'dates'} dates={data.dates}/>
+          </div>
+
+          <div className={styles.calendar}>
+            <div className={styles.subTitle}>
+              Purchase start - Purchase end:
+            </div>
+            <CustomCalender stateHandler={inputsHandler} name={'purchaseDates'} dates={data.purchaseDates}/>
+          </div>
+
+          <div className={styles.calendar}>
+            <div className={styles.subTitle}>
+              Distribution start:
+            </div>
+            <CustomCalender
+            range={false} 
+            stateHandler={inputsHandler} 
+            name={'distributionStart'} 
+            dates={data.distributionStart}/>
           </div>
 
           <div className={styles.file}>

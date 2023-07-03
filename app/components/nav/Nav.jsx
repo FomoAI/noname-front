@@ -1,8 +1,8 @@
 import { useState , useMemo , useEffect} from 'react';
-import styles from '../layout/styles/nav.module.scss'
+import Link from 'next/link';
 import Image from 'next/image';
 import logo from '../../assets/img/logo-beta.svg'
-import Link from 'next/link';
+import cartSvg from '../../assets/icons/cart.svg'
 import PinkBtn from '../UI/buttons/PinkBtn';
 import Wallets from '../../assets/components/wallets/Wallets'
 import Burger from '../../assets/components/burger/Burger';
@@ -11,17 +11,19 @@ import blockScroll from '../../utils/blockScroll';
 import UserSettings from '../userSettings/UserSettings'
 import { useWeb3Modal } from "@web3modal/react";
 import { useDispatch , useSelector} from 'react-redux'
-import {setUserData} from '../../store/slices/authSlice' 
 import { useAccount} from 'wagmi'
+import useCart from '../../hooks/useCart';
+import {setUserData} from '../../store/slices/authSlice' 
 import useWallet from '../../hooks/useWallet';
 import useAuth from '../../hooks/useAuth';
-import { closeModal, openModal, openModalWithoutBlock, toggleModal ,toggleModalWithoutBlock} from '../../store/slices/modalsSlice';
+import { closeModal, openModal, toggleModal ,toggleModalWithoutBlock} from '../../store/slices/modalsSlice';
 import SearchBar from '../../assets/components/searchBar/SearchBar';
 import NavModal from '../../assets/components/navModal/NavModal';
+import CartModal from '../../assets/components/cartModal/CartModal'
 import LoaderCustom from '../../assets/components/loader/Loader';
 import SuccessWalletConnect from '../../assets/components/SuccessWalletConnect/SuccessWalletConnect';
-import { useRef } from 'react';
-import CustomAlert from '../../assets/components/CustomAlert/CustomAlert';
+import styles from '../layout/styles/nav.module.scss'
+import AccessToNonameDao from '../../assets/components/AccessNonameDao/AccessToNonameDao';
 
 const links = [
     {
@@ -91,6 +93,7 @@ const Nav = ({userData}) => {
     const {open} = useWeb3Modal();
     const dispatch = useDispatch()
     const {changeAccount} = useAuth()
+    const {cart} = useCart()
 
     const disconnectHandler = () => {
         dispatch(setUserData({address:'',balance:'',isAuth:false}))
@@ -226,7 +229,21 @@ const Nav = ({userData}) => {
                     />
                 }
             </div>
-            <Wallets config={config} connect={connect} handler={walletsHandler} isVisible={walletState}/>
+            <button
+            onClick={() => dispatch(openModal('cart'))}
+            className={styles.cartBtn}
+            >
+                <Image src={cartSvg} alt='cart'/>
+                <div className={styles.cartCount}>
+                    {cart.length}
+                </div>
+            </button>
+            <Wallets 
+            config={config} 
+            connect={connect} 
+            handler={walletsHandler} 
+            isVisible={walletState}
+            />
             <Burger/>
             <MobileNav 
             navModalState={navModalState}
@@ -240,6 +257,8 @@ const Nav = ({userData}) => {
             />
             <NavModal isVisible={navModalState}/>
             <SuccessWalletConnect userData={userData}/>
+            <AccessToNonameDao/>
+            <CartModal/>
         </div>
         </>
     );

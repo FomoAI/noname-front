@@ -5,6 +5,7 @@ import HeadBlock from '../../app/components/head/Head'
 import fetchProjects from '../../app/services/fetchProjects.js'
 import {setProjects} from '../../app/store/slices/allProjects'
 import Hidden from '../../app/assets/components/HiddenComponent/Hidden'
+import Marketplace from '../../app/components/marketplace/Marketplace'
 
 // export async function getServerSideProps() {
 //   const {projects} = await fetchProjects('donates')
@@ -21,9 +22,7 @@ export default function donates({projects}) {
     <>
     <HeadBlock title={'NFT Marketplace'}/>
     <Layout>
-      <Hidden>
-      A bit of patience... coming soon
-      </Hidden>
+      <Marketplace/>
     </Layout>
     </>
   )

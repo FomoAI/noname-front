@@ -17,6 +17,15 @@
   @media (max-width: 540px) {
     max-width: 90vw;
   }
+  transition: all 0.3s ease;
+  &:hover{
+    box-shadow: 6px 6px 12px #dadada;
+  }
+}
+.project.loading{
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .line {
   border: none;
@@ -27,6 +36,7 @@
 }
 .row {
   display: flex;
+  width: 100%;
 }
 .rowLast{
   display: flex;
@@ -40,12 +50,20 @@
 .colums {
   display: flex;
   gap: 8px;
-  justify-content: space-between;
+  width: 100%;
 }
 .colum{
+  position: relative;
+  width: fit-content;
   img{
     border-radius: 15px;
     overflow: hidden;
+  }
+  
+}
+.colum.infoColumn{
+  @media (max-width:780px) {
+    width: 100%; 
   }
 }
 .dates {
@@ -68,8 +86,9 @@
   color: #0d0f2b;
   display: flex;
   align-items: flex-end;
-  z-index: -1;
-
+  @media (max-width:780px) {
+    
+  }
 }
 .title {
   display: flex;
@@ -152,4 +171,35 @@
   left: 50%;
   transform: translate(-50%,-50%);
   z-index: 1;
+}
+.info{
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  width: 100%;
+  @media (max-width:780px) {
+    justify-content: space-between;
+  }
+}
+.rating{
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  img{
+    width: 12px;
+    height: auto;
+  }
+}
+
+.waitingListBtn{
+  cursor: pointer;
+  position: absolute;
+  background: white;
+  padding: 0px;
+  top: 3px;
+  right: 0;
+  z-index: 100;
+  img{
+    max-width: 21px;
+  }
 }

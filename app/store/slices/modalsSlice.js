@@ -18,7 +18,9 @@ const modalsSlice = createSlice({
         successConnect:{state:false},
         discordConnect:{state:false},
         loginResult:{state:false},
-        nonameDao:{state:false}
+        nonameDao:{state:false},
+        listForSale:{state:false},
+        cart:{state:false}
     },
     reducers:{
         closeModal(state,action){

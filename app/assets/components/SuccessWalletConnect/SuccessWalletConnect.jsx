@@ -142,7 +142,6 @@ export default function SuccessWalletConnect({userData}) {
     title={isSuccessAuth ? 'Login souccessful!' : 'You don`t have a NFT Key!'}
     text={isSuccessAuth ? 'You have successfully logged in.' : 'To get access please buy a No name NFT!'}
     />
-    <AccessToNonameDao/>
     </>
     :
     <></>
