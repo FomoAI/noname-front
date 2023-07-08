@@ -1,30 +1,32 @@
 import HeadBlock from '../app/components/head/Head'
-import Layout from '../app/components/layout/index'
-import Info from '../app/components/info/Info'
 import getInfo from '../app/admin/services/infoServices/getInfo'
-
+import getFooter from '../app/admin/services/footerServices/getFooter'
+import NoNamePage from '../app/components/no-name/NoNamePage'
 
 export async function getServerSideProps() {
   try{
-    const {info} = await getInfo()
-    if(!info.length){
-      return { props: { info :[]} }
+    const {footer} = await getFooter()
+    if(!footer.length){
+      return { props: { footer :[]} }
     }
-    return { props: { info } }
+    return { props: { footer } }
     
   }catch(error){
-    return { props: { info:[] } }
+    return { props: { footer:[] } }
   }
 }
 
 
-export default function InfoPage({info}) {
+export default function InfoPage({footer}) {
+  
   return (
     < >
-      <HeadBlock title={'Info'}/>
-      <Layout>
-        <Info data={info[0]}/>
-      </Layout>
+        <HeadBlock title={'none'}/>
+        <NoNamePage 
+        whitepaper={footer[0]?.whitepaperLink}
+        shillClub={footer[0]?.shillClubLink}
+        socialMedia={footer[0].socialmedia}
+        />
     </>
   )
 }

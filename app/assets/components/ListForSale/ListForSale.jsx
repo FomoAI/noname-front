@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { useDispatch ,useSelector} from 'react-redux'
 import { closeModal, toggleModal } from '../../../store/slices/modalsSlice'
 import Modal from '../modal/Modal'
+import CustomCalendar from '../calendar/Calendar'
 import CustomAlert from '../CustomAlert/CustomAlert'
 import ApproveCollection from './ApproveCollection'
 import SquareBtn from '../../../components/UI/buttons/SquareLightBtn'
@@ -15,7 +16,7 @@ const currencyList = [
     'USDC'
 ]
 
-const time = [
+const timeList = [
     '24H',
     '7D',
     '1M',
@@ -24,11 +25,12 @@ const time = [
 ]
 
 export default function ListForSale({isVisible,handler}) {
-    const [approveNft,setApproveNft] = useState(null)
-    const [currency,setCurrency] = useState('ETH')
+    const [date,setDate] = useState(new Date().toLocaleDateString())
+    const [time,setTime] = useState('')
     const [duration,setDuration] = useState('7D')
+    const [currency,setCurrency] = useState('ETH')
     const [floorPrice,setFloorPrice] = useState(false)
-    
+
     const [isCurrencyList,setIsCurrencyList] = useState(false)
     const [isSuccessApprove,setIsSuccessApprove] = useState(false)
     const [isDurationList,setIsDurationList] = useState(false)
@@ -186,11 +188,14 @@ export default function ListForSale({isVisible,handler}) {
                 :
                 styles.durationInputs
             }>
+                <CustomCalendar
+                range={false}
+                dates={date}
+                name={'date'}
+                stateHandler={(name,date) => setDate(date)}
+                />
                 <input 
-                className={styles.input + ' ' + styles.date}
-                placeholder='08.08.2023'
-                id='calendar'/>     
-                <input 
+                onChange={(e) => setTime(e.target.value)}
                 className={styles.input + ' ' + styles.time}
                 placeholder='17:17'
                 id='calendar'/>  
@@ -217,7 +222,7 @@ export default function ListForSale({isVisible,handler}) {
                         styles.durationList
                     }>
                         {
-                            time.map((item) => {
+                            timeList.map((item) => {
                                 return (
                                     <button 
                                     key={item}
@@ -300,3 +305,9 @@ export default function ListForSale({isVisible,handler}) {
     </>
   )
 }
+
+
+// <input 
+// className={styles.input + ' ' + styles.date}
+// placeholder='08.08.2023'
+// id='calendar'/>   

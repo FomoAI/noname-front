@@ -7,7 +7,7 @@
   cursor: pointer;
   border-top-right-radius: 16px;
   @media (max-width: 420px) {
-    width: 85vw;
+    width: 84vw;
     max-height: 240px;
   }
 }
@@ -18,8 +18,10 @@
   background: #fff;
   box-shadow: 4px 4px 10px 0px #eee;
   @media (max-width: 420px) {
-    max-width: 85vw;
+    max-width: 84vw;
     width: 100%;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
   }
 }
 .label {
@@ -52,8 +54,13 @@
   height: 25px;
   border-radius: 8px;
   cursor: pointer;
-  background: rgba(255, 255, 255, 0.25);
-  color: #ffffff;
+  background: rgba(255, 255, 255, 0.724);
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.164);
+  color: black;
+
+  @media (max-width:420px) {
+    top: 200px;
+  }
 }
 .info {
   display: flex;
@@ -102,7 +109,7 @@
 }
 .btnRed {
   width: 100%;
-  padding: 8px 10px;
+  padding: 5px 10px;
   background: #ff507d;
   border-radius: 8px;
   font-weight: 700;
@@ -150,8 +157,8 @@
   opacity: 0;
   transition: height 0.4s ease;
   @media (max-width: 420px) {
-    width: 85vw;
-    top: 298px;
+    width: 84vw;
+    top: 305px;
     opacity: 1;
     height: 70px;
     background: #fff;
@@ -174,8 +181,8 @@
   transition: all 0.4s ease;
 
   @media (max-width: 420px) {
-    width: 85vw;
-    top: 298px;
+    width: 84vw;
+    top: 305px;
     opacity: 1;
     height: 70px;
     background: #fff;

@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import loader from '../../utils/loader'
 import { useRouter } from 'next/router'
 import { useSelector,useDispatch } from 'react-redux'
 import { toggleModal } from '../../store/slices/modalsSlice'
@@ -7,7 +8,7 @@ import useCart from '../../hooks/useCart'
 import styles from '../styles/nft.module.scss'
 
 
-export default function Nft({collectionIndex,toggleShowAllBtn,nft}) {
+export default function     Nft({collectionIndex,toggleShowAllBtn,nft}) {
     const [name,id] = nft.name.split('#') 
     const isAuth = useSelector((state) => state.auth.userData.isAuth)
     const dispatch = useDispatch()
@@ -27,10 +28,10 @@ export default function Nft({collectionIndex,toggleShowAllBtn,nft}) {
     onMouseEnter={toggleShowAllBtn ? () => toggleShowAllBtn('over') : () => {}}
     onMouseLeave={toggleShowAllBtn ? () => toggleShowAllBtn('out') : () => {}}
     className={styles.body + ' ' + 'nft-body'}>
-        <Image 
+        <img 
         onClick={navigateToCollection}
         className={styles.nftImage}
-        src={nftImage} 
+        src={loader(nft.image)} 
         alt='nft image'/>
         <div 
         onClick={navigateToCollection}
@@ -52,7 +53,13 @@ export default function Nft({collectionIndex,toggleShowAllBtn,nft}) {
                         Price:
                     </div>
                     <div className={styles.value}>
-                        ${nft.price || '-'}
+                        {
+                        nft.price 
+                        ?
+                        `${nft.price}`
+                        :
+                        '-'
+                        }
                     </div>
                 </div>
                 <div className={styles.item}>

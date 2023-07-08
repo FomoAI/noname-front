@@ -121,11 +121,12 @@
 }
 
 .investsBtn {
+  transform: translateY(-1.3px);
   button {
     position: relative;
     display: flex;
     font-weight: 400;
-    font-size: 16px;
+    font-size: 17px;
     line-height: 19px;
     text-align: right;
     color: #0d0f2b;
@@ -142,6 +143,7 @@
     }
     @media (max-width: 1400px) {
       font-size: 14px;
+      transform: translateY(1px);
     }
   }
   @media (max-width: 1400px) {
@@ -157,12 +159,12 @@
 
 .cartBtn {
   position: relative;
-  
-  @media (max-width:1220px) {
+
+  @media (max-width: 1220px) {
     margin: 0px 20px 0px 12px;
   }
 
-  @media (max-width:420px) {
+  @media (max-width: 420px) {
     display: none;
   }
 }

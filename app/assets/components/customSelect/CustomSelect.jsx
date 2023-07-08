@@ -16,19 +16,21 @@ export default function CustomSelect({placeholder,handler,items}) {
   return (
     <div className={styles.body}>
         <button 
+        id='toggle-modal'
         onClick={() => setIsOpen((prev) => !prev)}
         className={styles.btn}>
             {
                 selectedItem.length
                 ?
-                <span className={styles.selected}>{selectedItem}</span>
+                <span id='toggle-modal' className={styles.selected}>{selectedItem}</span>
                 :
-                <span>{placeholder}</span>
+                <span id='toggle-modal'>{placeholder}</span>
             }
             {
                 isOpen
                 ?
                 <Image 
+                id='toggle-modal'
                 className={styles.rotate}
                 src={arrowRotateSvg} 
                 alt='arrow rotate'/>
@@ -37,10 +39,11 @@ export default function CustomSelect({placeholder,handler,items}) {
 
             }
         </button>
-        <div className={isOpen ? styles.items + ' ' + styles.visible : styles.items}>
+        <div id='toggle-modal' className={isOpen ? styles.items + ' ' + styles.visible : styles.items}>
             {items.map((item) => {
                 return (
                     <button 
+                    id='toggle-modal'
                     onClick={() => selectItem(item)}
                     key={item}>
                         {item}

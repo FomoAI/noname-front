@@ -11,6 +11,13 @@
   border-radius: 16px;
   overflow: hidden;
   z-index: 10;
+
+  @media (max-width:1460px) {
+    left: 39.8%;
+  }
+  @media (max-width:1420px) {
+    left: 39%;
+  }
   @media (max-width:1220px) {
     top: 20px;
     left: 55%;

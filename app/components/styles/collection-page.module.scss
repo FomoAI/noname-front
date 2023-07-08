@@ -15,11 +15,12 @@
     @media (max-width:880px) {
         max-width: 600px;
         margin: 15px auto;
-        flex-direction: column-reverse;
-        justify-content: center;
+        flex-direction: column;
+        justify-content: flex-start;
         align-items: flex-start;
         gap: 20px;
     }
+
 }
 .filterAndSort{
     width: 100%;
@@ -42,8 +43,24 @@
     @media (max-width:1250px) {
         justify-content: center;
     }
-}
 
+    @media (max-width:420px) {
+        row-gap: 80px;
+    }
+}
+.smartAndOrder{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 42px;
+    @media (max-width:500px) {
+        gap: 25px;
+    }
+    @media (max-width:880px) {
+        justify-content: flex-start;
+    }
+}
 .notFounded{
     font-size: 42px;
     font-weight: 700;

@@ -1,14 +1,16 @@
 import { useState } from 'react'
 import { useSelector ,useDispatch} from 'react-redux'
+import { useRouter } from 'next/router'
 import Image from 'next/image'
-import { toggleModal } from '../../../store/slices/modalsSlice'
+import { toggleModal,openModal } from '../../../store/slices/modalsSlice'
 import { setUserData } from '../../../store/slices/authSlice'
+import SquareBtn from '../../../components/UI/buttons/SquareLightBtn'
 import favourites from '../../../services/favourites'
-import styles from './collection-info.module.scss'
 import loader from '../../../utils/loader'
 import arrowSvg from '../../icons/arrow-rotate.svg'
 import heartSvg from '../../icons/heart.svg'
 import heartFillSvg from '../../icons/heartFill.svg'
+import styles from './collection-info.module.scss'
 
 const timeFilters = [
     '24H',
@@ -23,6 +25,7 @@ export default function CollectionInfo({projectData}) {
   const [isTimeFilter,setIsTimeFilter] = useState(false)
   const user = useSelector((state) => state.auth.userData)
   const dispatch = useDispatch()
+  const router = useRouter()
   
   const isFavourite = user?.favourites?.includes(projectData._id)
   
@@ -32,16 +35,33 @@ export default function CollectionInfo({projectData}) {
   }
 
   const addToFavourites = async () => {
-    if(isFavourite) return 
-
     if(!user.isAuth){
         dispatch(toggleModal('wallet'))
         return
     }
+    
+    let changedFavourites;
 
-    dispatch(setUserData({...user,favourites:[...user.favourites,projectData._id]}))
+    if(isFavourite){
+        changedFavourites = user.favourites.filter((projectId) => {
+            return projectId !== projectData._id
+        })
+    }else{
+        changedFavourites = [...user.favourites,projectData._id]
+    }
 
-    const {success} = await favourites(projectData._id,user.address)
+    dispatch(setUserData({...user,favourites:changedFavourites}))
+
+    const {success} = 
+    await favourites(projectData._id,user.address,isFavourite ? 'remove' : 'create')
+  }
+
+  const makeOrderHandler = () => {
+    if(!user.isAuth){
+        dispatch(openModal('wallet'))
+        return
+    }
+    router.push(`/nft/123`)
   }
 
   return (
@@ -76,7 +96,7 @@ export default function CollectionInfo({projectData}) {
                 </div>
                 <button 
                 onClick={addToFavourites} 
-                className={isFavourite ? styles.favouriteBtnMobile + ' ' + styles.blocked : styles.favouriteBtnMobile}>
+                className={styles.favouriteBtnMobile}>
                     {
                         isFavourite
                         ?
@@ -89,7 +109,7 @@ export default function CollectionInfo({projectData}) {
             <div className={styles.priceInfo}>
                 <div className={styles.infoItem}>
                     <div className={styles.key}>
-                    Floor price
+                    NFT price
                     </div>
                     <div className={styles.value + ' ' + styles.priceInfoValue}>
                         {projectData.floorPrice || '$0'}
@@ -99,7 +119,7 @@ export default function CollectionInfo({projectData}) {
                 <div className={styles.priceRange}>
                     <div className={styles.priceRangeHead}>
                         <div className={styles.key}>
-                            Floor price range:
+                        NFT price range:
                         </div>
                         <div className={styles.timeFilterWrapper}>
                                 <button 
@@ -157,7 +177,7 @@ export default function CollectionInfo({projectData}) {
             </div>
             <div className={styles.column}>
             <div className={styles.details}>
-                <div className={styles.infoItems}>
+                <div className={styles.infoDetailsItems}>
                     <div className={styles.infoItem}>
                         <div className={styles.value}>
                             {projectData.goal}
@@ -185,7 +205,7 @@ export default function CollectionInfo({projectData}) {
                 </div>
                 <button 
                 onClick={addToFavourites} 
-                className={isFavourite ? styles.favouriteBtn + ' ' + styles.blocked : styles.favouriteBtn}>
+                className={styles.favouriteBtn}>
                     {
                         isFavourite
                         ?
@@ -197,7 +217,16 @@ export default function CollectionInfo({projectData}) {
             </div>   
             <div className={styles.bio}>
                 <span>Bio: </span> {projectData.description}
-            </div>              
+            </div>   
+            <div className={styles.makeOrderBtn}>
+                <SquareBtn
+                width='180' 
+                height='44'
+                fontSize='17px'
+                text={'+ Make order'}
+                handler={makeOrderHandler}
+                />
+            </div>           
             </div>
         </div>
         <div className={styles.statistics}>
@@ -266,6 +295,76 @@ export default function CollectionInfo({projectData}) {
                     <div className={styles.statisticValue}>
                         {projectData.statistics.revenue} %
                     </div>
+                </div>
+            </div>
+            <div className={styles.infoItemsMobile}>
+                <div className={styles.infoItemsColumn}>
+                <div className={styles.infoItem}>
+                    <div className={styles.key}>
+                        Market Cap
+                    </div>
+                    <div className={styles.statisticValue}>
+                        {projectData.statistics.marketCap}
+                    </div>
+                </div>
+                <div className={styles.infoItem}>
+                    <div className={styles.key}>
+                    Supply
+                    </div>
+                    <div className={styles.statisticValue}>
+                        {projectData.statistics.supply}
+                    </div>
+                </div>
+                <div className={styles.infoItem}>
+                    <div className={styles.key}>
+                    Listed
+                    </div>
+                    <div className={styles.statisticValue}>
+                        {projectData.statistics.listed}
+                    </div>
+                </div>
+                <div className={styles.infoItem}>
+                    <div className={styles.key}>
+                    Owners
+                    </div>
+                    <div className={styles.statisticValue}>
+                        {projectData.statistics.owners}
+                    </div>
+                </div>
+                </div>
+                <div className={styles.infoItemsColumn}>
+                <div className={styles.infoItem}>
+                    <div className={styles.key}>
+                    Total Volume
+                    </div>
+                    <div className={styles.statisticValue}>
+                        {projectData.statistics.totalVolume}$
+                    </div>
+                </div>
+                <div className={styles.infoItem}>
+                    <div className={styles.key}>
+                    Mint price
+                    </div>
+                    <div className={styles.statisticValue}>
+                        {projectData.statistics.mintPrice}$
+                    </div>
+                </div>
+                <div className={styles.infoItem}>
+                    <div className={styles.key}>
+                    Royalty Fee
+                    </div>
+                    <div className={styles.statisticValue}>
+                        {projectData.statistics.royaltyFee} %
+                    </div>
+                </div>
+                <div className={styles.infoItem}>
+                    <div className={styles.key}>
+                    Revenue
+                    </div>
+                    <div className={styles.statisticValue}>
+                        {projectData.statistics.revenue} %
+                    </div>
+                </div>
                 </div>
             </div>
             <hr className={styles.line}/>

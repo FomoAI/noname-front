@@ -1,10 +1,14 @@
+import { useMemo, useState } from 'react'
+import { useRouter } from 'next/router'
+import { useDispatch,useSelector } from 'react-redux'
+import { openModal } from '../../store/slices/modalsSlice'
 import CollectionInfo from '../../assets/components/collectionInfo/CollectionInfo'
 import NftSearchBar from '../../assets/components/nftSearchBar/NftSearchBar'
 import NftFilter from '../../assets/components/nftFilter/NftFilter'
 import SmartCopy from '../../assets/components/smartContractCopy/SmartCopy'
 import Nft from '../../components/nft/Nft'
+import SquareBtn from '../UI/buttons/SquareLightBtn'
 import styles from '../styles/collection-page.module.scss'
-import { useMemo, useState } from 'react'
 
 
 
@@ -24,7 +28,10 @@ export default function CollectionNftsPage({data}) {
             max:100
         },
         rank:''
-    })
+    })    
+    const isAuth = useSelector((state) => state.auth.userData.isAuth)
+    const router = useRouter()
+    const dispatch = useDispatch()
 
     const filterHandler = (name,value) => {
         setFilters((prev) => {
@@ -70,7 +77,6 @@ export default function CollectionNftsPage({data}) {
         return filteredNfts
     },[filters,searchValue])
 
-   
   return (
     <div className={styles.body}>
         <CollectionInfo projectData={data}/>
@@ -84,7 +90,10 @@ export default function CollectionNftsPage({data}) {
                     handler={searchHandler}
                     />
                 </div>
-                <SmartCopy address={'0x0bB8f9686368A12eD34332E50A7b3bE0e25e3a14'}/>
+                <div className={styles.smartAndOrder}>
+                    <SmartCopy address={'0x0bB8f9686368A12eD34332E50A7b3bE0e25e3a14'}/>
+
+                </div>
         </div>
         <div className={styles.nfts}>
             {

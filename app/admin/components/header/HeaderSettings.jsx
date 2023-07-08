@@ -16,7 +16,7 @@ const HeaderSettings = ({headerData}) => {
     const inputsHandler = (name,value) => {
         setData({...data,[name]:value})
     }
-    console.log(data)
+
     const save = async () => {
         try{
             setLoading(true)

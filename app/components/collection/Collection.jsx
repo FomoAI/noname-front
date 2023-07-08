@@ -144,7 +144,7 @@ export default function Collection({collection}) {
             setSpaceBetween(17)
         }
         if(width < 420){
-            setSlides(1)
+            setSlides(0.9995)
             setSpaceBetween(15)
         }
     },[width])
@@ -153,7 +153,7 @@ export default function Collection({collection}) {
     <div ref={currentCollection} className={styles.collection}>
             <div className={styles.head}>
                 <div className={styles.collectionTitle}>
-                    {collection.name}
+                    {collection.title}
                 </div>
                 {
                     collection.isPinned 

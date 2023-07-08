@@ -1,13 +1,14 @@
-import styles from '../styles/user-settings.module.scss'
 import icons from '../../assets/icons/user/user'
 import Image from 'next/image'
 import { useState , useRef} from 'react'
 import { Transition } from 'react-transition-group'
 import { useSelector , useDispatch} from 'react-redux'
 import { useRouter } from 'next/router'
+import Lottie from 'lottie-react'
 import { openModal, toggleModal, toggleModalWithoutBlock } from '../../store/slices/modalsSlice'
 import closeSvg from '../../assets/icons/close-gray.svg'
 import KYCsvg from '../../assets/icons/user/kyc.svg'
+import walletSvg from '../../assets/icons/wallet.svg'
 import supportSvg from '../../assets/icons/user/support.svg'
 import discordSvg from '../../assets/icons/discordBlue.svg'
 import cartSvg from '../../assets/icons/user/cart.svg'
@@ -17,6 +18,8 @@ import MultichainModal from '../../assets/components/multichainwallets/Multichai
 import SupportModal from '../../assets/components/supportModal/SupportModal'
 import copyText from '../../utils/copyText'
 import CustomAlert from '../../assets/components/CustomAlert/CustomAlert'
+import MenuCloseAnim from '../../assets/lotties-animations/menu.json'
+import styles from '../styles/user-settings.module.scss'
 
 export default function UserSettings({disconnect,user}) {
   const [KYCmodal,setKYCmodal] = useState(false)
@@ -132,7 +135,8 @@ export default function UserSettings({disconnect,user}) {
                   <button 
                   className={styles.closeBtn} 
                   onClick={() => dispatch(toggleModalWithoutBlock('settings'))}>
-                    <Image src={closeSvg} alt='close-modal'/>
+                    {/* <Image src={closeSvg} alt='close-modal'/> */}
+                    <Lottie animationData={MenuCloseAnim}/>
                   </button>
                 </div>
         <div className={styles.row}>
@@ -212,7 +216,7 @@ export default function UserSettings({disconnect,user}) {
         </div>
         <div className={styles.row}>
            <button onClick={() => setMultiChain((state) => !state)} className={styles.btn}>
-              <Image alt={'connect'} src={icons.copy}/>
+              <Image alt={'connect'} src={walletSvg}/>
               <span>Multi-chain wallet</span>
            </button>
         </div>

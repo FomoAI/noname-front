@@ -4,7 +4,7 @@ import { useRouter } from "next/router"
 import Header from "./Header"
 import Footer from "./Footer"
 import CookieAlert from "../../assets/components/cookieAlert/CookieAlert"
-import { closeModal ,openModal} from "../../store/slices/modalsSlice"
+import { closeModal ,closeModalWithoutBlock,openModal} from "../../store/slices/modalsSlice"
 import { setDiscord , setOpenSea} from "../../store/slices/communitySlice"
 import getHeader from '../../admin/services/headerServices/getHeader'
 import getFooter from '../../admin/services/footerServices/getFooter'
@@ -57,6 +57,7 @@ export default function index({children}) {
 
   const modalsHandler = (event) => {
     const id = event?.target?.id
+    console.log(id)
     if(modals.search.state && id !== 'toggle-modal'){
       dispatch(closeModal('search'))
     }
@@ -67,7 +68,13 @@ export default function index({children}) {
       dispatch(closeModal('nav'))
     }
     if(modals.share.state){
-      dispatch(closeModal('share'))
+      dispatch(closeModalWithoutBlock('share'))
+    }
+    if(modals.nftFilter.state && id !== 'toggle-modal'){
+      dispatch(closeModalWithoutBlock('nftFilter'))
+    }
+    if(modals.collectionsFilter.state && id !== 'toggle-modal'){
+      dispatch(closeModalWithoutBlock('collectionsFilter'))
     }
   }
   

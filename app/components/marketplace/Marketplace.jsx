@@ -138,63 +138,63 @@ const nfts = [
     },
 ]
 
-const collectionsInitialState = [
-    {
-        _id:'123123',
-        filter:'nonamekey',
-        projectData:{},
-        name:'No name key',
-        nfts:nfts,
-        isPinned:true
-    },
-    {
-        _id:'dfg',
-        filter:'crypto',
-        projectData:{},
-        name:'No name key 2',
-        nfts:nfts,
-        isPinned:true
-    },
-    {
-        _id:'gg1',
-        filter:'business',
-        projectData:{},
-        name:'No name key 3',
-        nfts:nfts,
-        isPinned:true
-    },
-    {
-        _id:'765643',
-        filter:'zksync',
-        projectData:{},
-        name:'No name key 4',
-        nfts:nfts,
-        isPinned:false
-    },
-    {
-        _id:'6346',
-        filter:'crypto',
-        projectData:{},
-        name:'No name key 5',
-        nfts:nfts,
-        isPinned:false
-    },
-]
+// const collectionsInitialState = [
+//     {
+//         _id:'123123',
+//         filter:'nonamekey',
+//         projectData:{},
+//         name:'No name key',
+//         nfts:nfts,
+//         isPinned:true
+//     },
+//     {
+//         _id:'dfg',
+//         filter:'crypto',
+//         projectData:{},
+//         name:'No name key 2',
+//         nfts:nfts,
+//         isPinned:true
+//     },
+//     {
+//         _id:'gg1',
+//         filter:'business',
+//         projectData:{},
+//         name:'No name key 3',
+//         nfts:nfts,
+//         isPinned:true
+//     },
+//     {
+//         _id:'765643',
+//         filter:'zksync',
+//         projectData:{},
+//         name:'No name key 4',
+//         nfts:nfts,
+//         isPinned:false
+//     },
+//     {
+//         _id:'6346',
+//         filter:'crypto',
+//         projectData:{},
+//         name:'No name key 5',
+//         nfts:nfts,
+//         isPinned:false
+//     },
+// ]
 
-export default function Marketplace() {
-    const [collections,setCollection] = useState(collectionsInitialState)
+export default function Marketplace({collectionsData}) {
+    const [collections,setCollection] = useState(collectionsData)
     const listForSaleVisible = useSelector((state) => state.modals.listForSale.state)
     const dispatch = useDispatch() 
 
     const filterCollections = (filterValue) => {
         if(filterValue === 'all'){
-            setCollection(collectionsInitialState)
+            setCollection(collectionsData)
 
             return
         }
 
-        const filteredCollections = collectionsInitialState.filter((collection) => {
-            return collection.filter === filterValue
+        const filteredCollections = collectionsData.filter((collection) => {
+            return collection.type === filterValue
         })
 
         setCollection(filteredCollections)
@@ -233,7 +233,15 @@ export default function Marketplace() {
                 </button>
             </div>
             <div className={styles.collections}>
-                <Collections collections={collections}/>
+                {
+                    collections.length 
+                    ?
+                    <Collections collections={collections}/>
+                    :
+                    <div className={styles.notFound}>
+                    Not found collections with current filter...
+                    </div>
+                }
             </div>
         </div>
     </div>

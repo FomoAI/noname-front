@@ -60,6 +60,10 @@
 .key {
   font-size: 14px;
   color: #738094;
+
+  @media (max-width:420px) {
+    font-size: 16px;
+  }
 }
 .value {
   color: #0d0f2b;
@@ -174,6 +178,10 @@
   color: #0d0f2b;
   font-size: 16px;
   font-weight: 600;
+
+  @media (max-width:420px) {
+    font-size: 17px;  
+  }
 }
 .statistics {
   margin-top: 26px;
@@ -188,6 +196,34 @@
     gap: 14px;
     flex-wrap: wrap;
     justify-content: center;
+  }
+  @media (max-width:420px) {
+    display: none;
+  }
+}
+.infoItemsMobile{
+  display: none;
+  @media (max-width:420px) {
+  display: grid;
+  grid-template-columns: 0.5fr 1fr;    
+  }
+}
+.infoItemsColumn{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.infoDetailsItems{
+  margin: 12px 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  @media (max-width: 810px) {
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 0px;
   }
 }
 .line {
@@ -261,6 +297,12 @@
   }
 }
 
-.blocked{
-  cursor:not-allowed;
+
+.makeOrderBtn{
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  @media (max-width:810px) {
+    justify-content: flex-start;
+  }
 }

@@ -80,7 +80,7 @@ const mobileLinks = [
     },
     {
         title:'NN Info',
-        href:'/'
+        href:'/info'
     },
 ]
 
@@ -194,7 +194,7 @@ const Nav = ({userData}) => {
                 </Link>
             </div>
             <div className={styles.infoLink}>
-                <Link href={'/'}>
+                <Link href={'/info'}>
                     NN info
                 </Link>
             </div>

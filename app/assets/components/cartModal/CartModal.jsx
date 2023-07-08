@@ -61,12 +61,13 @@ export default function CartModal() {
                     {
                     cart.length 
                     ?
-                    cart.map((cartItem) => {
+                    cart.map((cartItem,index) => {
                         return (
-                            <div className={styles.itemWrapper}>
+                            <div 
+                            key={cartItem._id}
+                            className={styles.itemWrapper}>
                              <div 
                             onClick={() => navigate(cartItem._id)}
-                            key={cartItem._id}
                             tabIndex={0}
                             className={styles.item}>
                                 <Image

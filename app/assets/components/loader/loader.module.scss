@@ -13,3 +13,10 @@
     max-height: 100vh;
     overflow: hidden !important;
 }
+.wrapper{
+    max-width: 300px;
+    height: auto;
+    @media (max-width:390px) {
+        max-width: 150px;
+    }
+}

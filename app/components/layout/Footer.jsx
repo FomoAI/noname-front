@@ -23,6 +23,13 @@ const Footer = ({footerData}) => {
                    Noname.io ©{new Date().getFullYear()}
                 </div>
                 <ul className={styles.links}>
+                   <li id='toggle-modal'>
+                        <a 
+                        href={footerData.whitepaperLink}
+                        className={styles.link}>
+                            Whitepaper
+                        </a>
+                    </li>
                     {footerData.links.map((link,index) => {
                         return (
                             <li id='toggle-modal' key={index}>
@@ -62,7 +69,6 @@ const Footer = ({footerData}) => {
             :
             <></>
         }
-       
         </>
     )
 }

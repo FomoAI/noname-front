@@ -67,7 +67,9 @@ const FooterSettings = ({footerData}) => {
             socialmedia:[...footerData[0].socialmedia,
                 ...socialItems.filter((item) => !footerData[0].socialmedia.find((item2) => item.alt === item2.alt))
             ],
-            discordLink:footerData[0].discordLink
+            discordLink:footerData[0].discordLink,
+            whitepaperLink:footerData[0]?.whitepaperLink || ' ',
+            shillClubLink:footerData[0]?.shillClubLink || ''
         }
     ))
     const linksTmp = useRef(data.links).current
@@ -128,6 +130,7 @@ const FooterSettings = ({footerData}) => {
                 handler={inputsHandler}
                 />
             </div>
+           <div className={styles.linksWrapper}>
             <div className={styles.discordLink}>
                 <Input
                 label={'Discord link'}
@@ -137,6 +140,25 @@ const FooterSettings = ({footerData}) => {
                 placeholder={'https://discord.com'}
                 />
             </div>
+            <div className={styles.whitepaperLink}>
+                <Input
+                label={'Whitepaper link'}
+                handler={inputsHandler}
+                name={'whitepaperLink'}
+                value={data.whitepaperLink}
+                placeholder={'https://example.com'}
+                />
+            </div>
+            <div className={styles.whitepaperLink}>
+                <Input
+                label={'Shillq Club'}
+                handler={inputsHandler}
+                name={'shillClubLink'}
+                value={data.shillClubLink}
+                placeholder={'https://example.com'}
+                />
+            </div>
+           </div>
             <SocialMedia
             handler={socialMediaHandler}
             projectSocialMedia={data.socialmedia}

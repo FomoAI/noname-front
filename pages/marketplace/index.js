@@ -1,28 +1,24 @@
-import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+import getCollections from '../../app/services/getCollections'
 import Layout from '../../app/components/layout/index'
 import HeadBlock from '../../app/components/head/Head'
-import fetchProjects from '../../app/services/fetchProjects.js'
-import {setProjects} from '../../app/store/slices/allProjects'
-import Hidden from '../../app/assets/components/HiddenComponent/Hidden'
 import Marketplace from '../../app/components/marketplace/Marketplace'
 
-// export async function getServerSideProps() {
-//   const {projects} = await fetchProjects('donates')
+export async function getServerSideProps() {
+  const {collections} = await getCollections()
   
-//   return { props: { projects } }
-// }
+  return { props: { collections } }
+}
 
 
-export default function donates({projects}) {
-
+export default function MarketplacePage({collections}) {
   const dispatch = useDispatch()
 
   return (
     <>
     <HeadBlock title={'NFT Marketplace'}/>
     <Layout>
-      <Marketplace/>
+      <Marketplace collectionsData={collections}/>
     </Layout>
     </>
   )

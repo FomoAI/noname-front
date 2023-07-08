@@ -42,12 +42,13 @@ const MultiRangeSlider = ({ min, max, onChange }) => {
 
   return (
     <>
-    <div className={styles.values}>
-        <div className={styles.slider__left_value}>{minVal}</div>
-        <div className={styles.slider__right_value}>{maxVal}</div>
+    <div id='toggle-modal' className={styles.values}>
+        <div id='toggle-modal' className={styles.slider__left_value}>{minVal}</div>
+        <div id='toggle-modal' className={styles.slider__right_value}>{maxVal}</div>
     </div>
     <div className={styles.container}>
       <input
+      id='toggle-modal'
         type="range"
         min={min}
         max={max}
@@ -60,6 +61,7 @@ const MultiRangeSlider = ({ min, max, onChange }) => {
         className={styles.thumb + ' ' + styles.thumbLeft}
       />
       <input
+      id='toggle-modal'
         type="range"
         min={min}
         max={max}
@@ -72,10 +74,10 @@ const MultiRangeSlider = ({ min, max, onChange }) => {
         className={styles.thumb + ' ' + styles.thumbRight}
       />
 
-      <div className={styles.slider}>
+      <div id='toggle-modal' className={styles.slider}>
 
-        <div className={styles.slider__track} />
-        <div ref={range} className={styles.slider__range} />
+        <div id='toggle-modal' className={styles.slider__track} />
+        <div id='toggle-modal' ref={range} className={styles.slider__range} />
       </div>
     </div>
     </>

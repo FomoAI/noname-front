@@ -20,7 +20,10 @@ const modalsSlice = createSlice({
         loginResult:{state:false},
         nonameDao:{state:false},
         listForSale:{state:false},
-        cart:{state:false}
+        cart:{state:false},
+        nftFilter:{state:false},
+        collectionsFilter:{state:false},
+        nonameNavigation:{state:false}
     },
     reducers:{
         closeModal(state,action){

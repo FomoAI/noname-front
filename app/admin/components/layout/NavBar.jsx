@@ -15,11 +15,11 @@ const links = [
         href:'/admin/startups',
     },
     {
-        name:'Donates',
+        name:'Early rounds',
         href:'/admin/donates',
     },
     {
-        name:'Crypto',
+        name:'Public Launch',
         href:'/admin/crypto',
     },
     {
@@ -49,6 +49,10 @@ const links = [
     {
         name:'Info',
         href:'/admin/info',
+    },
+    {
+        name:'Сollections',
+        href:'/admin/collections',
     },
 ]
 
