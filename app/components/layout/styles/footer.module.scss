@@ -24,6 +24,9 @@
   @media (max-width: 780px) {
     gap: 16px;
   }
+  @media (max-width:430px) {
+    gap: 11px;
+  }
 }
 .socialmedia {
   display: flex;
