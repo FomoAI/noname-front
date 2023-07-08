@@ -183,7 +183,7 @@ export default function NoNamePage({socialMedia,whitepaper,shillClub}) {
               loop
               muted
               ref={videoEl}
-              src={'http://localhost:5000/api/static/no-name.webm'}
+              src={'https://noname-backend-production.up.railway.app/api/static/no-name.webm'}
               />
             </div>
         </div> 
