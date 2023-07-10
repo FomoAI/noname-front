@@ -1,6 +1,6 @@
 .react-calendar {
   min-height: 292px;
-  max-height: 450px;
+  max-height: 100%;
   margin-bottom: 20px;
 }
 .react-calendar__navigation__next2-button {
