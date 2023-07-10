@@ -5,9 +5,7 @@
 }
 
 @media (max-width: 450px) {
-  .react-calendar {
-    min-height: 342px;
-  }
+ 
 }
 .react-calendar__navigation__next2-button {
   display: none !important;

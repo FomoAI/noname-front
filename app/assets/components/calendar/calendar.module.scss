@@ -11,8 +11,9 @@
   transition: all 0.3s ease;
   z-index: 20;
 
-  @media (max-width:374px) {
-    max-height: 550px;
+  @media (max-width:444px) {
+    height:100%;
+    max-height: 520px;
   }
 }
 .btn {
