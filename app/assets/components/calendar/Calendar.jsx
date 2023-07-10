@@ -63,7 +63,7 @@ export default function CustomCalendar({dates,stateHandler,name,range = true,id}
     },[isOpen,isChange])
 
   return (
-    <div>
+    <div className={styles.wrapper}>
         <button onClick={() => setIsOpen(!isOpen)} className={styles.btn}>
             <Image src={icon} alt={'calendar'}/>
             <div className={styles.dates}>
