@@ -10,7 +10,7 @@
   background: rgba(13, 15, 43, 0.5);
   transition: all 0.2s ease;
   z-index: 20000;
-  overflow-y: auto;
+  padding: 0px !important;
 }
 .closeBtn{
   position: absolute;

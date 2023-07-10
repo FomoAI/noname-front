@@ -1,12 +1,12 @@
 .body {
-    padding: 0;
-    width: 100px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    justify-content: flex-end;
-    gap: 6px;
-    transition: all 0.4s ease;
+  padding: 0;
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  gap:5px   ;
+  transition: all 0.4s ease;
 
   div {
     background: #0d0f2b;
@@ -14,29 +14,29 @@
   }
 }
 
-.line1{
-    width: 100px;
-    transition: all 0.4s ease;
+.line1 {
+  width: 100px;
+  transition: all 0.4s ease;
 }
 
-.line2{
-    width: 75px;
-    transition: all 0.4s ease;
+.line2 {
+  width: 75px;
+  transition: all 0.4s ease;
 }
-.line3{
+.line3 {
+  width: 50px;
+  transition: all 0.4s ease;
+}
+
+.body:hover {
+  .line1 {
     width: 50px;
-    transition: all 0.4s ease;
+  }
+  .line2 {
+    width: 50px;
+  }
 }
 
-.body:hover{
-    .line1{
-        width: 50px;
-    }
-    .line2{
-        width: 50px;
-    }
-}
-
-.body:active{
-    opacity: 0.6;
+.body:active {
+  opacity: 0.6;
 }

@@ -1,7 +1,14 @@
 .fakeInput {
+  position: relative;
   input {
-    display: none;
+    max-width: fit-content;
+    position: absolute;
+    top: 0;
+    opacity: 0;
+    right: -27px;
+    cursor: pointer;
   }
+
 }
 .body {
   position: relative;
@@ -66,7 +73,9 @@
   align-items: center;
 }
 .fakeInput {
-  z-index: 10;
+
+  input{
+  }
 }
 .fileDescription {
   max-width: 185px;
@@ -85,6 +94,5 @@
   font-size: 20px;
   line-height: 23px;
   text-align: center;
-  cursor: pointer;
   color: #ff507d;
 }

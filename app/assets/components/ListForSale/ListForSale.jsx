@@ -66,6 +66,7 @@ export default function ListForSale({isVisible,handler}) {
   return (
     <>
     <Modal 
+    overflowY='auto'
     width={
         isApproveCollection
         ?

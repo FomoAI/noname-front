@@ -48,7 +48,6 @@ export default function index({children}) {
     const checkCookie = () => {
       if(CookieTools.get('nonameVisit') !== 'true'){
         dispatch(openModal('cookie'))
-        blockScroll()
       }
     }
     checkCookie()
@@ -57,7 +56,7 @@ export default function index({children}) {
 
   const modalsHandler = (event) => {
     const id = event?.target?.id
-    console.log(id)
+   
     if(modals.search.state && id !== 'toggle-modal'){
       dispatch(closeModal('search'))
     }

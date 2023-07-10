@@ -19,6 +19,7 @@ import SupportModal from '../../assets/components/supportModal/SupportModal'
 import copyText from '../../utils/copyText'
 import CustomAlert from '../../assets/components/CustomAlert/CustomAlert'
 import MenuCloseAnim from '../../assets/lotties-animations/menu.json'
+import sliceAddress from '../../utils/sliceAddress'
 import styles from '../styles/user-settings.module.scss'
 
 export default function UserSettings({disconnect,user}) {
@@ -129,7 +130,7 @@ export default function UserSettings({disconnect,user}) {
                       <Image src={icons.photo} alt={'user-photo'}/>     
                       }    
                     </div>
-                    <span className={styles.username}>{user?.address ? user.address : 'Username'}
+                    <span className={styles.username}>{user?.address ? sliceAddress(user.address) : 'Username'}
                     </span>
                   </div>
                   <button 

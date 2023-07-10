@@ -1,13 +1,17 @@
 import { useEffect, useRef, useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useRouter } from 'next/router'
-import { openModalWithoutBlock, toggleModalWithoutBlock } from '../../store/slices/modalsSlice'
 import Image from 'next/image'
 import Link from 'next/link'
-import Logo from '../../assets/icons/no-name-logo.svg'
-import CloseSvg from '../../assets/icons/close.svg'
+import Lottie from 'lottie-react'
+import menuCloseLottie from '../../assets/lotties-animations/menu.json'
+import { toggleModalWithoutBlock,openModal } from '../../store/slices/modalsSlice'
+import Logo from '../../assets/icons/noname-logo.svg'
+import nonameGif from '../../assets/video/noname.gif'
 import socialmediaicons from '../../assets/icons/no-name-socialmedia/socialmedia'
+import CookieAlert from '../../assets/components/cookieAlert/CookieAlert'
 import Burger from '../../assets/components/nonameBurger/Burger'
+import CookieTools from '../../utils/cookieTools'
 import styles from '../styles/no-name.module.scss'
 
 const listNNInfo = [
@@ -47,29 +51,6 @@ const listInvest = [
     href:'/business'
   },
 ]
-
-// const links = [
-//   {
-//     name:'NFT Marketplace',
-//     href:'/marketplace'
-//   },
-//   {
-//     name:'Leaderboard',
-//     href:'/leaderboard'
-//   },
-//   {
-//     name:'Dashboard',
-//     href:'/dashboard'
-//   },
-//   {
-//     name:'Calendar',
-//     href:'/calendar'
-//   },
-//   {
-//     name:'Blog',
-//     href:'/blog'
-//   },
-// ]
 
 export default function NoNamePage({socialMedia,whitepaper,shillClub}) {
   const [links,setLinks] = useState(() => [
@@ -133,19 +114,26 @@ export default function NoNamePage({socialMedia,whitepaper,shillClub}) {
   }
 
   useEffect(() => {
+    const checkCookie = () => {
+      if(CookieTools.get('nonameVisit') !== 'true'){
+        dispatch(openModal('cookie'))
+      }
+    }
+    checkCookie()
     attemptPlay();
   }, []);
 
   return (
+    <>
     <div 
     onClick={navModalHandler} 
     className={styles.body}>
+      <div className={styles.container}>
       <div className={styles.burgerWrapper}>
         <Burger
         id={'open-modal'}
         />
       </div>
-      <div className={styles.container}>
         <div className={styles.info}>
           <Image
           className={styles.logo} 
@@ -156,10 +144,11 @@ export default function NoNamePage({socialMedia,whitepaper,shillClub}) {
             designed to open the world of investments for you.</p>
           <div className={styles.socialmedia}>
             {
-              socialMedia?.map((socialItem) => {
+              socialMedia?.map((socialItem,index) => {
                 return (
                   <a 
-                  href='/'
+                  target='_blank'
+                  href={socialItem.link}
                   key={socialItem.alt}
                   className={styles.socialmediaItem}>
                     <Image src={socialmediaicons[socialItem.alt]} alt={socialItem.alt}/>
@@ -176,19 +165,15 @@ export default function NoNamePage({socialMedia,whitepaper,shillClub}) {
           </button>
         </div>
         <div className={styles.column}>
-
-            <div className={styles.videoWrapper}>
-              <video
-              className={styles.video}
-              loop
-              muted
-              ref={videoEl}
-              src={'https://noname-backend-production.up.railway.app/api/static/no-name.webm'}
-              />
+            <div className={styles.gifWrapper}>
+              <figure>
+                <Image 
+                className={styles.nonameGif}
+                src={nonameGif} alt='noname'/>
+              </figure>
             </div>
         </div> 
-      </div>
-      <div 
+        <div 
           id='toggle-modal'
           className={
           isVisible
@@ -201,7 +186,7 @@ export default function NoNamePage({socialMedia,whitepaper,shillClub}) {
             id='open-modal'
             className={styles.closeBtn}
           >
-            <Image src={CloseSvg} alt='close'/>
+            <Lottie animationData={menuCloseLottie}/>
           </button>
           <div id='toggle-modal' className={styles.menuСhapter}>
             <Link href={'/info'} className={styles.chapterLink}>
@@ -209,10 +194,10 @@ export default function NoNamePage({socialMedia,whitepaper,shillClub}) {
             </Link>
             <div id='toggle-modal' className={styles.list}>
               {
-                listNNInfo.map((link) => {
+                listNNInfo.map((link,index) => {
                   return (
                     <Link 
-                    key={link.href}
+                    key={index}
                     className={styles.link} 
                     href={link.href}>
                       {link.name}
@@ -228,10 +213,10 @@ export default function NoNamePage({socialMedia,whitepaper,shillClub}) {
             </div>
             <div id='toggle-modal' className={styles.list}>
               {
-                listInvest.map((link) => {
+                listInvest.map((link,index) => {
                   return (
                     <Link 
-                    key={link.href}
+                    key={index}
                     className={styles.link} 
                     href={link.href}>
                       {link.name}
@@ -243,10 +228,11 @@ export default function NoNamePage({socialMedia,whitepaper,shillClub}) {
           </div>
           <div id='toggle-modal' className={styles.chapters}>
               {
-                links.map((link) => {
+                links.map((link,index) => {
                   if(link.type === 'a'){
                     return (
                       <a
+                      key={index}
                       className={styles.chapterLink}
                       target='_blank'
                       href={link.href}
@@ -255,10 +241,9 @@ export default function NoNamePage({socialMedia,whitepaper,shillClub}) {
                       </a>
                     )
                   }
-
                   return (
                     <Link 
-                    key={link.href}
+                    key={index}
                     href={link.href} 
                     className={styles.chapterLink}>
                       {link.name}
@@ -268,6 +253,9 @@ export default function NoNamePage({socialMedia,whitepaper,shillClub}) {
               }
           </div>
        </div>
+      </div>
     </div>
+    <CookieAlert type='main'/>
+    </>
   )
 }

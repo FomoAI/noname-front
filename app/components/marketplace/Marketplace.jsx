@@ -138,49 +138,6 @@ const nfts = [
     },
 ]
 
-// const collectionsInitialState = [
-//     {
-//         _id:'123123',
-//         filter:'nonamekey',
-//         projectData:{},
-//         name:'No name key',
-//         nfts:nfts,
-//         isPinned:true
-//     },
-//     {
-//         _id:'dfg',
-//         filter:'crypto',
-//         projectData:{},
-//         name:'No name key 2',
-//         nfts:nfts,
-//         isPinned:true
-//     },
-//     {
-//         _id:'gg1',
-//         filter:'business',
-//         projectData:{},
-//         name:'No name key 3',
-//         nfts:nfts,
-//         isPinned:true
-//     },
-//     {
-//         _id:'765643',
-//         filter:'zksync',
-//         projectData:{},
-//         name:'No name key 4',
-//         nfts:nfts,
-//         isPinned:false
-//     },
-//     {
-//         _id:'6346',
-//         filter:'crypto',
-//         projectData:{},
-//         name:'No name key 5',
-//         nfts:nfts,
-//         isPinned:false
-//     },
-// ]
-
 export default function Marketplace({collectionsData}) {
     const [collections,setCollection] = useState(collectionsData)
     const listForSaleVisible = useSelector((state) => state.modals.listForSale.state)

@@ -4,7 +4,18 @@ import { useRef , useEffect} from 'react'
 import closeSvg from '../../icons/close.svg'
 import Image from 'next/image'
 
-export default function Modal({bodyClass = 'none',handler,isVisible,title = '',width = '',padding ='16',children}) {
+export default function Modal({
+    bodyClass = 'none',
+    handler,
+    isVisible,
+    title = '',
+    width = '',
+    padding ='16',
+    overflowY = 'unset',
+    children
+}) 
+    {
+
     const nodeRef = useRef(null)
     const transitionStyles = {
         entering: { opacity: 1 ,visibility:'visible'},
@@ -17,7 +28,12 @@ export default function Modal({bodyClass = 'none',handler,isVisible,title = '',w
         <Transition in={isVisible} timeout={1000} nodeRef={nodeRef}>
                 {
                     (state) => (
-                        <div id={'toggle-modal'} onClick={handler}  ref={nodeRef} style={{...transitionStyles[state]}} className={styles.modal}>
+                        <div 
+                        id={'toggle-modal'} 
+                        onClick={handler}  
+                        ref={nodeRef} 
+                        style={{...transitionStyles[state],overflowY:overflowY}} 
+                        className={styles.modal}>
                         <div style={{maxWidth:`${width}px`,padding:`${padding}px`}} className={styles.body + ' ' + styles[bodyClass]}>
                             <div className={styles.head}>
                                 <span>{title}</span>

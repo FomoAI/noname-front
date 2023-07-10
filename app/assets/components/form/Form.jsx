@@ -62,7 +62,7 @@ const Form = ({handler,isVisible}) => {
                 <div className={styles.inputs}>
                     <div className={styles.input}>
                         <label htmlFor="email-input">Email</label>
-                        <input placeholder='newuser@gmail.com' value={data.email} onChange={(e) => setData({...data,email:e.target.value})} id={'email-input'} type={'email'}/>
+                        <input placeholder='user@gmail.com' value={data.email} onChange={(e) => setData({...data,email:e.target.value})} id={'email-input'} type={'email'}/>
                     </div>
                     <div className={styles.input}>
                         <label htmlFor="telegram-input">Telegram username</label>
@@ -74,7 +74,11 @@ const Form = ({handler,isVisible}) => {
                         </div>
                         <div className={styles.fakeInput}>
                             <label htmlFor='file-input' className={styles.fake}>{file ? file.name : '+ Add file'}</label>
-                            <input accept="image/png,application/msword,.doc,image/jpeg, application/pdf" onChange={fileHandler} type="file" id={'file-input'} />
+                            <input 
+                            accept="image/png,application/msword,.doc,image/jpeg,application/pdf"
+                            onChange={fileHandler} 
+                            type="file" 
+                            id={'file-input'} />
                         </div>
                     </div>
                 </div>
