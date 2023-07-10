@@ -1,7 +1,13 @@
 .react-calendar {
   min-height: fit-content;
   max-height: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
+}
+
+@media (max-width: 450px) {
+  .react-calendar {
+    min-height: 342px;
+  }
 }
 .react-calendar__navigation__next2-button {
   display: none !important;
@@ -69,7 +75,7 @@
 .react-calendar__month-view__days {
   align-items: center;
   justify-content: center;
-  row-gap: 8px;
+  row-gap: 6px;
   column-gap: 18px;
 }
 .react-calendar__tile {
@@ -94,20 +100,18 @@
   font-weight: 700;
 }
 
-
 .react-calendar__tile.react-calendar__tile--active.react-calendar__tile--range.react-calendar__tile--rangeStart.react-calendar__month-view__days__day {
   background: #ff507d;
   color: white;
   font-weight: 700;
   opacity: 1;
 }
-.react-calendar__tile.react-calendar__tile--active.react-calendar__tile--range.react-calendar__tile--rangeStart.react-calendar__month-view__days__day::before{
-  content: '';
+.react-calendar__tile.react-calendar__tile--active.react-calendar__tile--range.react-calendar__tile--rangeStart.react-calendar__month-view__days__day::before {
+  content: "";
   left: 10px;
-  width:27px;
+  width: 27px;
   height: 28px;
 }
-
 
 .react-calendar__tile.react-calendar__tile--active.react-calendar__tile--range.react-calendar__tile--rangeEnd.react-calendar__month-view__days__day {
   background: #ff507d;
@@ -116,12 +120,11 @@
   opacity: 1;
 }
 .react-calendar__tile.react-calendar__tile--active.react-calendar__tile--range.react-calendar__tile--rangeEnd.react-calendar__month-view__days__day::before {
-  content: '';
+  content: "";
   right: 10px;
-  width:27px;
+  width: 27px;
   height: 28px;
 }
-
 
 .react-calendar__tile.react-calendar__tile--active.react-calendar__tile--range.react-calendar__month-view__days__day {
   position: relative;
@@ -131,10 +134,10 @@
   font-size: 16px;
   line-height: 19px;
   opacity: 1;
-  overflow:visible !important;
+  overflow: visible !important;
 }
-.react-calendar__tile.react-calendar__tile--active.react-calendar__tile--range.react-calendar__month-view__days__day::before{
-  content: '';
+.react-calendar__tile.react-calendar__tile--active.react-calendar__tile--range.react-calendar__month-view__days__day::before {
+  content: "";
   position: absolute;
   display: block;
   background: #ff507d26;
