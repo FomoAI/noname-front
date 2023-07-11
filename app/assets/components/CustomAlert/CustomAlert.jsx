@@ -1,14 +1,48 @@
+import { useMemo } from 'react'
 import closeSvg from '../../icons/close.svg'
 import Image from 'next/image'
 import styles from './custom-alert.module.scss'
 
-export default function CustomAlert({type = 'error',title,text,handler,isVisible}) {
+export default function CustomAlert({
+    type = 'error',
+    title,
+    text,
+    handler,
+    isVisible,
+    position = 'right',
+    isAutoClose = false
+    }) {
 
     const isVisibleStyles = isVisible ? styles.visible : ''
 
+    const positionStyles = position === 'right' ? styles.right : styles.left
+
+    useMemo(() => {
+        if(isVisible && isAutoClose){
+            setTimeout(() => {
+                handler()
+            },2000)
+        }    
+    },[isVisible])
+
     if(type === 'success'){
         return (
-            <div className={styles.body + " " + styles.success + " " + isVisibleStyles}>
+            <div 
+            className={
+                styles.body 
+                + 
+                " " 
+                + 
+                styles.success 
+                +
+                " " 
+                + 
+                isVisibleStyles 
+                +
+                " "
+                +
+                positionStyles
+            }>
                 <div className={styles.head}>
                     <div className={styles.title + " " + styles.success}>
                         {title}
@@ -26,7 +60,22 @@ export default function CustomAlert({type = 'error',title,text,handler,isVisible
 
     if(type === 'error'){
         return (
-            <div className={styles.body + " " + styles.error + " " + isVisibleStyles}>
+            <div 
+            className={
+                styles.body 
+                + 
+                " " 
+                + 
+                styles.error 
+                +
+                " " 
+                + 
+                isVisibleStyles 
+                +
+                " "
+                +
+                positionStyles
+                }>
                 <div className={styles.head}>
                     <div className={styles.title + " " + styles.error}>
                         {title}

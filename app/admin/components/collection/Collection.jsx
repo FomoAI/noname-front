@@ -1,40 +1,16 @@
-import { useMemo, useState } from 'react'
-import useProjects from '../../../hooks/useProjects'
-import ProjectsList from '../projectsList/ProjectsList'
+import { useState , useMemo } from 'react'
 import Image from 'next/image'
-import SquareBtn from '../../../components/UI/buttons/SquareLightBtn'
-import Input from '../../UI/Input'
-import AddBtn from '../../UI/AddBtn'
-import arrowSvg from '../../../assets/icons/arrow-rotate.svg'
-import styles from '../../styles/collections.module.scss'
 import loader from '../../../utils/loader'
-
-const inputsInitialState = [
-    {
-        label:'Collection title',
-        name:'title',
-        placeholder:'Noname key',
-        type:'text',
-    },
-    {
-        label:'Metadata API',
-        name:'metadataLink',
-        placeholder:'https://example.com/metadata',
-        type:'text',
-    },
-    {
-        label:'NFT Quantity',
-        name:'quantity',
-        placeholder:'2222',
-        type:'number',
-    },
-    {
-        label:'Smart contract',
-        name:'smart',
-        placeholder:'0x0bB8f9686368A12eD34332E50A7b3bE0e25e3a14',
-        type:'text',
-    },
-]
+import NftsList from '../nftsList/NftsList'
+import SquareBtn from '../../../components/UI/buttons/SquareLightBtn'
+import sliceAddress from '../../../utils/sliceAddress'
+import pinSvg from '../../../assets/icons/pin.svg'
+import ProjectsList from '../projectsList/ProjectsList'
+import arrowSvg from '../../../assets/icons/arrow-rotate.svg'
+import {AiOutlineEdit} from 'react-icons/ai'
+import {AiOutlineDelete} from 'react-icons/ai'
+import styles from "../../styles/collection.module.scss";
+import Input from '../../UI/Input'
 
 const types = [
     {
@@ -55,20 +31,22 @@ const types = [
     },
 ]
 
-export default function CreateCollection({addCollection}) {
+export default function Collection(
+    {
+        collection,
+        pinHandler,
+        removeCollection,
+        editCollection,
+        projects
+    }) {
+        
+    const [isEdit,setIsEdit] = useState(false)
+    const [collectionData,setCollectionData] = useState(collection)
+
     const [isTypeSelect,setIsTypeSelect] = useState(false)
     const [isProjectSelect,setIsProjectSelect] = useState(false)
-    const [selectedType,setSelectedType] = useState('Select type')
-    const [selectedProject,setSelectedProject] = useState('Select project')
-    const [isNewCollecton,setIsNewCollection] = useState(false)
-    const {allProjects} = useProjects({})
-    const [newCollectionData,setNewCollectionData] = useState({
-        title:'',
-        metadataLink:'',
-        smart:'',
-        quantity:0,
-    })
-
+    const [selectedType,setSelectedType] = useState(collectionData.type)
+    const [selectedProject,setSelectedProject] = useState(collectionData.project)
     const [searchValue,setSearchValue] = useState('')
 
     const typeSelectHandler = () => {
@@ -82,63 +60,66 @@ export default function CreateCollection({addCollection}) {
     }
 
     const inputHandler = (name,value) => {
-        setNewCollectionData({...newCollectionData,[name]:value})
+        setCollectionData({...collectionData,[name]:value})
     }
 
-    const confirmCreateCollection = () => {
-        if(!newCollectionData.metadataLink || !newCollectionData.quantity || !newCollectionData.title){
-            alert('Title, Metadata API and NFT Quantity must filled')
-            return
-        }
-        if(typeof selectedProject === 'string' || selectedType === 'Select type'){
-            alert('Please, select project and collection type')
-            return
-        }
-
-        addCollection({
-            ...newCollectionData,
+    const confrimEditCollection = async () => {
+        const collectionToEdit = {
+            title:collectionData.title,
+            smart:collectionData.smart,
             type:selectedType,
             project:selectedProject,
-        })
+        }   
+      
+        setIsEdit(false)
 
-        setIsProjectSelect(false)
+        await editCollection(collection._id,collectionToEdit,selectedProject._id || collection.project._id)
     }
 
     const filteredProjects = useMemo(() => {
         if(!searchValue){
-            return allProjects
+            return projects
         }
-        return allProjects.filter((project) => {
+        return projects.filter((project) => {
             return project.title.toLowerCase().includes(searchValue.toLowerCase())
         })
 
-    },[searchValue,allProjects])
-    
+    },[searchValue,projects])
+
   return (
-    <div className={styles.body}>
-        {
-            isNewCollecton
-            ?
-            <div className={styles.create}>
-                <div className={styles.inputs}>
-                    {
-                        inputsInitialState.map((input,index) => {
-                            return (
-                                <Input
-                                key={index}
-                                type={input.type}
-                                placeholder={input.placeholder}
-                                value={newCollectionData[input.name]}
-                                handler={inputHandler}
-                                label={input.label}
-                                name={input.name}
-                                />
-                            )
-                        })
-                    }
-                </div>
-                <div className={styles.lists}>
-                  <div className={styles.typeSelect}>
+    isEdit
+    ?
+    <div className={styles.collection + ' ' + styles.edit}>
+      <div className={styles.editActions}>
+        <div className={styles.cancelBtn}>
+          <SquareBtn
+            width='120'
+            handler={() => setIsEdit(false)}
+            text={'Cancel'}
+          />
+        </div>
+        <div className={styles.confirmBtn}>
+          <SquareBtn
+            width='120'
+            type='red'
+            handler={confrimEditCollection}
+            text={'Confrim'}
+          />
+        </div>
+      </div>
+      <div className={styles.title}>Edit collection</div>
+      <div className={styles.collectionInfo}>
+        <div className={styles.infoRow + ' ' + styles.editRow}>
+          <div className={styles.collectionDetails + ' ' + styles.editDetails}>
+            <div className={styles.infoItem + ' ' + styles.editItem}>
+              <Input
+              handler={inputHandler}
+              value={collectionData.title}
+              name={'title'}
+              label={'Title:'}
+              />
+            </div>
+            <div className={styles.typeSelect + ' ' + styles.editItem}>
                     <div className={styles.label}>
                         Type:
                     </div>
@@ -159,7 +140,7 @@ export default function CreateCollection({addCollection}) {
                         {
                             isTypeSelect
                             ?
-                            <div className={styles.types}>
+                            <div className={styles.types }>
                             {
                                 types.map((type,index) => {
                                     return(
@@ -181,7 +162,16 @@ export default function CreateCollection({addCollection}) {
                         }
                     </div>
                   </div>
-                  <div className={styles.projectsWrapper}>
+            <div className={styles.infoItem + ' ' + styles.editItem}>
+                <Input
+                handler={inputHandler}
+                value={collectionData.smart}
+                name={'smart'}
+                label={'Smart contract:'}
+                />
+            </div>
+          </div>
+          <div className={styles.projectsWrapper}>
                         <div className={styles.label}>
                             Project:
                         </div>
@@ -236,25 +226,72 @@ export default function CreateCollection({addCollection}) {
                             :
                             <></>
                         }
-                  </div>
-                </div>
-                <div className={styles.btns}>
-                    <SquareBtn
-                    text={'Cancel'}
-                    handler={() => setIsNewCollection(false)}
-                    />
-                    <SquareBtn
-                    type='red'
-                    text={'Create'}
-                    handler={confirmCreateCollection}
-                    />
-                </div>
-            </div>
-            :
-            <AddBtn 
-            handler={() => setIsNewCollection(true)}
-            />
-        }
+          </div>
+        </div>
+      </div>
     </div>
-  )
+    :
+    <div className={styles.collection}>
+      <button onClick={() => pinHandler(collection)} className={styles.pinBtn}>
+        {collection.isPinned ? (
+          <Image src={pinSvg} alt="pin" />
+        ) : (
+          <Image className={styles.notPin} src={pinSvg} alt="pin" />
+        )}
+      </button>
+      <div className={styles.deleteBtn}>
+        <SquareBtn
+            width='60'
+          handler={() => removeCollection(collection)}
+          text={<AiOutlineDelete/>}
+        />
+      </div>
+      <div className={styles.editBtn}>
+        <SquareBtn
+            width='60'
+          handler={() => setIsEdit(true)}
+          text={<AiOutlineEdit/>}
+        />
+      </div>
+      <div className={styles.title}>Collection info</div>
+      <div className={styles.collectionInfo}>
+        <div className={styles.infoRow}>
+          <div className={styles.collectionDetails}>
+            <div className={styles.infoItem}>
+              <span className={styles.key}>Title:</span>
+              <span className={styles.value}>{collection.title}</span>
+            </div>
+            <div className={styles.infoItem}>
+              <span className={styles.key}>Type:</span>
+              <span className={styles.value}>{collection.type}</span>
+            </div>
+            <div className={styles.infoItem}>
+              <span className={styles.key}>Smart contract:</span>
+              <span className={styles.value}>
+                {sliceAddress(collection.smart)}
+              </span>
+            </div>
+          </div>
+          <div className={styles.projectDetails}>
+            <div className={styles.key}>Project:</div>
+            <div className={styles.projectInfo}>
+              <img src={loader(collection.project.img)} alt="project img" />
+              <div className={styles.projectInfoRow}>
+                <div className={styles.projectTitle}>
+                  {collection.project.title}
+                </div>
+                <div className={styles.projectType}>
+                  {collection.project.type}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className={styles.collectionsNfts}>
+          <div className={styles.title}>Nfts ({collection.nfts.length}):</div>
+          <NftsList nfts={collection.nfts} />
+        </div>
+      </div>
+    </div>
+  );
 }

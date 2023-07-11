@@ -7,6 +7,9 @@
     max-width: 88%;
     margin: 0 auto;
   }
+  @media (max-width:450px) {
+    max-width: 95%;
+  }
 }
 .collections {
   width: 100%;
@@ -31,6 +34,10 @@
   display: flex;
   align-items: center;
   gap: 12px;
+
+  @media (max-width:550px) {
+    flex-direction: column;
+  }
 }
 .title {
   margin: 10px 0 0 10px;
@@ -45,6 +52,11 @@
   border-radius: 20px;
   transition: background 0.3s ease;
   padding: 25px 10px;
+
+  @media (max-width:450px) {
+    max-width: 100%;
+    margin: 25px auto;
+  }
 }
 .btns {
   margin-top: 24px;
@@ -55,6 +67,9 @@
   display: flex;
   gap: 15px;
   margin: 0px 0px 15px;
+  @media (max-width:740px) {
+    flex-direction: column;
+  }
 }
 .rotate {
   transform: rotate(180deg);
@@ -76,6 +91,7 @@
 .selectWrapper {
   max-width: fit-content;
   position: relative;
+
 }
 
 .types {
@@ -85,7 +101,7 @@
   background: white;
   padding: 8px;
   border-radius: 4px;
-
+  z-index: 1;
   display: flex;
   flex-direction: column;
   gap: 7px;

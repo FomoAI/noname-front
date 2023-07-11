@@ -1,13 +1,14 @@
 import { useState } from 'react'
 import Image from 'next/image'
-import { useDispatch ,useSelector} from 'react-redux'
-import { closeModal, toggleModal } from '../../../store/slices/modalsSlice'
+import { useDispatch } from 'react-redux'
+import { closeModal } from '../../../store/slices/modalsSlice'
 import Modal from '../modal/Modal'
 import CustomCalendar from '../calendar/Calendar'
 import CustomAlert from '../CustomAlert/CustomAlert'
 import ApproveCollection from './ApproveCollection'
 import SquareBtn from '../../../components/UI/buttons/SquareLightBtn'
 import CheckBox from '../../../components/UI/inputs/CheckBox'
+import TimeInput from '../timeInput/TimeInput'
 import arrowSvg from '../../../assets/icons/arrow-rotate.svg'
 import styles from './list-for-sale.module.scss'
 
@@ -62,7 +63,7 @@ export default function ListForSale({isVisible,handler}) {
             setIsApproveCollection(false)
         },[1000])
     }
-
+   
   return (
     <>
     <Modal 
@@ -124,6 +125,7 @@ export default function ListForSale({isVisible,handler}) {
                 Floor price: 0,0016 ETH
                 </div>
             <CheckBox
+            id='none'
             handler={() => setFloorPrice((prev) => !prev)}
             isChecked={floorPrice}
             />
@@ -195,11 +197,9 @@ export default function ListForSale({isVisible,handler}) {
                 name={'date'}
                 stateHandler={(name,date) => setDate(date)}
                 />
-                <input 
-                onChange={(e) => setTime(e.target.value)}
-                className={styles.input + ' ' + styles.time}
-                placeholder='17:17'
-                id='calendar'/>  
+                <TimeInput
+                handler={(value) => setTime(value)}
+                />
                 <div className={styles.durationWrapper}>
                     <button 
                     onClick={() => setIsDurationList((prev) => !prev)}

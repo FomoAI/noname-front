@@ -33,7 +33,7 @@ export default function AdminCollections({collections}) {
   
   return (
     < >
-      <HeadBlock title={'Admin - News'}/>
+      <HeadBlock title={'Admin - Collections'}/>
       <Layout>
         <Collections collectionsInitial={collections}/>
       </Layout>

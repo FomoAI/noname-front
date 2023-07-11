@@ -1,7 +1,6 @@
 .body {
   position: absolute;
   top: -10%;
-  right: 5%;
   z-index: 100000;
   border-radius: 8px;
   width: 280px;
@@ -16,6 +15,12 @@
   visibility: hidden;
   transition: all 0.3s ease;
   
+}
+.left{
+  left: 5%;
+}
+.right{
+  right: 5%;
 }
 .body.visible{
   top: 12%;

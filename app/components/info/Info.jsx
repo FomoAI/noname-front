@@ -52,9 +52,9 @@ export default function Info({data}) {
                 <Image src={ventures} alt='ventures'/>
             </div>
             <div className={styles.text}>
-            No name is a multipurpose investments platform which 
+            Noname is a multipurpose investments platform which 
             enables the possibility to invest in various assets. 
-            No name plays at both sides: allows you to set up your
+            Noname plays at both sides: allows you to set up your
             own startup or find an attractive asset/project to
             invest in. We are aiming at building our ecosystem 
             in zkSync. All projects that are represented on our 
@@ -71,7 +71,7 @@ export default function Info({data}) {
                 </SubTitle>
                 <div className={styles.aboutText}>
                 <div>
-                No name is an investment platform designed to open the world of investments for you. 
+                Noname is an investment platform designed to open the world of investments for you. 
                 We are building a whole new ecosystem using zkSync L2 which ensures safety and 
                 rapidity of transactions. Growing up fast, zkSync L2 is one of the best solutions
                  for Ethereum network with low gas prices and safety that is guaranteed by zero- knowledge
@@ -83,7 +83,7 @@ export default function Info({data}) {
                     </p>
                 </div>
                 <b>
-                    That is why No name offers you various assets to invest in, such as:
+                    That is why Noname offers you various assets to invest in, such as:
                 </b>
                 <ul>
                     <li>Business</li>
@@ -96,7 +96,7 @@ export default function Info({data}) {
                      descriptions about terms, perspectives etc. 
                 </p>
                 <b>
-                    On the other hand, No name offers a chance for would-be businessmen 
+                    On the other hand, Noname offers a chance for would-be businessmen 
                     to receive the help and support that is needed. It includes:
                 </b>
                 <ul>
@@ -106,13 +106,13 @@ export default function Info({data}) {
                     <li>Advertising, etc.</li>
                 </ul>
                 <p>
-                    With No name, the world of investments will become simple and available for everyone. 
+                    With Noname, the world of investments will become simple and available for everyone. 
                 </p>
                 </div>
             </div>
             <div className={styles.features}>
                 <SubTitle>
-                Why No name?
+                Why Noname?
                 </SubTitle>
                 <div className={styles.featuresText}>
                     <p style={{'textAlign':'center'}}>
@@ -122,7 +122,7 @@ export default function Info({data}) {
                         <div className={styles.featuresColum}>
                             <b>Not only money</b>
                             <p style={{'textAlign':'center'}}>
-                            Alongside with funding No name offers a capable
+                            Alongside with funding Noname offers a capable
                              team of professionals, including lawyers, accountants,
                              business consultants, advertising specialists who are 
                              willing to help you anyway they can
@@ -140,7 +140,7 @@ export default function Info({data}) {
                             <b>Easy and fast </b>
                             <p style={{'textAlign':'center'}}>
                             Start your own business within minutes with 
-                            No name and support that we provide
+                            Noname and support that we provide
                             </p>
                         </div>
                     </div>

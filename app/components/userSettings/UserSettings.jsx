@@ -1,6 +1,6 @@
 import icons from '../../assets/icons/user/user'
 import Image from 'next/image'
-import { useState , useRef} from 'react'
+import { useState , useRef, useMemo} from 'react'
 import { Transition } from 'react-transition-group'
 import { useSelector , useDispatch} from 'react-redux'
 import { useRouter } from 'next/router'
@@ -35,7 +35,6 @@ export default function UserSettings({disconnect,user}) {
   const cart = useSelector((state) => state.cart.cart)
   const dispatch = useDispatch()
   const nodeRef = useRef(null)
-  const referall = useRef(null)
 
   const transitionStyles = {
     entering: { opacity: 1 ,visibility:'visible'},
@@ -77,6 +76,14 @@ export default function UserSettings({disconnect,user}) {
     setIsCustomAlert(true)
     copyText(user._id)
   }
+
+  useMemo(() => {
+    if(refCoppied){
+      setTimeout(() => {
+        setRefCoppied(false)
+      },2000)
+    }
+  },[refCoppied])
 
   return (
     <>
@@ -291,6 +298,8 @@ export default function UserSettings({disconnect,user}) {
     isVisible={support}
     />
     <CustomAlert
+    isAutoClose={true}
+    position='left'
     type={'success'}
     title={'Сopied!'}
     text={`You have successfully copied a referral link`}
