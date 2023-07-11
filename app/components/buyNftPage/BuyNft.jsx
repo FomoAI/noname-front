@@ -3,10 +3,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import manSvg from '../../assets/icons/man.svg'
 import SquareBtn from '../UI/buttons/SquareLightBtn'
-import styles from '../styles/buy-nft.module.scss'
 import NftDetails from '../../assets/components/nftDetails/NftDetails'
 import CustomAlert from '../../assets/components/CustomAlert/CustomAlert'
 import nftImage from '../../assets/img/nft-image.png'
+import loader from '../../utils/loader'
+import styles from '../styles/buy-nft.module.scss'
 
 export default function BuyNft({nft}) {
   const [isCustomAlert,setIsCustomAlert] = useState(false)
@@ -15,7 +16,7 @@ export default function BuyNft({nft}) {
   const [isMakeOrder,setIsMakeOrder] = useState(false)
   const [isBuyAccess,setIsBuyAccess] = useState(false)
   const [orderValue,setOrderValue] = useState(0)
-  const [name,id] = nft.name.split('#') 
+  const [name,id] = nft?.nftTitle?.split('#') 
 
   const confrimValue = () => {
     setIsMakeOrder(false)
@@ -42,12 +43,12 @@ export default function BuyNft({nft}) {
         <div
         className={styles.currentNft}
         >
-        {nft.name}
+        {nft?.name}
         </div>
       </div>    
       <div className={styles.main}>
         <div className={styles.img}>
-          <Image src={nftImage} alt={'nft image'}/>
+          <img src={loader(nft.nftImg)} alt={'nft image'}/>
         </div>      
         <div className={styles.info}>
           <div className={styles.creator}>
@@ -60,23 +61,23 @@ export default function BuyNft({nft}) {
               {name}
               </h1>
               <div className={styles.nftId}>
-              #{id}
+              #{id || '-'}
               </div>
             </div>
             <div className={styles.bio}>
               <span>Bio: </span>
-              {nft.description}
+              {nft.nftDescription}
             </div>
           </div>
           <div className={styles.buyBlock}>
             <div className={styles.buyInfo}>
-              <Image src={nftImage} alt='img'/>
+              <img src={loader(nft.nftImg)} alt='img'/>
               <div className={styles.buyDetails}>
                 <div className={styles.buyNftName}>
                   <span>Listed on </span>No name
                 </div>
                 <div className={styles.buyPrice}>
-                  1.004 ETh
+                  {nft.price} ETh
                 </div>
               </div>
             </div>  

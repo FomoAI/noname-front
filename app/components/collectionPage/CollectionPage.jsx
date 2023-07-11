@@ -12,7 +12,9 @@ import styles from '../styles/collection-page.module.scss'
 
 
 
-export default function CollectionNftsPage({data}) {
+export default function CollectionNftsPage({data,isNftPage}) {
+    const [nftsValue,setNftsValue] = useState(16)
+    const [isMaxNfts,setIsMaxNfts] = useState(data?.nfts.length < 16)
     const [searchValue,setSearchValue] = useState('')
     const [filters,setFilters] = useState({
         rarity:{
@@ -46,12 +48,12 @@ export default function CollectionNftsPage({data}) {
     const filterNfts = (nfts,filters) => {
         const filterResult = nfts.filter((nft) => {
             const isValid = [];
+          
+            isValid.push(nft.rarity >= filters.rarity.min && nft.rarity <= filters.rarity.max) 
             
-            isValid.push(nft.rarity > filters.rarity.min && nft.rarity < filters.rarity.max) 
-            
-            isValid.push(nft.price > filters.price.min && nft.price < filters.price.max) 
+            isValid.push(nft.price >= filters.price.min && nft.price <= filters.price.max) 
 
-            isValid.push(nft.share > filters.share.min && nft.share < filters.share.max)
+            isValid.push(nft.share >= filters.share.min && nft.share <= filters.share.max)
 
             if(filters.rank){
                 for (let i = 0; i < nft.attributes.length; i++) {
@@ -67,19 +69,28 @@ export default function CollectionNftsPage({data}) {
         return filterResult
     }
 
+    const showMoreNfts = () => {
+        setIsMaxNfts((nftsValue + 16) >= data?.nfts.length)
+        setNftsValue((prev) => prev += 16)
+    }
+
     const filteredAndFindedNfts = useMemo(() => {
-        const findedNfts = data.collection.nfts.filter((nft) => {
+        const findedNfts = data.nfts.filter((nft) => {
             return nft.name.toLowerCase().includes(searchValue.toLowerCase())
         })
-
+ 
         const filteredNfts = filterNfts(findedNfts,filters)
 
-        return filteredNfts
-    },[filters,searchValue])
+        return filteredNfts.slice(0,nftsValue)
+    },[filters,searchValue,nftsValue])
 
   return (
     <div className={styles.body}>
-        <CollectionInfo projectData={data}/>
+        <CollectionInfo 
+        nftId={data.nftId}
+        isNftPage={isNftPage}
+        collectionData={data}
+        />
         <div className={styles.actionsRow}>
                 <div className={styles.filterAndSort}>
                     <NftFilter
@@ -91,8 +102,7 @@ export default function CollectionNftsPage({data}) {
                     />
                 </div>
                 <div className={styles.smartAndOrder}>
-                    <SmartCopy address={'0x0bB8f9686368A12eD34332E50A7b3bE0e25e3a14'}/>
-
+                    <SmartCopy address={data.smart}/>
                 </div>
         </div>
         <div className={styles.nfts}>
@@ -113,6 +123,19 @@ export default function CollectionNftsPage({data}) {
                 </div>
             }
         </div>
+        {
+            isMaxNfts
+            ?
+            <>
+            </>
+            :
+            <div className={styles.moreBtnWrapper}>
+                <button onClick={showMoreNfts} className={styles.moreBtn}>
+                    More {'>'}
+                </button>
+            </div>
+        }
+
     </div>
   )
 }

@@ -26,6 +26,7 @@ export default function SmartCopy({address}) {
         </button>
     </div>
     <CustomAlert
+    isAutoClose={true}
     isVisible={isCopied}
     handler={() => setIsCopied(false)}
     type={'success'}

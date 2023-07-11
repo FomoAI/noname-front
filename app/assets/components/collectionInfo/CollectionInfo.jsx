@@ -10,6 +10,7 @@ import loader from '../../../utils/loader'
 import arrowSvg from '../../icons/arrow-rotate.svg'
 import heartSvg from '../../icons/heart.svg'
 import heartFillSvg from '../../icons/heartFill.svg'
+import icons from '../../icons/socialmedia/socialmedia'
 import styles from './collection-info.module.scss'
 
 const timeFilters = [
@@ -20,13 +21,14 @@ const timeFilters = [
     '1Y'
 ]
 
-export default function CollectionInfo({projectData}) {
+export default function CollectionInfo({collectionData,isNftPage,nftId}) {
   const [selectedFilter,setSelectedFilter] = useState('7D')
   const [isTimeFilter,setIsTimeFilter] = useState(false)
   const user = useSelector((state) => state.auth.userData)
   const dispatch = useDispatch()
   const router = useRouter()
-  
+  const projectData = collectionData.project
+
   const isFavourite = user?.favourites?.includes(projectData._id)
   
   const changeFilter = (filter) => {
@@ -61,7 +63,7 @@ export default function CollectionInfo({projectData}) {
         dispatch(openModal('wallet'))
         return
     }
-    router.push(`/nft/123`)
+    router.push(`/nft/${nftId}`)
   }
 
   return (
@@ -71,22 +73,40 @@ export default function CollectionInfo({projectData}) {
             <div className={styles.mainInfo}>
                 <img
                 className={styles.projectImg}
-                src={loader(projectData.img)}
+                src={
+                    isNftPage
+                    ?
+                    loader(collectionData.nftImg)
+                    :
+                    loader(projectData.img)
+                }
                 alt='project image'/>
                 <div className={styles.infoWrapper}>
                     <h1 className={styles.title}>
-                    {projectData.title}
+                    {
+                        isNftPage
+                        ?
+                        collectionData.nftTitle
+                        :
+                        projectData.title
+                    }
                     </h1>
                     <div className={styles.descriptionWrapper}>
                         <div className={styles.decription}>
-                            {projectData.type}
+                            {
+                                isNftPage
+                                ?
+                                collectionData.nftDescription
+                                :
+                                projectData.description
+                            }
                         </div>
                         <div className={styles.socialmedia}>
                             {
                                 projectData.socialmedia.map((item) =>{
                                     return (
                                         <a key={item.alt} href={item.link}>
-                                            <Image src={item.icon} alt={item.alt}/>
+                                            <Image src={icons[item.alt]} alt={item.alt}/>
                                         </a>
                                     )
                                 })
@@ -180,7 +200,7 @@ export default function CollectionInfo({projectData}) {
                 <div className={styles.infoDetailsItems}>
                     <div className={styles.infoItem}>
                         <div className={styles.value}>
-                            {projectData.goal}
+                            {projectData.goal || '-'}
                         </div>
                         <div className={styles.key}>
                         Total Raised
@@ -188,7 +208,7 @@ export default function CollectionInfo({projectData}) {
                     </div>
                     <div className={styles.infoItem}>
                         <div className={styles.value}>
-                            {projectData.lastFunding}
+                            {projectData.lastFunding || '-'}
                         </div>
                         <div className={styles.key}>
                         Last Funding
@@ -196,7 +216,7 @@ export default function CollectionInfo({projectData}) {
                     </div>
                     <div className={styles.infoItem}>
                         <div className={styles.value}>
-                            {projectData.type}
+                            {projectData.type || '-'}
                         </div>
                         <div className={styles.key}>
                             Type
@@ -216,17 +236,30 @@ export default function CollectionInfo({projectData}) {
                 </button>
             </div>   
             <div className={styles.bio}>
-                <span>Bio: </span> {projectData.description}
+                <span>Bio: </span>   
+                {
+                    isNftPage
+                    ?
+                    collectionData.nftDescription
+                    :
+                    projectData.description
+                }
             </div>   
-            <div className={styles.makeOrderBtn}>
-                <SquareBtn
-                width='180' 
-                height='44'
-                fontSize='17px'
-                text={'+ Make order'}
-                handler={makeOrderHandler}
-                />
-            </div>           
+            {
+                isNftPage
+                ?
+                <div className={styles.makeOrderBtn}>
+                    <SquareBtn
+                    width='180' 
+                    height='44'
+                    fontSize='17px'
+                    text={'+ Make order'}
+                    handler={makeOrderHandler}/>
+                </div>
+                :
+                <></>
+            }
+           
             </div>
         </div>
         <div className={styles.statistics}>
@@ -237,7 +270,7 @@ export default function CollectionInfo({projectData}) {
                         Market Cap
                     </div>
                     <div className={styles.statisticValue}>
-                        {projectData.statistics.marketCap}
+                        {projectData.marketCap || '-'}
                     </div>
                 </div>
                 <div className={styles.infoItem}>
@@ -245,7 +278,7 @@ export default function CollectionInfo({projectData}) {
                     Supply
                     </div>
                     <div className={styles.statisticValue}>
-                        {projectData.statistics.supply}
+                        {projectData.supply || '-'}
                     </div>
                 </div>
                 <div className={styles.infoItem}>
@@ -253,7 +286,7 @@ export default function CollectionInfo({projectData}) {
                     Listed
                     </div>
                     <div className={styles.statisticValue}>
-                        {projectData.statistics.listed}
+                        {projectData.listed || '-'}
                     </div>
                 </div>
                 <div className={styles.infoItem}>
@@ -261,7 +294,7 @@ export default function CollectionInfo({projectData}) {
                     Owners
                     </div>
                     <div className={styles.statisticValue}>
-                        {projectData.statistics.owners}
+                        {projectData.owners || '-'}
                     </div>
                 </div>
                 <div className={styles.infoItem}>
@@ -269,7 +302,7 @@ export default function CollectionInfo({projectData}) {
                     Total Volume
                     </div>
                     <div className={styles.statisticValue}>
-                        {projectData.statistics.totalVolume}$
+                        {projectData.totalVolume ? `${projectData.totalVolume}$` : '-'}
                     </div>
                 </div>
                 <div className={styles.infoItem}>
@@ -277,7 +310,7 @@ export default function CollectionInfo({projectData}) {
                     Mint price
                     </div>
                     <div className={styles.statisticValue}>
-                        {projectData.statistics.mintPrice}$
+                        {projectData.mintPrice ? `${projectData.mintPrice}$` : '-'}
                     </div>
                 </div>
                 <div className={styles.infoItem}>
@@ -285,7 +318,7 @@ export default function CollectionInfo({projectData}) {
                     Royalty Fee
                     </div>
                     <div className={styles.statisticValue}>
-                        {projectData.statistics.royaltyFee} %
+                        {projectData.royaltyFee ? `${projectData.royaltyFee}%` : '-'}
                     </div>
                 </div>
                 <div className={styles.infoItem}>
@@ -293,7 +326,7 @@ export default function CollectionInfo({projectData}) {
                     Revenue
                     </div>
                     <div className={styles.statisticValue}>
-                        {projectData.statistics.revenue} %
+                        {projectData.revenue ? `${projectData.revenue}%` : '-'}
                     </div>
                 </div>
             </div>
@@ -304,7 +337,7 @@ export default function CollectionInfo({projectData}) {
                         Market Cap
                     </div>
                     <div className={styles.statisticValue}>
-                        {projectData.statistics.marketCap}
+                        {projectData.marketCap || '-'}
                     </div>
                 </div>
                 <div className={styles.infoItem}>
@@ -312,7 +345,7 @@ export default function CollectionInfo({projectData}) {
                     Supply
                     </div>
                     <div className={styles.statisticValue}>
-                        {projectData.statistics.supply}
+                        {projectData.supply || '-'}
                     </div>
                 </div>
                 <div className={styles.infoItem}>
@@ -320,7 +353,7 @@ export default function CollectionInfo({projectData}) {
                     Listed
                     </div>
                     <div className={styles.statisticValue}>
-                        {projectData.statistics.listed}
+                        {projectData.listed || '-'}
                     </div>
                 </div>
                 <div className={styles.infoItem}>
@@ -328,7 +361,7 @@ export default function CollectionInfo({projectData}) {
                     Owners
                     </div>
                     <div className={styles.statisticValue}>
-                        {projectData.statistics.owners}
+                        {projectData.owners || '-'}
                     </div>
                 </div>
                 </div>
@@ -338,7 +371,7 @@ export default function CollectionInfo({projectData}) {
                     Total Volume
                     </div>
                     <div className={styles.statisticValue}>
-                        {projectData.statistics.totalVolume}$
+                        {projectData.totalVolume ? `${projectData.totalVolume}$` : '-'}
                     </div>
                 </div>
                 <div className={styles.infoItem}>
@@ -346,7 +379,7 @@ export default function CollectionInfo({projectData}) {
                     Mint price
                     </div>
                     <div className={styles.statisticValue}>
-                        {projectData.statistics.mintPrice}$
+                        {projectData.mintPrice ? `${projectData.mintPrice}$` : '-'}
                     </div>
                 </div>
                 <div className={styles.infoItem}>
@@ -354,7 +387,7 @@ export default function CollectionInfo({projectData}) {
                     Royalty Fee
                     </div>
                     <div className={styles.statisticValue}>
-                        {projectData.statistics.royaltyFee} %
+                        {projectData.royaltyFee ? `${projectData.royaltyFee}%` : '-'}
                     </div>
                 </div>
                 <div className={styles.infoItem}>
@@ -362,7 +395,7 @@ export default function CollectionInfo({projectData}) {
                     Revenue
                     </div>
                     <div className={styles.statisticValue}>
-                        {projectData.statistics.revenue} %
+                        {projectData.revenue ? `${projectData.revenue}%` : '-'}
                     </div>
                 </div>
                 </div>

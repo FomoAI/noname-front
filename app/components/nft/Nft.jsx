@@ -23,6 +23,10 @@ export default function     Nft({collectionIndex,toggleShowAllBtn,nft}) {
         router.push(`/marketplace/nft/${nft._id}`)        
     }
 
+    const rarity = nft?.attributes?.find((attr) => {
+        return attr?.trait_type?.toLowerCase() === 'rarity'
+    })
+
   return (
     <div
     onMouseEnter={toggleShowAllBtn ? () => toggleShowAllBtn('over') : () => {}}
@@ -36,12 +40,12 @@ export default function     Nft({collectionIndex,toggleShowAllBtn,nft}) {
         <div 
         onClick={navigateToCollection}
         className={styles.label}>
-            RARE
+            {rarity?.value ? rarity?.value : 'RARE'}
         </div>
         <div 
         onClick={navigateToCollection}
         className={styles.id}>
-           #{id}
+           {id ? `#${id}` : '-'}
         </div>
         <div className={styles.info}>
             <div className={styles.title}>

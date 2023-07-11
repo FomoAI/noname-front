@@ -253,7 +253,6 @@ export default function Collection(
           text={<AiOutlineEdit/>}
         />
       </div>
-      <div className={styles.title}>Collection info</div>
       <div className={styles.collectionInfo}>
         <div className={styles.infoRow}>
           <div className={styles.collectionDetails}>
