@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState , useEffect} from 'react'
 import Image from 'next/image'
 import { useDispatch } from 'react-redux'
 import { closeModal } from '../../../store/slices/modalsSlice'
@@ -10,6 +10,9 @@ import SquareBtn from '../../../components/UI/buttons/SquareLightBtn'
 import CheckBox from '../../../components/UI/inputs/CheckBox'
 import TimeInput from '../timeInput/TimeInput'
 import arrowSvg from '../../../assets/icons/arrow-rotate.svg'
+import SearchList from '../searchList/SearchList'
+import getNftsByName from '../../../services/getNftsByName'
+import loader from '../../../utils/loader'
 import styles from './list-for-sale.module.scss'
 
 const currencyList = [
@@ -25,7 +28,14 @@ const timeList = [
     '1Y'
 ]
 
-export default function ListForSale({isVisible,handler}) {
+export default function ListForSale({collections,isVisible,handler}) {
+    const [allNfts,setAllNfts] = useState([])
+    const [loading,setLoading] = useState(false)
+    const [selectedCollection,setSelectedCollection] = useState(null)
+    const [selectedNft,setSelectedNft] = useState(null)
+    const [collectionSearchValue,setCollectionSearchValue] = useState('')
+    const [nftSearchValue,setNftSearchValue] = useState('')
+
     const [date,setDate] = useState(new Date().toLocaleDateString())
     const [time,setTime] = useState('')
     const [duration,setDuration] = useState('7D')
@@ -63,10 +73,56 @@ export default function ListForSale({isVisible,handler}) {
             setIsApproveCollection(false)
         },[1000])
     }
-   
+
+    const selectCollection = (collection) => {
+        setCollectionSearchValue('')
+        setSelectedCollection(collection)
+    }
+
+    const removeCollection = () => {
+        setSelectedCollection(null)
+        setSelectedNft(null)
+    }
+
+    const selectNft = (nft) => {
+        setNftSearchValue('')
+        setSelectedNft(nft)
+    }
+
+    const performSearch = async () => {
+        try {
+            setLoading(true)  
+
+            const {nfts} = await getNftsByName(selectedCollection._id,nftSearchValue)
+
+            setAllNfts(nfts)
+
+            setLoading(false)  
+        } catch (error) {
+            console.error('Search error: ', error);
+        }
+    };
+
+    const filteredCollections = useMemo(() => {
+        return collections.filter((collection) => {
+            return collection.title.toLowerCase().includes(collectionSearchValue.toLowerCase())
+        })
+    },[collectionSearchValue])
+
+    useEffect(() => {
+        const delayTimer = setTimeout(() => {
+          if (nftSearchValue !== '') {
+            performSearch();
+          }
+        }, 1000);
+    
+        return () => clearTimeout(delayTimer);
+    }, [nftSearchValue]);
+
   return (
     <>
     <Modal 
+    transform='translateX(3px)'
     overflowY='auto'
     width={
         isApproveCollection
@@ -81,40 +137,39 @@ export default function ListForSale({isVisible,handler}) {
     {
         isApproveCollection
         ?
-        <ApproveCollection/>
+        <ApproveCollection
+        nft={selectedNft}
+        />
         :
         <div className={styles.body}>
         <div className={styles.inputs}>
-            <div className={styles.inputWrapper}>
-                <label 
-                className={styles.label}
-                htmlFor='collection-name'>
-                Collection name
-                </label>
-                <input 
-                className={styles.input}
-                placeholder='Name your collection'
-                id='collection-name'/>
-            </div>
-            <div className={styles.inputWrapper}>
-                <label 
-                className={styles.label}
-                htmlFor='collection-name'>
-                NFTs name
-                </label>
-                <input 
-                className={styles.input}
-                placeholder='Name your NFTs'
-                id='collection-name'/>
-            </div>
-        </div>
-        <div className={styles.selectedNft}>
-            <div className={styles.selectedNftTitle}>
-            + Secret NFT Key #2
-            </div> 
-            <div className={styles.selectedNftName}>
-            No name key
-            </div>
+            <SearchList
+            label={'Collection:'} 
+            inputLabel={'Collection name'}
+            btnHandler={removeCollection}
+            items={filteredCollections}
+            selected={selectedCollection} 
+            selectHandler={selectCollection}
+            searchValue={collectionSearchValue}
+            inputHandler={(value) => setCollectionSearchValue(value)}
+            />
+            {
+                selectedCollection
+                ?
+                <SearchList 
+                loading={loading}
+                label={'Nft:'}
+                inputLabel={'Nft name'}
+                btnHandler={() => setSelectedNft('')}
+                items={allNfts}
+                selected={selectedNft} 
+                selectHandler={selectNft}
+                searchValue={nftSearchValue}
+                inputHandler={(value) => setNftSearchValue(value)}
+                />
+                :
+                <></>
+            }
         </div>
         <div className={styles.price}>
             <div className={styles.key}>
@@ -253,6 +308,7 @@ export default function ListForSale({isVisible,handler}) {
         </div>
     }
     <SquareBtn 
+    disabled={!selectedNft}
     handler={
         isApproveCollection
         ?
@@ -307,8 +363,3 @@ export default function ListForSale({isVisible,handler}) {
   )
 }
 
-
-// <input 
-// className={styles.input + ' ' + styles.date}
-// placeholder='08.08.2023'
-// id='calendar'/>   

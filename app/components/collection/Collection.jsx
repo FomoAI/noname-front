@@ -1,23 +1,27 @@
-import { useRef,useState, useLayoutEffect } from 'react'
-import Image from 'next/image'
+import { useRef,useState, useLayoutEffect, useMemo } from 'react'
 import { useRouter } from 'next/router'
+import Image from 'next/image'
+import useWindowDimensions from '../../hooks/useWindow'
 import Nft from '../nft/Nft'
+import CustomLoader from '../../assets/components/loader/Loader'
+import getNftsByCollectionId from '../../services/getNftsByCollectionId'
 import pinnedSvg from '../../assets/icons/pin.svg'
 import styles from '../styles/collections.module.scss'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Scrollbar, A11y } from 'swiper';
-import useWindowDimensions from '../../hooks/useWindow'
 import 'swiper/css';
 import 'swiper/css/navigation';
 
 
 export default function Collection({collection}) {
+    const [nfts,setNfts] = useState(collection.nfts)
+    const [currentNftsValue,setCurrentNftsValue] = useState(16)
     const currentCollection = useRef(null)
     const swiperRef = useRef(null)
     const prevArrow = useRef(null)
-    let currentTranform = 0
+    const currentTranform = useRef(0)
     
-    const [swipeValue,setSwipeValue] = useState(309.25)
+    const [swipeValue,setSwipeValue] = useState(307)
     const [slides,setSlides] = useState(4)
     const [spaceBetween,setSpaceBetween] = useState(17)
     const {width} = useWindowDimensions()
@@ -38,16 +42,33 @@ export default function Collection({collection}) {
         }
     }
 
+
     const onSwipe = (swiper) => {
         const translateValue = Math.abs(swiper.translate)
 
         if(translateValue === 0){
             prevArrow.current.style.display = 'none'
         }else{
-            prevArrow.current.style.display = 'block'
+            blockNextBtn()
         }
             
-        currentTranform =  translateValue
+        currentTranform.current = translateValue
+    }
+
+    const transformToCollectionStart = () => {
+        const nftsRow = currentCollection.current.querySelector('.swiper-wrapper')
+
+        currentTranform.current = 0
+
+        prevArrow.current.style.display = 'none'
+
+        nftsRow.style.transition = `0.3s ease`
+
+        nftsRow.style.transform = `translate3d(${currentTranform.current}px,0px,0px)`
+    }
+
+    const blockNextBtn = () => {
+        prevArrow.current.style.display = 'block'
     }
 
     const swiperHandler = (action = 'next-slide' || 'prev-slide') => {
@@ -65,45 +86,65 @@ export default function Collection({collection}) {
     }
 
     const nextSlide = (maxTranslate,nftsRow) => {
-        if(maxTranslate <= currentTranform){
-            currentTranform = 0
-
-            prevArrow.current.style.display = 'none'
-
-            nftsRow.style.transition = `0.3s ease`
-
-            nftsRow.style.transform = `translate3d(${currentTranform}px,0px,0px)`
+        if(maxTranslate <= currentTranform.current){
+            getNfts()
 
             return
         }
 
         prevArrow.current.style.display = 'block'
 
-        currentTranform = currentTranform + swipeValue
+        currentTranform.current = currentTranform.current + swipeValue
 
         nftsRow.style.transition = `0.3s ease`
 
-        nftsRow.style.transform = `translate3d(-${currentTranform}px,0px,0px)`
+        nftsRow.style.transform = `translate3d(-${currentTranform.current}px,0px,0px)`
+
     }
 
     const prevSlide = (maxTranslate,nftsRow) => {
-        if((currentTranform - swipeValue) <= 0){
-            currentTranform = 0
+        if((currentTranform.current - swipeValue) <= 0){
+            currentTranform.current = 0
 
             prevArrow.current.style.display = 'none'
 
             nftsRow.style.transition = `0.3s ease`
 
-            nftsRow.style.transform = `translate3d(-${currentTranform}px,0px,0px)`
+            nftsRow.style.transform = `translate3d(-${currentTranform.current}px,0px,0px)`
 
             return
         } 
 
-        currentTranform = currentTranform - swipeValue
+        currentTranform.current = currentTranform.current - swipeValue
 
         nftsRow.style.transition = `0.3s ease`
 
-        nftsRow.style.transform = `translate3d(-${currentTranform}px,0px,0px)`
+        nftsRow.style.transform = `translate3d(-${currentTranform.current}px,0px,0px)`
+    }
+
+    const getNfts = async () => {
+
+        const {nftsData} = await getNftsByCollectionId(
+            collection._id,
+            currentNftsValue,
+            currentNftsValue + 16
+        )
+
+        if(!nftsData.length){
+            transformToCollectionStart()
+
+            return
+        }
+
+        setCurrentNftsValue(currentNftsValue + 16) 
+        
+        setNfts((prev) => {
+            return [...prev,...nftsData]
+        })
+
+        setTimeout(() => {
+            swiperHandler('next-slide')
+        },10)
     }
 
     useLayoutEffect(() => {
@@ -144,7 +185,7 @@ export default function Collection({collection}) {
             setSpaceBetween(17)
         }
         if(width < 420){
-            setSlides(0.9995)
+            setSlides(1.001)
             setSpaceBetween(15)
         }
     },[width])
@@ -177,6 +218,7 @@ export default function Collection({collection}) {
             <div className={styles.nfts}>
             <Swiper
             ref={swiperRef}
+            onReachEnd={() => getNfts()}
             className='nfts-swiper'
             onSlideChange={onSwipe}
             modules={[Scrollbar, A11y]}
@@ -184,9 +226,9 @@ export default function Collection({collection}) {
             slidesPerView={slides || 4}
             >
                 {
-                    collection.nfts.map((nft) => {
+                    nfts.map((nft,index) => {
                         return (
-                            <SwiperSlide  className='nft-slide' key={nft._id}>
+                            <SwiperSlide className='nft-slide' key={nft._id + index}>
                                 <Nft 
                                 toggleShowAllBtn={toggleShowAllBtn} 
                                 nft={nft}/>

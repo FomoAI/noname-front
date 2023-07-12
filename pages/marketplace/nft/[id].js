@@ -348,7 +348,7 @@ export async function getServerSideProps(context) {
 }
 
 export default function NftPage({nft}) {
-  console.log(nft)
+
   return (
     <>
     <HeadBlock title={'NFT Marketplace - Nft'}/>

@@ -12,6 +12,7 @@ export default function Modal({
     width = '',
     padding ='16',
     overflowY = 'unset',
+    transform = 'translate(0px,0px)',
     children
 }) 
     {
@@ -34,7 +35,9 @@ export default function Modal({
                         ref={nodeRef} 
                         style={{...transitionStyles[state],overflowY:overflowY}} 
                         className={styles.modal}>
-                        <div style={{maxWidth:`${width}px`,padding:`${padding}px`}} className={styles.body + ' ' + styles[bodyClass]}>
+                        <div 
+                        style={{maxWidth:`${width}px`,padding:`${padding}px`,transform:transform}} 
+                        className={styles.body + ' ' + styles[bodyClass]}>
                             <div className={styles.head}>
                                 <span>{title}</span>
                                 <button className={styles.closeBtn} id={'toggle-modal'} type={'button'}>

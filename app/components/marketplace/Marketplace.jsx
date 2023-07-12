@@ -203,6 +203,7 @@ export default function Marketplace({collectionsData}) {
         </div>
     </div>
     <ListForSale 
+    collections={collectionsData}
     isVisible={listForSaleVisible} 
     handler={modalHandler}
     />

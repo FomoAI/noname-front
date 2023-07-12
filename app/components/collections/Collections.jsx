@@ -1,20 +1,35 @@
-import { useRef } from 'react'
-import Image from 'next/image'
-import pinnedSvg from '../../assets/icons/pin.svg'
+import { useRef, useState } from 'react'
 import styles from '../styles/collections.module.scss'
 import Collection from '../collection/Collection'
 
 export default function Collections({collections}) {
+  const [maxCollections,setMaxCollections] = useState(5)
+
+  const showMoreCollections = () => {
+    setMaxCollections(collections.length)
+  }
 
   return (
     <div className={styles.body}>
         {
-            collections.map((collection,index) => {
+            collections.slice(0,maxCollections).map((collection,index) => {
                 return (
                     <Collection collection={collection} key={collection._id}/>
                 )
             })
         }
+        {
+          collections.length !== maxCollections
+          ?
+          <div className={styles.moreBtnWrapper}>
+          <button onClick={showMoreCollections} className={styles.moreBtn}>
+              More {'>'}
+          </button>
+          </div>
+          :
+          <></>
+        }
+
     </div>
   )
 }

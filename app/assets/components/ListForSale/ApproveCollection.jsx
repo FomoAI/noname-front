@@ -4,23 +4,21 @@ import nftImg from '../../../assets/img/img1.jpg'
 import styles from './list-for-sale.module.scss'
 
 
-export default function ApproveCollection({handler}) {
+export default function ApproveCollection({nft,handler}) {
   return (
     <div className={styles.approveNft}>
     <div className={styles.approveNftWrapper}>
-        <Image 
-        width={40}
-        height={40}
+        <img 
         className={styles.approveNftImg}
-        src={nftImg} 
+        src={loader(nft.image)} 
         alt='nft-img'
         />
         <div className={styles.approveNftInfo}>
             <div className={styles.approveNftTitle}>
-                Secret NFT Key #2
+                {nft.name}
             </div>
             <div className={styles.approveNftDescription}>
-                No name key
+                {nft.type}
             </div>
         </div>
     </div>

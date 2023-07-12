@@ -1,15 +1,19 @@
 import {config} from '../config/api.js'
 
-export default async () => {
+export default async (startLimit = 0,endLimit = 16) => {
     try{
-        const responce = await fetch(config.createUrl('collections'))
+        const responce = await fetch(config.createUrl(`collections/${startLimit}/${endLimit}`))
         
         if(!responce.ok){
             return {success:false,projects:[]}
         }   
         const {success,collections} = await responce.json()
         
-        return {success,collections}
+        const sortedCollections = collections.sort((a,b) => {
+            return b?.isPinned - a?.isPinned
+        })  
+        console.log(sortedCollections)
+        return {success,collections:sortedCollections}
 
     }catch(error){
         console.log(error)

@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useDispatch,useSelector } from 'react-redux'
 import { openModal } from '../../store/slices/modalsSlice'
+import getNftByCollectionId from '../../services/getNftsByCollectionId'
 import CollectionInfo from '../../assets/components/collectionInfo/CollectionInfo'
 import NftSearchBar from '../../assets/components/nftSearchBar/NftSearchBar'
 import NftFilter from '../../assets/components/nftFilter/NftFilter'
@@ -10,9 +11,8 @@ import Nft from '../../components/nft/Nft'
 import SquareBtn from '../UI/buttons/SquareLightBtn'
 import styles from '../styles/collection-page.module.scss'
 
-
-
 export default function CollectionNftsPage({data,isNftPage}) {
+    const [nfts,setNfts] = useState(data.nfts)
     const [nftsValue,setNftsValue] = useState(16)
     const [isMaxNfts,setIsMaxNfts] = useState(data?.nfts.length < 16)
     const [searchValue,setSearchValue] = useState('')
@@ -31,9 +31,6 @@ export default function CollectionNftsPage({data,isNftPage}) {
         },
         rank:''
     })    
-    const isAuth = useSelector((state) => state.auth.userData.isAuth)
-    const router = useRouter()
-    const dispatch = useDispatch()
 
     const filterHandler = (name,value) => {
         setFilters((prev) => {
@@ -69,20 +66,25 @@ export default function CollectionNftsPage({data,isNftPage}) {
         return filterResult
     }
 
-    const showMoreNfts = () => {
-        setIsMaxNfts((nftsValue + 16) >= data?.nfts.length)
+    const showMoreNfts = async () => {        
+        const {nftsData} = await getNftByCollectionId(data._id,nftsValue,nftsValue + 16)
+        console.log([...nftsData,...nfts].length)
+        setIsMaxNfts((nftsValue + 16) > [...nftsData,...nfts].length)
+
+        setNfts([...nfts,...nftsData])
+        
         setNftsValue((prev) => prev += 16)
     }
 
     const filteredAndFindedNfts = useMemo(() => {
-        const findedNfts = data.nfts.filter((nft) => {
+        const findedNfts = nfts.filter((nft) => {
             return nft.name.toLowerCase().includes(searchValue.toLowerCase())
         })
  
         const filteredNfts = filterNfts(findedNfts,filters)
 
-        return filteredNfts.slice(0,nftsValue)
-    },[filters,searchValue,nftsValue])
+        return filteredNfts
+    },[filters,searchValue,nfts])
 
   return (
     <div className={styles.body}>

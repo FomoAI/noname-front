@@ -48,7 +48,7 @@ export default function Collection(
     const [selectedType,setSelectedType] = useState(collectionData.type)
     const [selectedProject,setSelectedProject] = useState(collectionData.project)
     const [searchValue,setSearchValue] = useState('')
-
+    
     const typeSelectHandler = () => {
         setIsTypeSelect((prev) => !prev)
         setIsProjectSelect(false)
@@ -85,7 +85,7 @@ export default function Collection(
         })
 
     },[searchValue,projects])
-
+    
   return (
     isEdit
     ?
@@ -287,7 +287,7 @@ export default function Collection(
           </div>
         </div>
         <div className={styles.collectionsNfts}>
-          <div className={styles.title}>Nfts ({collection.nfts.length}):</div>
+          <div className={styles.title}>Nfts ({collection.quantity}):</div>
           <NftsList nfts={collection.nfts} />
         </div>
       </div>
