@@ -12,7 +12,7 @@ export default async (startLimit = 0,endLimit = 16) => {
         const sortedCollections = collections.sort((a,b) => {
             return b?.isPinned - a?.isPinned
         })  
-        console.log(sortedCollections)
+
         return {success,collections:sortedCollections}
 
     }catch(error){

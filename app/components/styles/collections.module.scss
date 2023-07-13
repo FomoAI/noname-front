@@ -17,6 +17,10 @@
 .nfts {
   margin-top: 27px;
   height: 295px;
+  @media (max-width:420px) {
+    width: fit-content;
+    margin: 27px auto 0;
+  }
 }
 .nftsWrapper {
   position: relative;
@@ -29,6 +33,7 @@
 .showAll {
   position: absolute;
   bottom: 10px;
+  right: 9px;
   z-index: 1;
   width: 100%;
   display: flex;

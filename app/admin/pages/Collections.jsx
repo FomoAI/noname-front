@@ -17,11 +17,6 @@ export default function Collections({collectionsInitial}) {
 
       setLoading(false) 
 
-      if(!success){
-        alert('Something went wrong...')
-        return
-      }
-      
       window.location.reload()
     }
 

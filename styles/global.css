@@ -201,8 +201,22 @@ input[type="range"]::-moz-range-track {
   .nfts-swiper .swiper-wrapper {
     height: 385px;
   }
+  
 }
-
+@media (max-width: 385px) {
+  .nfts-swiper {
+    padding: 0px 4px !important;
+    max-width: 315px;
+    width: 100%;
+  }
+  .swiper-slide.nft-slide {
+    max-width: 315px;
+    justify-content: center;
+  }
+  .nfts-swiper .swiper-wrapper {
+    height: 385px;
+  }
+}
 .line {
   margin: 0;
   border: none;

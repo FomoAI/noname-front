@@ -42,7 +42,6 @@ export default function Collection({collection}) {
         }
     }
 
-
     const onSwipe = (swiper) => {
         const translateValue = Math.abs(swiper.translate)
 
@@ -130,7 +129,9 @@ export default function Collection({collection}) {
             currentNftsValue + 16
         )
 
-        if(!nftsData.length){
+        const isMobile = width < 450
+
+        if(!nftsData.length && !isMobile){
             transformToCollectionStart()
 
             return
@@ -143,7 +144,9 @@ export default function Collection({collection}) {
         })
 
         setTimeout(() => {
-            swiperHandler('next-slide')
+            if(!isMobile){
+                swiperHandler('next-slide')
+            }
         },10)
     }
 
@@ -185,7 +188,8 @@ export default function Collection({collection}) {
             setSpaceBetween(17)
         }
         if(width < 420){
-            setSlides(1.001)
+            // setSlides(1.0000001)
+            setSlides(1)
             setSpaceBetween(15)
         }
     },[width])
