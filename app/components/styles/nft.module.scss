@@ -19,11 +19,11 @@
   position: relative;
   max-width: 290px;
   border-radius: 16px;
-  background: #fff;
+  background: white;
   box-shadow: 4px 4px 10px 0px #eee;
 
   @media (max-width: 450px) {
-    box-shadow:4px -5px 10px 0px #eee;
+    box-shadow:4px -6px 10px 0px #eee;
     max-width: 85vw;
     width: 100%;
     margin: 0 auto;
@@ -187,7 +187,7 @@
     opacity: 1;
     height: 70px;
     background: #fff;
-    box-shadow: 4px 7px 10px -1px #eee;
+    box-shadow: 4px 8px 10px -1px #eee;
     border-bottom-left-radius: 16px;
     border-bottom-right-radius: 16px;
   }
@@ -203,7 +203,7 @@
   border-top-left-radius: 0px;
   border-top-right-radius: 0px;
   background: #fff;
-  box-shadow: 4px 4px 10px 0px #eee;
+  box-shadow: 4px 8px 10px -1px #eee;
   opacity: 1;
   z-index: 0;
   transition: all 0.4s ease;
