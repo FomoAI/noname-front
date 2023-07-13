@@ -22,7 +22,7 @@
   background: #fff;
   box-shadow: 4px 4px 10px 0px #eee;
   @media (max-width: 450px) {
-    box-shadow:4px -3px 10px 0px #eee;
+    box-shadow:4px -5px 10px 0px #eee;
     max-width: 85vw;
     width: 100%;
     margin: 0 auto;
@@ -72,6 +72,7 @@
   }
 }
 .info {
+  background: white;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -173,16 +174,17 @@
   z-index: 0;
   height: 0px;
   overflow: hidden;
+  background: white;
   opacity: 0;
   transition: height 0.4s ease;
   @media (max-width: 450px) {
     max-width: 100%;
     width: 100%;
-    top: 298px;
+    top: 300px;
     opacity: 1;
     height: 70px;
     background: #fff;
-    box-shadow: 4px 4px 10px 0px #eee;
+    box-shadow: 4px 7px 10px -1px #eee;
     border-bottom-left-radius: 16px;
     border-bottom-right-radius: 16px;
   }
@@ -206,7 +208,7 @@
   @media (max-width: 450px) {
     max-width: 100%;
     width: 100%;
-    top: 298px;
+    top: 300px;
     opacity: 1;
     height: 70px;
     background: #fff;
