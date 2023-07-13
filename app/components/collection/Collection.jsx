@@ -187,10 +187,12 @@ export default function Collection({collection}) {
             setSlides(1.36)
             setSpaceBetween(17)
         }
-        if(width < 420){
-            // setSlides(1.0000001)
-            setSlides(1)
-            setSpaceBetween(15)
+        if(width < 450){
+            setSlides(1.0005)
+            setSpaceBetween(18)
+        }
+        if(width < 390){
+            setSlides(1.0003)
         }
     },[width])
 

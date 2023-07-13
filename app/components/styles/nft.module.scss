@@ -6,8 +6,9 @@
   border-top-left-radius: 16px;
   cursor: pointer;
   border-top-right-radius: 16px;
-  @media (max-width: 420px) {
-    width: 84vw;
+  @media (max-width: 450px) {
+    max-width: 100%;
+    width: 100%;
     max-height: 240px;
   }
   @media (max-width: 385px) {
@@ -20,9 +21,9 @@
   border-radius: 16px;
   background: #fff;
   box-shadow: 4px 4px 10px 0px #eee;
-  @media (max-width: 420px) {
-    box-shadow:4px 1px 10px 0px #eee;
-    max-width: 84vw;
+  @media (max-width: 450px) {
+    box-shadow:4px -3px 10px 0px #eee;
+    max-width: 85vw;
     width: 100%;
     margin: 0 auto;
     border-bottom-left-radius: 0px;
@@ -66,7 +67,7 @@
   box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.164);
   color: black;
 
-  @media (max-width: 420px) {
+  @media (max-width: 450px) {
     top: 200px;
   }
 }
@@ -114,6 +115,10 @@
     background: #fd2f66;
   }
   height: 35px;
+  @media (max-width:450px) {
+    max-width: 92%;
+    height: 45px;
+  }
 }
 .btnRed {
   width: 100%;
@@ -139,6 +144,8 @@
     cursor: default;
   }
   height: 35px;
+
+
 }
 
 .actions {
@@ -147,6 +154,10 @@
   button {
     width: 128px;
     height: 35px;
+    @media (max-width:450px) {
+      width: 135px;
+      height: 45px;
+    }
   }
 }
 
@@ -164,9 +175,10 @@
   overflow: hidden;
   opacity: 0;
   transition: height 0.4s ease;
-  @media (max-width: 420px) {
-    width: 84vw;
-    top: 301px;
+  @media (max-width: 450px) {
+    max-width: 100%;
+    width: 100%;
+    top: 298px;
     opacity: 1;
     height: 70px;
     background: #fff;
@@ -191,9 +203,10 @@
   z-index: 0;
   transition: all 0.4s ease;
 
-  @media (max-width: 420px) {
-    width: 84vw;
-    top: 301px;
+  @media (max-width: 450px) {
+    max-width: 100%;
+    width: 100%;
+    top: 298px;
     opacity: 1;
     height: 70px;
     background: #fff;

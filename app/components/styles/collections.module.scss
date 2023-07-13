@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   gap: 30px;
-  @media (max-width:420px) {
+  @media (max-width:450px) {
     gap: 150px;
   }
 }
@@ -17,7 +17,7 @@
 .nfts {
   margin-top: 27px;
   height: 295px;
-  @media (max-width:420px) {
+  @media (max-width:450px) {
     width: fit-content;
     margin: 27px auto 0;
   }
@@ -33,13 +33,13 @@
 .showAll {
   position: absolute;
   bottom: 10px;
-  right: 9px;
+  right: 17px;
   z-index: 1;
   width: 100%;
   display: flex;
   justify-content: flex-end;
 
-  @media (max-width:420px) {
+  @media (max-width:450px) {
     bottom: -120px;
   }
 }

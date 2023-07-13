@@ -1,9 +1,7 @@
-import Image from 'next/image'
 import loader from '../../utils/loader'
 import { useRouter } from 'next/router'
 import { useSelector,useDispatch } from 'react-redux'
 import { toggleModal } from '../../store/slices/modalsSlice'
-import nftImage from '../../assets/img/nft-image.png'
 import useCart from '../../hooks/useCart'
 import styles from '../styles/nft.module.scss'
 
