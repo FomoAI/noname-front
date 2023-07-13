@@ -113,7 +113,7 @@ export default function CartModal() {
                         </div>
                         <div className={styles.payValue}>
                             <div className={styles.value}>
-                                {price.eth} ETH
+                                {0} ETH
                             </div>
                             <div className={styles.usdPay}>
                                 ${price.usd}
