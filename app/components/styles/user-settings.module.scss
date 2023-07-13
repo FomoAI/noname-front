@@ -167,6 +167,10 @@
     top: 25px;
     padding: 0px !important;
   }
+
+  @media (max-height:630px) {
+    top:19px;
+  }
 }
 .userInfo {
   display: flex;

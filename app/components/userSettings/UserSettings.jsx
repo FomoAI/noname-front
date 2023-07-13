@@ -107,7 +107,15 @@ export default function UserSettings({disconnect,user}) {
                       <Image src={icons.photo} alt={'user-photo'}/>     
               }
             </div>
-            <span className={styles.username}>{user?.address ? user.address : 'Username'}</span>
+            <span className={styles.username}>
+            {
+            user?.address 
+            ? 
+            user.address 
+            : 
+            'Username'
+            }
+            </span>
             <div style={{...rotateStyles[state]}} className={styles.arrow}>
               <Image src={icons.arrow} alt={'arrow'}/>
             </div>
@@ -137,7 +145,14 @@ export default function UserSettings({disconnect,user}) {
                       <Image src={icons.photo} alt={'user-photo'}/>     
                       }    
                     </div>
-                    <span className={styles.username}>{user?.address ? sliceAddress(user.address) : 'Username'}
+                    <span className={styles.username}>
+                      {
+                      user?.address 
+                      ?
+                      sliceAddress(user.address,'2x4') 
+                      : 
+                      'Username'
+                      }
                     </span>
                   </div>
                   <button 

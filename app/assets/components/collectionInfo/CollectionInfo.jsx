@@ -129,7 +129,13 @@ export default function CollectionInfo({collectionData,isNftPage,nftId}) {
             <div className={styles.priceInfo}>
                 <div className={styles.infoItem}>
                     <div className={styles.key}>
-                    NFT price
+                        {
+                            isNftPage
+                            ?
+                            'NFT price'
+                            :
+                            'Floor price'
+                        }
                     </div>
                     <div className={styles.value + ' ' + styles.priceInfoValue}>
                         {projectData.floorPrice || '$0'}
@@ -139,7 +145,13 @@ export default function CollectionInfo({collectionData,isNftPage,nftId}) {
                 <div className={styles.priceRange}>
                     <div className={styles.priceRangeHead}>
                         <div className={styles.key}>
-                        NFT price range:
+                        {
+                            isNftPage
+                            ?
+                            'NFT price range:'
+                            :
+                            'Floor price range'
+                        }
                         </div>
                         <div className={styles.timeFilterWrapper}>
                                 <button 
@@ -236,7 +248,6 @@ export default function CollectionInfo({collectionData,isNftPage,nftId}) {
                 </button>
             </div>   
             <div className={styles.bio}>
-                <span>Bio: </span>   
                 {
                     isNftPage
                     ?

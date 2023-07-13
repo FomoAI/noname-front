@@ -296,13 +296,7 @@ export default function ListForSale({collections,isVisible,handler}) {
         </div>
         <div className={styles.results}>
             <div>
-                Listing price:     0,0016 ETH
-            </div>
-            <div>
-                Royalty fee:   0%
-            </div>
-            <div>
-                Total potential earnings: 0,0016 ETH
+              Noname fee: 0%
             </div>
         </div>
         </div>
