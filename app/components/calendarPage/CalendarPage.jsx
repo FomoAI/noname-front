@@ -1,12 +1,12 @@
 import { useMemo, useState } from "react"
 import CustomCalendar from "../../assets/components/calendar/Calendar"
-import styles from '../styles/calendar-page.module.scss'
 import ProjectsDates from "../projectsDates/ProjectsDates"
 import parseDate from '../../utils/parseDate'
 import Title from '../../assets/components/title/Title'
 import useProjects from '../../hooks/useProjects'
 import Loader from '../../assets/components/loader/Loader'
 import getPastAndFutureDates from "../../utils/getPastAndFutureDates"
+import styles from '../styles/calendar-page.module.scss'
 
 export default function CalendarPage({dates}) {
   if(!dates?.length){

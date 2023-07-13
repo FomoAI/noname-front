@@ -8,6 +8,7 @@
   }    
 }
 .calendar {
+  max-width: fit-content;
   @media (max-width: 1198px) {
     padding: 0px 40px;
   }
