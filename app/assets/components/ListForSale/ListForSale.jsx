@@ -37,10 +37,12 @@ export default function ListForSale({collections,isVisible,handler}) {
     const [nftSearchValue,setNftSearchValue] = useState('')
 
     const [date,setDate] = useState(new Date().toLocaleDateString())
-    const [time,setTime] = useState('')
+    const [time,setTime] = useState({hours:'',minutes:''})
     const [duration,setDuration] = useState('7D')
     const [currency,setCurrency] = useState('ETH')
     const [floorPrice,setFloorPrice] = useState(false)
+    const [floorPriceValue,setFloorPriceValue] = useState(0.0016)
+    const [price,setPrice] = useState()
 
     const [isCurrencyList,setIsCurrencyList] = useState(false)
     const [isSuccessApprove,setIsSuccessApprove] = useState(false)
@@ -49,6 +51,21 @@ export default function ListForSale({collections,isVisible,handler}) {
     const [isCustomAlert,setIsCustomAlert] = useState(false)
 
     const dispatch = useDispatch()
+
+    const validateData = () => {
+        return !selectedNft || !price || !time.hours || !time.minutes
+    }
+
+    const floorPriceHandler = () => {
+        if(!floorPrice){
+            setPrice(floorPriceValue)    
+            setCurrency('ETH')
+        }else{
+            setPrice('')
+        }
+
+        setFloorPrice((prev) => !prev)
+    }
 
     const changeCurrency = (value) => {
         setCurrency(value)
@@ -181,7 +198,7 @@ export default function ListForSale({collections,isVisible,handler}) {
                 </div>
             <CheckBox
             id='none'
-            handler={() => setFloorPrice((prev) => !prev)}
+            handler={floorPriceHandler}
             isChecked={floorPrice}
             />
             </div>
@@ -194,6 +211,9 @@ export default function ListForSale({collections,isVisible,handler}) {
                 Your price
                 </label>
                 <input 
+                value={price}
+                type='number'
+                onChange={(e) => setPrice(e.target.value)}
                 className={styles.input}
                 placeholder='0.0'
                 id='collection-name'/>
@@ -300,9 +320,9 @@ export default function ListForSale({collections,isVisible,handler}) {
             </div>
         </div>
         </div>
-    }
+    }   
     <SquareBtn 
-    disabled={!selectedNft}
+    disabled={validateData()}
     handler={
         isApproveCollection
         ?

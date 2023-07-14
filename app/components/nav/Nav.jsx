@@ -211,7 +211,27 @@ const Nav = ({userData}) => {
                     </button>
                 </li>
                 {links.map((link,index) => {
-                    return <li key={index}><Link className={styles.link} href={link.href}>{link.title}</Link></li>
+                    if(link.href === '/waitinglist'){
+                        return (
+                            <li key={index}>
+                                <Link 
+                                className={styles.link} 
+                                href={`${link.href}/${userData._id}`}>
+                                    {link.title}
+                                </Link>
+                            </li>
+                        )
+                    }
+
+                    return (
+                        <li key={index}>
+                            <Link 
+                            className={styles.link} 
+                            href={`${link.href}`}>
+                                {link.title}
+                            </Link>
+                        </li>
+                    )
                 })}
                 </ul>
             </nav>

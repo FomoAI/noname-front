@@ -7,6 +7,6 @@ export default (address,sliceType = '5x5') => {
     }
 
     if(sliceType === '2x4'){
-        return `${address.slice(0,2)}....${address.slice(addressLength - 4,addressLength)}`
+        return `${address.slice(0,6)}....${address.slice(addressLength - 4,addressLength)}`
     }
 }

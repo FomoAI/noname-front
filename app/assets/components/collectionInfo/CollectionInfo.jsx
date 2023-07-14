@@ -29,7 +29,13 @@ export default function CollectionInfo({collectionData,isNftPage,nftId}) {
   const router = useRouter()
   const projectData = collectionData.project
 
-  const isFavourite = user?.favourites?.includes(projectData._id)
+  const isFavourite = user?.favourites?.includes(
+    isNftPage
+    ?
+    nftId
+    :
+    collectionData._id
+  )
   
   const changeFilter = (filter) => {
     setSelectedFilter(filter)
@@ -41,21 +47,22 @@ export default function CollectionInfo({collectionData,isNftPage,nftId}) {
         dispatch(toggleModal('wallet'))
         return
     }
-    
+
+
+    const id = isNftPage ? nftId : collectionData._id
     let changedFavourites;
 
     if(isFavourite){
         changedFavourites = user.favourites.filter((projectId) => {
-            return projectId !== projectData._id
+            return projectId !== id
         })
     }else{
-        changedFavourites = [...user.favourites,projectData._id]
+        changedFavourites = [...user.favourites,id]
     }
 
     dispatch(setUserData({...user,favourites:changedFavourites}))
 
-    const {success} = 
-    await favourites(projectData._id,user.address,isFavourite ? 'remove' : 'create')
+    const {success} = await favourites(id,user.address,isFavourite ? 'remove' : 'create')
   }
 
   const makeOrderHandler = () => {

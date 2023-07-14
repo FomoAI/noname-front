@@ -23,7 +23,8 @@ const modalsSlice = createSlice({
         cart:{state:false},
         nftFilter:{state:false},
         collectionsFilter:{state:false},
-        nonameNavigation:{state:false}
+        nonameNavigation:{state:false},
+        waitingListFilter:{state:false},
     },
     reducers:{
         closeModal(state,action){

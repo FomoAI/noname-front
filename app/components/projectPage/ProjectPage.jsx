@@ -35,6 +35,7 @@ export default function ProjectPage({project}) {
   const {state,modalHandler} = useModal()
   const dispatch = useDispatch()
   const isBuyModal = useSelector((state) => state.modals.offers.state)
+  const userData = useSelector((state) => state.auth.userData)
   const router = useRouter()
 
   const buyModalHandler = (event,data) => {
@@ -95,7 +96,7 @@ export default function ProjectPage({project}) {
       <Success/>
       <div className={styles.successBtn}>
         <SquareBtn 
-        handler={() => router.push('/waitinglist')} 
+        handler={() => router.push(`/waitinglist/${userData._id}`)} 
         width='330' 
         text={'Go to waiting list'}/>
       </div>

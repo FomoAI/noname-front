@@ -16,6 +16,7 @@
       font-size: 14px;
     }
     @media (max-width:440px) {
+      margin-left: 0px;
       min-width: 23px;
       width: 100%;
     }
@@ -25,4 +26,10 @@
   height: 35px;
   border-radius: 8px;
   background: #f8f8f9;
+
+  span{
+    @media (max-width:440px) {
+      margin-right: 3px;
+    }
+  }
 }

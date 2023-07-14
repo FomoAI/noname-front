@@ -75,6 +75,9 @@ export default function index({children}) {
     if(modals.collectionsFilter.state && id !== 'toggle-modal'){
       dispatch(closeModalWithoutBlock('collectionsFilter'))
     }
+    if(modals.waitingListFilter.state && id !== 'toggle-modal'){
+      dispatch(closeModalWithoutBlock('waitingListFilter'))
+    }
   }
   
   return (

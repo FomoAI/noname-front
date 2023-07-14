@@ -1,5 +1,3 @@
-import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
 import getCollection from '../../../app/services/getCollection'
 import Layout from '../../../app/components/layout/index'
 import HeadBlock from '../../../app/components/head/Head'

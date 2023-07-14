@@ -1,4 +1,3 @@
-import { useDispatch } from 'react-redux'
 import getCollections from '../../app/services/getCollections'
 import Layout from '../../app/components/layout/index'
 import HeadBlock from '../../app/components/head/Head'
@@ -12,8 +11,6 @@ export async function getServerSideProps() {
 
 
 export default function MarketplacePage({collections}) {
-  const dispatch = useDispatch()
-
   return (
     <>
     <HeadBlock title={'NFT Marketplace'}/>

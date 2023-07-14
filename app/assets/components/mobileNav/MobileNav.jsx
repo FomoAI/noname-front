@@ -29,7 +29,29 @@ const MobileNav = ({navModalState,isAuth,walletsHandler,isVisible,modalHandler,l
                     </button>
                 </li>
                 {links.map((link,index) => {
-                    return <li key={index}><Link id='modal' className={styles.link} href={link.href}>{link.title}</Link></li>
+                    if(link.href === '/waitinglist'){
+                        return (
+                            <li key={index}>
+                                <Link 
+                                id='modal' 
+                                className={styles.link} 
+                                href={`${link.href}/${user._id}`}>
+                                    {link.title}
+                                </Link>
+                            </li>
+                        )
+                    }
+
+                    return (
+                        <li key={index}>
+                            <Link 
+                            id='modal' 
+                            className={styles.link} 
+                            href={`${link.href}`}>
+                                {link.title}
+                            </Link>
+                        </li>
+                    )
                 })}
                 </ul>
             </nav>
