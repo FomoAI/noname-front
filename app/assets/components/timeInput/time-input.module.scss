@@ -20,6 +20,7 @@
       }
     }
     @media (max-width:440px) {
+      padding: 2px 5px;
       margin-left: 0px;
       min-width: 25px;
       width: 100%;
@@ -33,7 +34,6 @@
 
   span{
     @media (max-width:440px) {
-      margin-right: 5px;
     }
   }
 }
