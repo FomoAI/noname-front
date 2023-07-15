@@ -19,7 +19,7 @@ export default function Collections({collections}) {
             })
         }
         {
-          collections.length !== maxCollections
+          collections.length >= maxCollections
           ?
           <div className={styles.moreBtnWrapper}>
           <button onClick={showMoreCollections} className={styles.moreBtn}>
