@@ -2,6 +2,7 @@
   max-width: fit-content;
   display: flex;
   align-items: center;
+  gap: 2px;
   justify-content: center;
   input {
     font-family: inherit;
@@ -14,10 +15,13 @@
     &::placeholder {
       color: rgba(115, 128, 148, 0.5);
       font-size: 14px;
+      @media (max-width:440px) {
+        font-size: 13px;
+      }
     }
     @media (max-width:440px) {
       margin-left: 0px;
-      min-width: 23px;
+      min-width: 25px;
       width: 100%;
     }
   }
@@ -29,7 +33,7 @@
 
   span{
     @media (max-width:440px) {
-      margin-right: 3px;
+      margin-right: 4px;
     }
   }
 }

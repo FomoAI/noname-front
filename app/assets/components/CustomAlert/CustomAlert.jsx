@@ -10,7 +10,7 @@ export default function CustomAlert({
     handler,
     isVisible,
     position = 'right',
-    isAutoClose = false
+    isAutoClose = true
     }) {
 
     const isVisibleStyles = isVisible ? styles.visible : ''
