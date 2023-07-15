@@ -2,15 +2,19 @@ import {config} from '../config/api.js'
 
 export default async (id) => {
    try{
-    const responce = await fetch(config.createUrl(`favourites/${id}`))
+      if(!id || id === 'undefined'){
+         return {success:false,favourites:{projects:[],collections:[],nfts:[]}}
+      }
 
-    const {success,favourites} = await responce.json()
-    
-    return {success,favourites}
+      const responce = await fetch(config.createUrl(`favourites/${id}`))
+
+      const {success,favourites} = await responce.json()
+      
+      return {success,favourites}
 
    }catch(error){
-    console.log(error)
+      console.log(error)
 
-    return {success:false,favourites:[]}
+      return {success:false,favourites:{projects:[],collections:[],nfts:[]}}
    }
 }

@@ -211,7 +211,7 @@ const Nav = ({userData}) => {
                     </button>
                 </li>
                 {links.map((link,index) => {
-                    if(link.href === '/waitinglist'){
+                    if(link.href === '/waitinglist' && userData._id){
                         return (
                             <li key={index}>
                                 <Link 

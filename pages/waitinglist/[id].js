@@ -1,3 +1,4 @@
+
 import HeadBlock from '../../app/components/head/Head'
 import WaitingPage from '../../app/components/waitingPage/WaitingPage'
 import Layout from '../../app/components/layout/index'

@@ -1,11 +1,9 @@
 import { useEffect , useCallback,useState,useMemo, useRef} from 'react'
-import useModal from '../../hooks/useModal'
 import WaitingList from '../waitingList/WaitingList'
 import WaitingListFilter from '../../assets/components/waitingListFilter/WaitingListFilter'
 import { useSelector ,useDispatch} from 'react-redux'
 import {openModal,closeModal} from '../../store/slices/modalsSlice'
 import {setUserData} from '../../store/slices/authSlice'
-import { isMobile } from 'web3modal'
 import favourites from '../../services/favourites'
 import styles from '../styles/waiting.module.scss'
 

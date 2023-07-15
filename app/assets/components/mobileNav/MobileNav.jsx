@@ -29,7 +29,7 @@ const MobileNav = ({navModalState,isAuth,walletsHandler,isVisible,modalHandler,l
                     </button>
                 </li>
                 {links.map((link,index) => {
-                    if(link.href === '/waitinglist'){
+                    if(link.href === '/waitinglist' && user._id){
                         return (
                             <li key={index}>
                                 <Link 

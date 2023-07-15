@@ -1,4 +1,3 @@
-import blockScroll from "../utils/blockScroll"
 import { useCallback , useState } from "react"
 
 export default function useModal() {
