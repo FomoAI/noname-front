@@ -2,7 +2,7 @@
   max-width: fit-content;
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 4px;
   justify-content: center;
   input {
     font-family: inherit;
@@ -33,7 +33,7 @@
 
   span{
     @media (max-width:440px) {
-      margin-right: 4px;
+      margin-right: 5px;
     }
   }
 }
