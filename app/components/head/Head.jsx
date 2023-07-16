@@ -7,11 +7,13 @@ export default function HeadBlock({title}) {
       {
         title !== 'none'
         ?
-        <title>No-name - {title}</title>
+        <title>Noname - {title}</title>
         :
-        <title>No-name</title>
+        <title>Noname</title>
       }
         <meta charset="utf-8" />
+        <meta name="description" content='Noname investing platform'/>
+        <meta name="keywords" content='noname, investing, nft, by nft, nft marketplace, crypto, nft launch, business, public launch, early rounds'/>
         <link rel="shortcut icon" href={'/favicon/favicon.ico'} />
         <link rel="preconnect" href="https://fonts.googleapis.com"/>
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>

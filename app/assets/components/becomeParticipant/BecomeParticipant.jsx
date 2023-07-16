@@ -1,6 +1,7 @@
 import styles from './become.module.scss'
 import SquareBtn from '../../../components/UI/buttons/SquareLightBtn'
 import heartSvg from '../../icons/heart.svg'
+import heartFillSvg from '../../icons/heartFill.svg'
 import favourites from '../../../services/favourites'
 import { useSelector, useDispatch } from 'react-redux'
 import { setUserData } from '../../../store/slices/authSlice'
@@ -12,6 +13,7 @@ import { toggleModal } from '../../../store/slices/modalsSlice'
 export default function BecomeParticipant({project,modalHandler}) {
     const userData = useSelector((state) => state.auth.userData)
     const dispatch = useDispatch()
+    const isFavourite = userData?.favourites?.includes(project._id)
 
     const addProject = async () => {
         if(!userData.isAuth){
@@ -45,7 +47,13 @@ export default function BecomeParticipant({project,modalHandler}) {
             width='524' 
             text={'Participate'} />
             <button onClick={addProject} type={'button'} className={styles.likeBtn}>
-                <Image src={heartSvg} alt='btn'/>
+                <Image src={
+                  isFavourite
+                  ?
+                  heartFillSvg
+                  :
+                  heartSvg
+                } alt='btn'/>
             </button>             
         </div>
       </div>

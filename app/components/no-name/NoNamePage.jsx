@@ -138,7 +138,7 @@ export default function NoNamePage({socialMedia,whitepaper,shillClub}) {
           <Image
           className={styles.logo} 
           src={Logo} 
-          alt='no-name logo'/>
+          alt='Noname'/>
           <h1 className={styles.title}>NONAME</h1>
           <p className={styles.text}>Noname is a multipurpose platform 
             designed to open the world of investments for you.</p>
