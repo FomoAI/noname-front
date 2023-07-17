@@ -79,6 +79,7 @@ export default function Info({data}) {
                     <br/>
                     <p>
                     It is said that the main rule of every investor is to diversify their assets,
+                
                      which means to put your eggs in different baskets.
                     </p>
                 </div>

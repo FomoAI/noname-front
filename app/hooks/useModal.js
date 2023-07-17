@@ -1,4 +1,5 @@
 import { useCallback , useState } from "react"
+import blockScroll from "../utils/blockScroll"
 
 export default function useModal() {
     const [modal,setModal] = useState(false)
