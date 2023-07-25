@@ -18,6 +18,7 @@ import anotherSvg from '../../assets/icons/user/another-wallet.svg'
 import KYCModal from '../../assets/components/KYCModal/KYCModal'
 import MultichainModal from '../../assets/components/multichainwallets/MultichainModal'
 import SupportModal from '../../assets/components/supportModal/SupportModal'
+import SwitchModal from '../../assets/components/switchModal/SwitchModal'
 import copyText from '../../utils/copyText'
 import CustomAlert from '../../assets/components/CustomAlert/CustomAlert'
 import MenuCloseAnim from '../../assets/lotties-animations/menu.json'
@@ -38,22 +39,34 @@ async function getStatus() {
    const provider = new ethers.providers.Web3Provider(window.ethereum);
    const chainId = await provider.getNetwork()
    if (chainId.chainId!=280){
-     await sleep(4000);
      return true
    }
   } catch (err) {
-   console.info('err', err.message);
    await sleep(4000);
    return false
  }
   return false
  }
  
- function sleep(ms) {
-   return new Promise((resolve) => {
-     setTimeout(resolve, ms);
-   });
- }
+ async function changeNetwork(){
+
+  const result= await window.ethereum.request({
+    method: "wallet_addEthereumChain",
+    params: [{
+        chainId: "0x118",
+        rpcUrls: ["https://testnet.era.zksync.dev"],
+        chainName: "zkSync Era Testnet",
+        nativeCurrency: {
+            name: "ETH",
+            symbol: "ETH",
+            decimals: 18
+        },
+        blockExplorerUrls: ["https://goerli.explorer.zksync.io/"]
+    }]
+});
+console.log('Chain',result)
+
+}
 
 
 async function get_nft_b() {
@@ -72,7 +85,7 @@ async function get_nft_b() {
   return ds
  }
  catch (err) {
-  console.info('err in usersettings', err.message);
+
   await sleep(4000);
   return 0
 }
@@ -94,7 +107,7 @@ async function get_nft_ref() {
   return ds
  }
  catch (err) {
-  console.info('err in usersettings', err.message);
+
   await sleep(4000);
   return 0
 }
@@ -117,7 +130,7 @@ async function get_nft_award() {
   return ds
  }
  catch (err) {
-  console.info('err in usersettings', err.message);
+
   await sleep(4000);
   return 0
 }
@@ -216,7 +229,7 @@ export default function UserSettings({disconnect,user}) {
 
     if(event == 'active_switch') {
 
-      changeNetwork().then(result => setOpen(false))
+      changeNetwork().then(result => setOpen_switchModal(false))
       setOpen_switchModal(false)
       return
     }
