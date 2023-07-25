@@ -33,6 +33,29 @@ function sleep(ms) {
 }
 
 
+async function getStatus() {
+  try{
+   const provider = new ethers.providers.Web3Provider(window.ethereum);
+   const chainId = await provider.getNetwork()
+   if (chainId.chainId!=280){
+     await sleep(4000);
+     return true
+   }
+  } catch (err) {
+   console.info('err', err.message);
+   await sleep(4000);
+   return false
+ }
+  return false
+ }
+ 
+ function sleep(ms) {
+   return new Promise((resolve) => {
+     setTimeout(resolve, ms);
+   });
+ }
+
+
 async function get_nft_b() {
  try{
 
@@ -130,6 +153,7 @@ export default function UserSettings({disconnect,user}) {
   const [success,setSuccess] = useState(false)
   const [refCoppied,setRefCoppied] = useState(false)
   const [isCustomAlert,setIsCustomAlert] = useState(false)
+  const [open_switchModal, setOpen_switchModal] = useState(false)
   const router = useRouter()
 
   const state = useSelector((state) => state.modals.settings.state)
@@ -181,6 +205,25 @@ export default function UserSettings({disconnect,user}) {
     setIsCustomAlert(true)
     copyText(user._id)
   }
+
+  const switchModalHandler= (event) => {
+
+    if(typeof event !== 'string' && event.target.id === 'toggle-modal'){
+      event.stopPropagation()
+      setOpen_switchModal(false)
+      return
+    }
+
+    if(event == 'active_switch') {
+
+      changeNetwork().then(result => setOpen(false))
+      setOpen_switchModal(false)
+      return
+    }
+  }
+
+  getStatus().then(result => setOpen_switchModal(result))
+
 
   get_nft_b().then(result => {
     setNFT_bougt(result)})
@@ -438,6 +481,7 @@ export default function UserSettings({disconnect,user}) {
     isVisible={isCustomAlert}
     handler={() => setIsCustomAlert(false)}
     />
+    <SwitchModal handler={switchModalHandler} isVisible={open_switchModal}/>
     </>
   
   )
