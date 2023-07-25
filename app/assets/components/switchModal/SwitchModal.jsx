@@ -13,9 +13,9 @@ export default function SwitchModal({isVisible,handler}) {
     >
         <div className={styles.body}>
             <div className={styles.description}>
-            Please change your dapp browser to Binance Smart Chain to continue
+            Please change your dapp browser to zkSync to continue
             </div>
-            <SquareBtn type='red' width='330' text={'Switch to BSC'}/>
+            <SquareBtn handler={() => handler('active_switch')} type='red' width='330' text={'Switch to zkSync'}/>
         </div>
     </Modal>
   )
