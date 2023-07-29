@@ -78,7 +78,7 @@ export default function SuccessWalletConnect({userData}) {
 
       setTimeout(() => {
         // dispatch(openModal('nonameDao'))
-        dispatch(openModal('loginResult'))
+        dispatch(openModalWithoutBlock('loginResult'))
         setIsSuccessAuth(true)
       },150)
       
