@@ -116,7 +116,7 @@ export default function OffersModal({handler,button_text,button_res}) {
       })
 
     return;
-  });
+  },[]);
   return (
     <>
         {
@@ -147,6 +147,7 @@ export default function OffersModal({handler,button_text,button_res}) {
                 htmlFor='quantity'
                 className={styles.label}>Quantity</label>
                 <BlueInput
+                type='number'
                 id='quantity'
                 value={data.quantity}
                 handler={inputsHandler}
@@ -158,7 +159,13 @@ export default function OffersModal({handler,button_text,button_res}) {
                 className={styles.label}>Price (USDC)</label>
                 <BlueInput
                 id='price'
-                value={global_price.all_price}
+                value={
+                  isNaN(global_price.all_price)
+                  ?
+                  0
+                  :
+                  global_price.all_price
+                }
                 handler={inputsHandler}
                 />
             </div>
