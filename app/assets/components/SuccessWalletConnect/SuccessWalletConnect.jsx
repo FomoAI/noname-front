@@ -40,19 +40,22 @@ export default function SuccessWalletConnect({userData}) {
   }
 
   const stepsHanlder = (stepNumber) => {
-    if(stepNumber === 2 && userData.isNftAccess){
+    // Check nft access
+    // stepNumber === 2 && userData.isNftAccess
+
+    if(stepNumber === 2 && true){
       setSteps((prev) => {
         return {...prev,firstStep:false,secondStep:true}
       })
     }
 
-    if(stepNumber === 2 && !userData.isNftAccess){
-      setSteps((prev) => {
-        return {...prev,firstStep:false,nftAlert:true}
-      })
-      dispatch(openModal('loginResult'))
-      setIsSuccessAuth(false)
-    }
+    // if(stepNumber === 2 && !userData.isNftAccess){
+    //   setSteps((prev) => {
+    //     return {...prev,firstStep:false,nftAlert:true}
+    //   })
+    //   dispatch(openModal('loginResult'))
+    //   setIsSuccessAuth(false)
+    // }
 
     if(stepNumber === 3) { 
       setSteps((prev) => {
@@ -74,9 +77,9 @@ export default function SuccessWalletConnect({userData}) {
       dispatch(setUserData({...userData,isAuth:true}))
 
       setTimeout(() => {
-        dispatch(openModal('nonameDao'))
+        // dispatch(openModal('nonameDao'))
         dispatch(openModal('loginResult'))
-        setIsSuccessAuth(false)
+        setIsSuccessAuth(true)
       },150)
       
     }

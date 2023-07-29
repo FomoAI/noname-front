@@ -277,7 +277,6 @@ const Nav = ({userData}) => {
             />
             <NavModal isVisible={navModalState}/>
             <SuccessWalletConnect userData={userData}/>
-            <AccessToNonameDao/>
             <CartModal/>
         </div>
         </>
