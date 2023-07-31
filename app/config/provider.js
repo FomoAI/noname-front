@@ -9,21 +9,21 @@ import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 //const chains = [chain.mainnet];
 
 export const zkTestnet = {
-  id: 280,
-  name: 'zkSync Era Testnet',
-  network: 'zkSync Era Testnet',
+  id: 324,
+  name: 'zkSync Era Mainnet',
+  network: 'zkSync Era Mainnet',
   nativeCurrency: {
     decimals: 18,
     name: 'ETH',
     symbol: 'ETH',
   },
   rpcUrls: {
-    public: { http: ['https://testnet.era.zksync.dev'] },
-    default: { http: ['https://testnet.era.zksync.dev'] },
+    public: { http: ['https://mainnet.era.zksync.io'] },
+    default: { http: ['https://mainnet.era.zksync.io'] },
   },
   blockExplorers: {
-    etherscan: { name: 'SnowTrace', url: 'https://goerli.explorer.zksync.io/' },
-    default: { name: 'SnowTrace', url: 'https://goerli.explorer.zksync.io/' },
+    etherscan: { name: 'SnowTrace', url: 'https://explorer.zksync.io/' },
+    default: { name: 'SnowTrace', url: 'https://explorer.zksync.io/' },
   }
 }
 
