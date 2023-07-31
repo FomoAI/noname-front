@@ -116,7 +116,7 @@ export default function OffersModal({handler,button_text,button_res}) {
       })
 
     return;
-  },[]);
+  });
   return (
     <>
         {
