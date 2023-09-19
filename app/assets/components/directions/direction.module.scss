@@ -49,6 +49,10 @@
     border-radius: 16px;
     overflow: hidden;
   }
+
+  @media (max-width:450px) {
+    max-height: 240px;
+  }
 }
 
 .itemDescription {
