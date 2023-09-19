@@ -52,35 +52,42 @@ const Header = ({headerData}) => {
     
     return (
         <header className={styles.header}>
-            <div
-            ref={bannerRef} 
-            className={banner ? styles.banner : styles.banner + ' ' + 'hide-banner'}>
-                <div className={styles.message}>
-                    {headerData.message}
-                </div>
-                <div className={styles.timer}>
-                    <div className={styles.time}>
-                        <span>{time.days ? time.days : '0'}d</span>
-                        <span>{time.hours ? time.hours : '0'}h</span>
-                        <span>{time.minutes ? time.minutes : '0'}m</span>
-                        <span>{time.seconds ? time.seconds : '0'}s</span>
+            {
+                headerData?.bannerVisible
+                ?
+                <div
+                ref={bannerRef} 
+                className={banner ? styles.banner : styles.banner + ' ' + 'hide-banner'}>
+                    <div className={styles.message}>
+                        {headerData.message}
                     </div>
-                    <div className={styles.info}>
-                        left to invest in {time.days ? time.days : '0'} days
+                    <div className={styles.timer}>
+                        <div className={styles.time}>
+                            <span>{time.days ? time.days : '0'}d</span>
+                            <span>{time.hours ? time.hours : '0'}h</span>
+                            <span>{time.minutes ? time.minutes : '0'}m</span>
+                            <span>{time.seconds ? time.seconds : '0'}s</span>
+                        </div>
+                        <div className={styles.info}>
+                            left to invest in {time.days ? time.days : '0'} days
+                        </div>
+                    </div>
+                    <div className={styles.linkBody}>
+                        <button
+                        className={styles.projectLink}
+                        onClick={checkAuthAndNavigate}
+                        >
+                            {headerData.linkName}
+                        </button>
+                        <button onClick={hideBanner} className={styles.close}>
+                            <Image src={closeSvg} alt='close'/>
+                        </button>
                     </div>
                 </div>
-                <div className={styles.linkBody}>
-                    <button
-                    className={styles.projectLink}
-                    onClick={checkAuthAndNavigate}
-                    >
-                        {headerData.linkName}
-                    </button>
-                    <button onClick={hideBanner} className={styles.close}>
-                        <Image src={closeSvg} alt='close'/>
-                    </button>
-                </div>
-            </div>
+                :
+                <></>
+            }
+  
             <div className={styles.rows}>
                 <div className={styles.row}>
                         <div className={styles.rowItem}>

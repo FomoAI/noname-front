@@ -6,13 +6,13 @@ import arrowNext from '../../../icons/arrow-next.svg'
 import styles from './more.module.scss'
 
 export default function DirectionMore({onClose,handler,isVisible,moreInfo}) {
-
+    console.log(moreInfo)
   return (
     <Modal 
     padding='34px 43'
     bodyClass='programm-modal'
     closeSize='big'
-    width='1220'
+    width='1120'
     handler={handler}
     onClose={onClose}
     isVisible={isVisible}
@@ -67,7 +67,13 @@ export default function DirectionMore({onClose,handler,isVisible,moreInfo}) {
                                         </div>
                                     </div>
                                 </div>
-                                <div className={styles.nextArrowWrapper}>
+                                <div className={
+                                    moreInfo?.moreBlocks.length === (index + 1)
+                                    ?
+                                    styles.nextArrowWrapper + ' ' + styles.last
+                                    :
+                                    styles.nextArrowWrapper
+                                    }>
                                     <Image 
                                     className={styles.nextArrow} 
                                     src={arrowNext} 
@@ -85,7 +91,7 @@ export default function DirectionMore({onClose,handler,isVisible,moreInfo}) {
                     <div className={styles.cartWrapper}>
                         <Lottie animationData={CartLottie}/>
                     </div>
-                    <span>SOLD OUT</span>
+                    <span>{moreInfo?.moreStatus}</span>
                 </div>
             </div>
     </Modal>

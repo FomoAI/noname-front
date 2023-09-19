@@ -198,7 +198,11 @@ export default function AcademyStudyFormat() {
                                 <Input
                                 label={'Text:'}
                                 value={item.text}
-                                handler={(name,value) => itemInputHandler(index,value)}
+                                handler={(name,value) => {
+                                    if(value.length < 48){
+                                        itemInputHandler(index,value)
+                                    }
+                                }}
                                 />
                             </div>
                             <div className={styles.itemImg}>

@@ -1,6 +1,5 @@
-
 .arrow {
-  max-width: 91px;
+  max-width: 50px;
   transform: rotate(90deg);
 }
 .info {
@@ -31,7 +30,7 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 82px;
+  gap: 62px;
   @media (max-width:450px) {
     gap: 30px;
   }
@@ -40,7 +39,7 @@
   position: relative;
   padding: 28px 24px 14px;
   max-width: 370px;
-  max-height: 220px;
+  max-height: 235px;
   border-radius: 16px;
   border: 0px dashed rgba(83, 98, 124, 0.3);
   background: linear-gradient(
@@ -90,6 +89,6 @@
 .itemDescription {
   color: #0d0f2b;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 400;
   margin-bottom: 70px;
 }

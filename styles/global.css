@@ -324,3 +324,9 @@ input[type="number"] {
     max-width: 100% !important;
   }
 }
+.review-swiper .swiper-pagination-bullet.swiper-pagination-bullet-active{
+  background: black !important;
+}
+.review-swiper .swiper-pagination-bullet{
+  background: black !important;
+}

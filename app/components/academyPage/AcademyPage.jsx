@@ -15,7 +15,6 @@ import Reviews from '../../assets/components/reviews/Reviews'
 import AcademyCommunity from '../academyCommunity/AcademyCommunity'
 import Loader from '../../assets/components/loader/Loader'
 import getAcademyData from '../../services/getAcademyData'
-import getFooter  from  '../../admin/services/footerServices/getFooter'
 
 import logo from '../../assets/img/logo.svg'
 import academySvg from '../../assets/icons/academy-logo.svg'
@@ -116,30 +115,29 @@ export default function AcademyPage() {
     <>
     <main className={styles.body}>
         <div className={styles.langs}>
-            {
-                langs.map((item,index) => {
-                        if(item.isSelected){
-                            return (
-                                    <button 
-                                    onClick={() => langsHandler(item)}
-                                    key={index}
-                                    className={styles.lang + ' ' + styles.selected} 
-                                    >
-                                        {item.name}
-                                    </button>
-                            )
-                        }else{
-                            return (
-                                <button 
-                                onClick={() => langsHandler(item)}
-                                className={styles.lang} 
-                                key={item.name + index}>
-                                    {item.name}
-                                </button>
-                            )
-                        }
-                })
-            }
+                <button 
+                onClick={() => langsHandler({isSelected:false,name:'UA'})}
+                className={
+                    langs[0].isSelected
+                    ?
+                    styles.lang + ' ' + styles.selected
+                    :
+                    styles.lang
+                }>
+                    UA
+                </button>
+                <span>/</span>
+                <button 
+                onClick={() => langsHandler({isSelected:false,name:'ENG'})}
+                className={
+                    langs[1].isSelected
+                    ?
+                    styles.lang + ' ' + styles.selected
+                    :
+                    styles.lang
+                }> 
+                    ENG
+                </button>
         </div>
         <div className={styles.joinUs}>
             <div className={styles.logo}>
@@ -201,7 +199,7 @@ export default function AcademyPage() {
             <Features data={data.academy.features}/>
         </div>
         <div id='price' className={styles.courses}>
-            <Courses data={data.courses}/>
+            <Courses data={data.courses} programms={data.directions.items}/>
         </div>
         <div id='team' className={styles.authors}>
             <Authors data={data.authors}/>

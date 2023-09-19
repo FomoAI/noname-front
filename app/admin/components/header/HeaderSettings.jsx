@@ -1,4 +1,3 @@
-import styles from '../../styles/header-settings.module.scss'
 import Input from '../../UI/Input'
 import SquareBtn from '../../../components/UI/buttons/SquareLightBtn'
 import { useState } from 'react'
@@ -8,11 +7,14 @@ import Success from '../../../assets/components/success/Success'
 import useModal from '../../../hooks/useModal'
 import Loader from '../../../assets/components/loader/Loader'
 import Calendar from '../../../assets/components/calendar/Calendar'
+import CheckBox from '../../../components/UI/inputs/CheckBox'
+import styles from '../../styles/header-settings.module.scss'
 
 const HeaderSettings = ({headerData}) => {
     const [loading,setLoading] = useState(false)
     const {modalHandler,state} = useModal()
     const [data,setData] = useState(headerData[0])
+
     const inputsHandler = (name,value) => {
         setData({...data,[name]:value})
     }
@@ -99,9 +101,17 @@ const HeaderSettings = ({headerData}) => {
                 label={'Ref:'} 
                 placeholder={'https://example.com'}
                 />
-                <div>
 
+                <div className={styles.isVisibleCheckbox}>
+                    <div className={styles.isVisibleLabel}>
+                        Banner visible:
+                    </div>
+                    <CheckBox
+                    isChecked={data.bannerVisible}
+                    handler={() => inputsHandler('bannerVisible',!data.bannerVisible)}
+                    />
                 </div>
+         
                 </div>
             </div>
             <div className={styles.save}>

@@ -1,8 +1,8 @@
 import Image from 'next/image'
 import nonameItem from '../../img/noname-item.png'
 import SubTitle from '../subTitle/SubTitle'
-import styles from './study.module.scss'
 import loader from '../../../utils/loader'
+import styles from './study.module.scss'
 
 const dataInitial = {
     title:'Формат навчання',
