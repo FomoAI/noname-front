@@ -72,6 +72,10 @@ export default function NoNamePage({socialMedia,whitepaper,shillClub}) {
       type:'a'
     },
     {
+      name:'NN Academy',
+      href:'/academy'
+    },
+    {
       name:'Calendar',
       href:'/calendar'
     },

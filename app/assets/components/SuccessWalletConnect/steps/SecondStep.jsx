@@ -1,11 +1,6 @@
-import { useDispatch, useSelector } from 'react-redux'
 import Image from 'next/image'
 import SquareBtn from '../../../../components/UI/buttons/SquareLightBtn'
-import MetaMaskImage from '../../../img/metaMask.svg'
-import smartCopy from '../../../icons/smart-copy.svg'
 import styles from '../success-connect.module.scss'
-import { closeModal, openModal, toggleModal } from '../../../../store/slices/modalsSlice'
-import sliceAddress from '../../../../utils/sliceAddress'
 import discordImage from '../../../img/discord.svg'
 
 export default function SecondStep({steps,stepHandler,userData}) {

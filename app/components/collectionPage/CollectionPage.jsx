@@ -1,14 +1,10 @@
 import { useMemo, useState } from 'react'
-import { useRouter } from 'next/router'
-import { useDispatch,useSelector } from 'react-redux'
-import { openModal } from '../../store/slices/modalsSlice'
 import getNftByCollectionId from '../../services/getNftsByCollectionId'
 import CollectionInfo from '../../assets/components/collectionInfo/CollectionInfo'
 import NftSearchBar from '../../assets/components/nftSearchBar/NftSearchBar'
 import NftFilter from '../../assets/components/nftFilter/NftFilter'
 import SmartCopy from '../../assets/components/smartContractCopy/SmartCopy'
 import Nft from '../../components/nft/Nft'
-import SquareBtn from '../UI/buttons/SquareLightBtn'
 import styles from '../styles/collection-page.module.scss'
 
 export default function CollectionNftsPage({data,isNftPage}) {

@@ -49,16 +49,16 @@
 
 .menu {
   position: absolute;
-  top: -25px;
+  top: -22px;
   right: 30px;
   opacity: 1;
   z-index: 2;
   background: white;
   width: 360px;
-  height: 620px;
+  height: 630px;
   flex-shrink: 0;
   box-shadow: -4px 0px 25px 0px #0000001a;
-  padding: 25px;
+  padding: 20px;
 
   border-radius: 12px;
   border: 1px solid #27548640;
@@ -263,7 +263,7 @@
   color: #0d0f2b;
   font-size: 20px;
   font-weight: 700;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 
   transition: opacity 0.3s ease;
 

@@ -1,20 +1,19 @@
-import icons from '../../assets/icons/user/user'
-import Image from 'next/image'
-import { useState , useRef, useMemo} from 'react'
+import { useState , useRef, useMemo, useEffect} from 'react'
+import { useRouter } from 'next/router'
 import { Transition } from 'react-transition-group'
 import { useSelector , useDispatch} from 'react-redux'
-import { useRouter } from 'next/router'
-import Lottie from 'lottie-react'
 import { ethers } from "ethers";
 import { Contract } from "ethers";
-import { openModal, toggleModal, toggleModalWithoutBlock } from '../../store/slices/modalsSlice'
-import closeSvg from '../../assets/icons/close-gray.svg'
+import { openModal, toggleModalWithoutBlock } from '../../store/slices/modalsSlice'
+import icons from '../../assets/icons/user/user'
+import Image from 'next/image'
+import Lottie from 'lottie-react'
+import bookSvg from '../../assets/icons/book.svg'
 import KYCsvg from '../../assets/icons/user/kyc.svg'
 import walletSvg from '../../assets/icons/wallet.svg'
 import supportSvg from '../../assets/icons/user/support.svg'
 import discordSvg from '../../assets/icons/discordBlue.svg'
 import cartSvg from '../../assets/icons/user/cart.svg'
-import anotherSvg from '../../assets/icons/user/another-wallet.svg'
 import KYCModal from '../../assets/components/KYCModal/KYCModal'
 import MultichainModal from '../../assets/components/multichainwallets/MultichainModal'
 import SupportModal from '../../assets/components/supportModal/SupportModal'
@@ -23,16 +22,14 @@ import copyText from '../../utils/copyText'
 import CustomAlert from '../../assets/components/CustomAlert/CustomAlert'
 import MenuCloseAnim from '../../assets/lotties-animations/menu.json'
 import sliceAddress from '../../utils/sliceAddress'
+import createRefLink from '../../utils/createRefLink'
 import styles from '../styles/user-settings.module.scss'
-
-
 
 function sleep(ms) {
   return new Promise((resolve) => {
     setTimeout(resolve, ms);
   });
 }
-
 
 async function getStatus() {
   try{
@@ -48,7 +45,7 @@ async function getStatus() {
   return false
  }
  
- async function changeNetwork(){
+async function changeNetwork(){
 
   const result= await window.ethereum.request({
     method: "wallet_addEthereumChain",
@@ -67,7 +64,6 @@ async function getStatus() {
 console.log('Chain',result)
 
 }
-
 
 async function get_nft_b() {
  try{
@@ -100,8 +96,9 @@ async function get_nft_ref() {
     return 0
   }
   const address_nft_sale= '0x86aa9D76EEe0AF62dB3E5d595294Ca41Cb084293';
-  const abi_nft_sale = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"_amount","type":"uint256"},{"indexed":true,"internalType":"address","name":"_buyer","type":"address"}],"name":"Bought","type":"event"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"NFTcount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"NFTcount_media","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"NFTcount_public","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_address","type":"address"}],"name":"addressInWl","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_NFTcount","type":"uint256"}],"name":"buy_nft_media","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"_NFTcount","type":"uint256"}],"name":"buy_nft_presale","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"_NFTcount","type":"uint256"},{"internalType":"address","name":"referal","type":"address"}],"name":"buy_nft_public","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"buyers","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"get_all_Nft_count_and_owners","outputs":[{"internalType":"uint256[]","name":"","type":"uint256[]"},{"internalType":"address[]","name":"","type":"address[]"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"get_all_rewards","outputs":[{"internalType":"uint256[]","name":"","type":"uint256[]"},{"internalType":"address[]","name":"","type":"address[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_NFTcount","type":"uint256"}],"name":"get_prise_presale","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"manager","outputs":[{"internalType":"address payable","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"mintPrice","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"nft_count","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address payable","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"refFather","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"ref_NFTS","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"ref_count","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"referal","type":"address"}],"name":"referals_sum","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"referal","type":"address"}],"name":"reward_sum","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_token_limit","type":"uint256"},{"internalType":"uint256","name":"_start_time","type":"uint256"},{"internalType":"uint256","name":"_end_time","type":"uint256"},{"internalType":"uint256","name":"_new_pice","type":"uint256"},{"internalType":"address[]","name":"_wl","type":"address[]"}],"name":"startNFTsale_media","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"_token_limit","type":"uint256"},{"internalType":"uint256","name":"_start_time","type":"uint256"},{"internalType":"uint256","name":"_end_time","type":"uint256"},{"internalType":"uint256","name":"_new_pice","type":"uint256"}],"name":"startNFTsale_presale","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"_token_limit","type":"uint256"},{"internalType":"uint256","name":"_start_time","type":"uint256"},{"internalType":"uint256","name":"_end_time","type":"uint256"},{"internalType":"uint256","name":"_new_pice","type":"uint256"}],"name":"startNFTsale_public","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"token","outputs":[{"internalType":"contract IERC20","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"wl_presale","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"}];  const contract_nft_sale=new Contract(address_nft_sale, abi_nft_sale, provider);   
-
+  const abi_nft_sale = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"_amount","type":"uint256"},{"indexed":true,"internalType":"address","name":"_buyer","type":"address"}],"name":"Bought","type":"event"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"NFTcount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"NFTcount_media","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"NFTcount_public","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_address","type":"address"}],"name":"addressInWl","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_NFTcount","type":"uint256"}],"name":"buy_nft_media","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"_NFTcount","type":"uint256"}],"name":"buy_nft_presale","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"_NFTcount","type":"uint256"},{"internalType":"address","name":"referal","type":"address"}],"name":"buy_nft_public","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"buyers","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"get_all_Nft_count_and_owners","outputs":[{"internalType":"uint256[]","name":"","type":"uint256[]"},{"internalType":"address[]","name":"","type":"address[]"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"get_all_rewards","outputs":[{"internalType":"uint256[]","name":"","type":"uint256[]"},{"internalType":"address[]","name":"","type":"address[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_NFTcount","type":"uint256"}],"name":"get_prise_presale","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"manager","outputs":[{"internalType":"address payable","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"mintPrice","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"nft_count","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address payable","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"refFather","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"ref_NFTS","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"ref_count","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"referal","type":"address"}],"name":"referals_sum","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"referal","type":"address"}],"name":"reward_sum","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_token_limit","type":"uint256"},{"internalType":"uint256","name":"_start_time","type":"uint256"},{"internalType":"uint256","name":"_end_time","type":"uint256"},{"internalType":"uint256","name":"_new_pice","type":"uint256"},{"internalType":"address[]","name":"_wl","type":"address[]"}],"name":"startNFTsale_media","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"_token_limit","type":"uint256"},{"internalType":"uint256","name":"_start_time","type":"uint256"},{"internalType":"uint256","name":"_end_time","type":"uint256"},{"internalType":"uint256","name":"_new_pice","type":"uint256"}],"name":"startNFTsale_presale","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"_token_limit","type":"uint256"},{"internalType":"uint256","name":"_start_time","type":"uint256"},{"internalType":"uint256","name":"_end_time","type":"uint256"},{"internalType":"uint256","name":"_new_pice","type":"uint256"}],"name":"startNFTsale_public","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"token","outputs":[{"internalType":"contract IERC20","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"wl_presale","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"}];  
+  const contract_nft_sale = new Contract(address_nft_sale, abi_nft_sale, provider);   
+  console.log(contract_nft_sale)
   const allowance_sum = await contract_nft_sale.referals_sum(window.ethereum.selectedAddress);
   let ds = allowance_sum.toNumber() 
   return ds
@@ -115,8 +112,8 @@ async function get_nft_ref() {
 
 async function get_nft_award() {
  try{
-
   const provider = new ethers.providers.Web3Provider(window.ethereum);  
+
   if (window.ethereum.selectedAddress == null){
     await sleep(4000);
     return 0
@@ -127,10 +124,11 @@ async function get_nft_award() {
   const allowance_sum = await contract_nft_sale.reward_sum(window.ethereum.selectedAddress);
   let ds = ethers.utils.parseUnits(allowance_sum.toString(), "wei");
   ds = ds / 1000000;  
+
   return ds
  }
  catch (err) {
-
+  console.log(err)
   await sleep(4000);
   return 0
 }
@@ -156,8 +154,7 @@ async function get_ETH_balance() {
    await sleep(4000);
    return 1
  }
- }
- 
+}
 
 export default function UserSettings({disconnect,user}) {
   const [KYCmodal,setKYCmodal] = useState(false)
@@ -173,6 +170,7 @@ export default function UserSettings({disconnect,user}) {
   const cart = useSelector((state) => state.cart.cart)
   const dispatch = useDispatch()
   const nodeRef = useRef(null)
+  const refLinkInput = useRef(null)
 
   const [NFT_bougt,setNFT_bougt] = useState(0)
   const [NFT_partners,setNFT_partners] = useState(0)
@@ -213,14 +211,13 @@ export default function UserSettings({disconnect,user}) {
     }
   }
 
-  const copyRef = () => {
+  const copyRef = (node) => {
     setRefCoppied(true)
     setIsCustomAlert(true)
-    copyText(user._id)
+    copyText(refLinkInput.current)
   }
 
   const switchModalHandler= (event) => {
-
     if(typeof event !== 'string' && event.target.id === 'toggle-modal'){
       event.stopPropagation()
       setOpen_switchModal(false)
@@ -235,21 +232,6 @@ export default function UserSettings({disconnect,user}) {
     }
   }
 
-  getStatus().then(result => setOpen_switchModal(result))
-
-
-  get_nft_b().then(result => {
-    setNFT_bougt(result)})
-
-  get_nft_ref().then(result => {
-    setNFT_partners(result)})
-
-  get_nft_award().then(result => {
-    setNFT_award(result)})
-
-  get_ETH_balance().then(result => {
-      setETHbalance(result)})
-
   useMemo(() => {
     if(refCoppied){
       setTimeout(() => {
@@ -257,6 +239,22 @@ export default function UserSettings({disconnect,user}) {
       },2000)
     }
   },[refCoppied])
+
+  useEffect(() => {
+    getStatus().then(result => setOpen_switchModal(result))
+
+    get_nft_b().then(result => {
+      setNFT_bougt(result)})
+  
+    get_nft_ref().then(result => {
+      setNFT_partners(result)})
+  
+    get_nft_award().then(result => {
+      setNFT_award(result)})
+  
+    get_ETH_balance().then(result => {
+        setETHbalance(result)})
+  },[])
 
   return (
     <>
@@ -348,7 +346,7 @@ export default function UserSettings({disconnect,user}) {
          Balance:
          </span>
          <span className={styles.value}>
-         {ETHbalance}
+         {user.balance}
          </span>
         </div>
         <div className={styles.row}>
@@ -356,7 +354,7 @@ export default function UserSettings({disconnect,user}) {
          Awards:
          </span>
          <span className={styles.value}>
-			 {NFT_award}
+			    {NFT_award}
          </span>
         </div>
         <div className={styles.row}>
@@ -401,6 +399,7 @@ export default function UserSettings({disconnect,user}) {
            <button onClick={copyRef} className={styles.btn}>
               <Image alt={'copy'} src={icons.copy}/>
               <span>Copy referall link</span>
+              <input ref={refLinkInput} defaultValue={createRefLink(user._id)} className={styles.hiddenInput}/>
               {
                 refCoppied
                 ?
@@ -408,6 +407,14 @@ export default function UserSettings({disconnect,user}) {
                 :
                 ''
               }
+           </button>
+        </div>
+        <div className={styles.row}>
+           <button 
+            onClick={() => router.push('/academy')}
+           className={styles.btn + ' ' + styles.academy}>
+              <Image alt={'NN Academy'} src={bookSvg}/>
+              <span>NN Academy</span>
            </button>
         </div>
         <div className={styles.row}>
@@ -435,12 +442,6 @@ export default function UserSettings({disconnect,user}) {
               <span className={styles.blueText}>
                 {user?.discordData?.username ? user?.discordData?.username : 'Connect Discord'}
               </span>
-           </button>
-        </div>
-        <div className={styles.row}>
-           <button className={styles.btn}>
-              <Image alt={'connect'} src={anotherSvg}/>
-              <span>Connect another wallet</span>
            </button>
         </div>
         </div>

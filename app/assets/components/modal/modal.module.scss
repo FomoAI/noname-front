@@ -11,7 +11,6 @@
   transition: all 0.2s ease;
   z-index: 20000;
   padding: 0px !important;
-
   /* Track */
   &::-webkit-scrollbar-track {
     background: transparent;
@@ -114,5 +113,49 @@
   }
   @media (max-width: 420px) {
     right: 3.5%;
+  }
+}
+.bigSize {
+  top: 42px;
+  right: 40px;
+  @media (max-width:450px) {
+    top: 32px;
+    right: 20px;
+  }
+}
+.bigSize img {
+  width: 32px;
+  height: 32px;
+}
+
+.programm-modal {
+  margin-top: 80px;
+  margin-bottom: 80px;
+  height: 94vh;
+  overflow: auto;
+  @media (max-width:660px) {
+      padding: 24px 28px !important;
+  }
+  @media (max-width:450px) {
+    padding: 16px 20px !important;
+  }
+}
+
+.lottieWrapper {
+  max-width: 46px;
+  max-height: 46px;
+  @media (max-width:450px) {
+    max-width: 32px;
+    max-height: 32px;
+  }
+}
+
+
+.direction-modal-admin{
+  overflow: auto;
+  height: 98vh;
+  
+  & > div{
+    margin: 0;
   }
 }

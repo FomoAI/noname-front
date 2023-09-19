@@ -1,7 +1,10 @@
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
+import { useDispatch } from 'react-redux'
+import { toggleModal } from '../../store/slices/modalsSlice'
 import useModal from '../../hooks/useModal'
-import logo from '../../assets/img/logo.svg'
+import logo from '../../assets/img/logo.svg'    
 import ventures from '../../assets/img/ventures.svg'
-import styles from '../styles/info.module.scss'
 import Image from 'next/image'
 import MainBtn from '../UI/buttons/MainBtn'
 import Form from '../../assets/components/form/Form'
@@ -10,6 +13,7 @@ import Gallery from '../../assets/components/gallery/Gallery'
 import Accordion from '../accordion/Accordion'
 import Roadmap from '../../assets/components/roadmap/Roadmap'
 import Community from '../community/Community'
+import styles from '../styles/info.module.scss'
 
 const links = [
     {
@@ -32,6 +36,17 @@ const links = [
 
 export default function Info({data}) {
     const {modalHandler,state} = useModal()
+    const dispatch = useDispatch()
+
+    const router = useRouter()
+
+    useEffect(() => {
+        const params = router.query
+        
+        if(params?.login){
+            dispatch(toggleModal('wallet'))
+        }
+    },[])
     
   return (
     <div className={styles.body}>

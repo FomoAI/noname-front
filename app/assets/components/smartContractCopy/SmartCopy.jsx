@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import Image from 'next/image'
 import copySvg from '../../icons/smart-copy2.svg'
 import sliceAddress from '../../../utils/sliceAddress'
@@ -8,9 +8,10 @@ import styles from './smart-copy.module.scss'
 
 export default function SmartCopy({address}) {
   const [isCopied,setIsCopied] = useState(false)
+  const smartValue = useRef()
 
   const copyAddress = () => {
-    copyText(address)
+    copyText(smartValue.current)
     setIsCopied(true)
   }
 
@@ -24,6 +25,7 @@ export default function SmartCopy({address}) {
             {sliceAddress(address)}
             <Image src={copySvg} alt='smart copy'/>
         </button>
+        <input ref={smartValue} defaultValue={address} className={styles.inputHidden}/>
     </div>
     <CustomAlert
     isAutoClose={true}

@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
-import styles from '../styles/collections.module.scss'
 import Collection from '../collection/Collection'
+import styles from '../styles/collections.module.scss'
 
 export default function Collections({collections}) {
   const [maxCollections,setMaxCollections] = useState(5)

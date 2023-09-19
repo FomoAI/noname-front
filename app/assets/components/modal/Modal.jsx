@@ -1,8 +1,10 @@
-import styles from './modal.module.scss'
-import { Transition } from 'react-transition-group'
-import { useRef , useEffect} from 'react'
-import closeSvg from '../../icons/close.svg'
+import { useRef} from 'react'
 import Image from 'next/image'
+import Lottie from 'lottie-react'
+import { Transition } from 'react-transition-group'
+import closeLottie from '../../lotties-animations/NN Закрыть модальное .json'
+import closeSvg from '../../icons/close.svg'
+import styles from './modal.module.scss'
 
 export default function Modal({
     bodyClass = 'none',
@@ -13,6 +15,8 @@ export default function Modal({
     padding ='16',
     overflowY = 'unset',
     transform = 'translate(0px,0px)',
+    closeSize = 'default',
+    onClose = () => console.log('none'),
     children
 }) 
     {
@@ -40,9 +44,23 @@ export default function Modal({
                         className={styles.body + ' ' + styles[bodyClass]}>
                             <div className={styles.head}>
                                 <span>{title}</span>
-                                <button className={styles.closeBtn} id={'toggle-modal'} type={'button'}>
+                                {
+                                    closeSize === 'default'
+                                    ?
+                                    <button className={styles.closeBtn} id={'toggle-modal'} type={'button'}>
                                     <Image id={'toggle-modal'} src={closeSvg} alt={'close-modal'}/>
-                                </button>
+                                    </button>
+                                    :
+                                    <button 
+                                    onClick={onClose}
+                                    className={styles.closeBtn + ' ' + styles.bigSize} type={'button'}>
+                                    {/* <Image id={'toggle-modal'} src={closeSvg} alt={'close-modal'}/> */}
+                                        <div className={styles.lottieWrapper}>
+                                            <Lottie animationData={closeLottie}/>
+                                        </div>
+                                    </button>
+                                }
+
                             </div>
                             <div>
                                 {children}

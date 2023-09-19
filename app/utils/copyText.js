@@ -1,4 +1,5 @@
 
-export default (text) => {
-    navigator.clipboard.writeText(text)
+export default (node) => {
+    node.select()
+    document.execCommand('copy')
 }

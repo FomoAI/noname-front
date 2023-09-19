@@ -17,7 +17,7 @@ export default function discord({news}) {
               setLoading(false)
               if(success){
                   localStorage.setItem('connectWalletStep','4')
-                  router.push('/')
+                  router.push('/info')
               }
             }
         }

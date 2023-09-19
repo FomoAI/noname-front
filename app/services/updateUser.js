@@ -4,7 +4,7 @@ import updateUserData from '../utils/updateUserData.js'
 export default async (data) => {
     try{
         const address = JSON.parse(localStorage.getItem('userData')).address
-        console.log(data)
+
         const responce = await fetch(config.createUrl(`user/${address}`),{
             method:'PUT',
             headers:{

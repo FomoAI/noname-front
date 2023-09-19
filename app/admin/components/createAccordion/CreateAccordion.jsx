@@ -30,7 +30,13 @@ export default function CreateAccordion({title,items,name,handler}) {
   return (
     <div className={styles.body}>
        <div className={styles.title}>
+        {
+            title
+            ?
             <h4>{title}</h4>
+            :
+            <></>
+        }
         </div>
         <div className={styles.items}>
             {accordionItems.map((item,index) => {
