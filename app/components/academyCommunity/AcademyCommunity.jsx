@@ -21,7 +21,7 @@ export default function AcademyCommunity({link,lang}) {
           <span className={styles.text}>Вчіться в інших, діліться своєю роботою та розширюйте свій набір інструментів за допомогою різноманітної групи засновників web3, менеджерів спільноти, хакерів розвитку, маркетологів, авторів контенту та багатьох інших з усього світу.</span>
         </div>
         <div className={styles.button}>
-          <a target={'_blank'} href={link}>Приєднуйтеся до нашого Discord</a>
+          <a target={'_blank'} href={link}>Приєднуйтеся до Discord</a>
         </div>
       </div>
   )
