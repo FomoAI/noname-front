@@ -10,7 +10,7 @@
 }
 .head {
   h2 {
-    font-size: 48px;
+    font-size: 44px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
@@ -29,7 +29,7 @@
 }
 .description {
   margin: 25px 0 18px;
-  font-size: 24px;
+  font-size: 23px;
   font-weight: 500;
 
   @media (max-width: 840px) {
@@ -55,7 +55,7 @@
 }
 .blockTitle {
   color: #070b35;
-  font-size: 32px;
+  font-size: 30px;
   font-weight: 700;
   margin-bottom: 25px;
   @media (max-width: 840px) {
@@ -74,15 +74,15 @@
 .blockColumn {
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 12px;
 }
 .blockItem {
   display: flex;
   align-items: center;
   gap: 10px;
   color: #000;
-  font-size: 28px;
-  font-weight: 500;
+  font-size: 24px;
+  font-weight: 400;
   span {
     display: block;
     line-height: 100%;

@@ -8,7 +8,7 @@ export const wallets = [
     },
     {
       img:icons.WalletConnect,
-      title:"Connect Wallet",
+      title:"Connect Wallet",  
       config:{
       }
     },
