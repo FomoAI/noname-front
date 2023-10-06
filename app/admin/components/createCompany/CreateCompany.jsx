@@ -113,7 +113,7 @@ export default function CreateCompany({value,name,handler}) {
     },[about])
 
     useEffect(() => {
-        if(Object.keys(value).length){
+        if(Object.keys(value)?.length){
             setAbout(value)
             value = {}
         }

@@ -10,7 +10,7 @@ export default function CustomAlert({
     handler,
     isVisible,
     position = 'right',
-    isAutoClose = true
+    isAutoClose = true,
     }) {
 
     const isVisibleStyles = isVisible ? styles.visible : ''
@@ -21,7 +21,7 @@ export default function CustomAlert({
         if(isVisible && isAutoClose){
             setTimeout(() => {
                 handler()
-            },2000)
+            },3500)
         }    
     },[isVisible])
 

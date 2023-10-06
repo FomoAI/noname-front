@@ -22,7 +22,7 @@
 }
 .valueBlock {
   max-width: fit-content;
-  margin: 10px 32px 16px 0;
+  margin: 10px auto 16px auto;
   display: flex;
   align-items: flex-start;
   flex-direction: column;
@@ -38,11 +38,16 @@
   color: #738094;
 }
 .value {
+  max-width: fit-content;
+  margin: 0 auto;
   font-weight: 700;
   font-size: 32px;
   line-height: 38px;
   text-align: center;
   color: #0d0f2b;
+
+  display: flex;
+  gap: 5px;
 }
 .btns {
   display: flex;
@@ -52,4 +57,8 @@
 .colums {
   display: flex;
   align-items: flex-start;
+}
+.tokensLabel{
+  font-size: 14px;
+  transform: translateY(5px);
 }

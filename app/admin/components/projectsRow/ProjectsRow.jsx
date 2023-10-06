@@ -7,7 +7,7 @@ import Modal from '../../../assets/components/modal/Modal'
 import useModal from '../../../hooks/useModal'
 import deleteProject from '../../services/deleteProject'
 import SquareBtn from '../../../components/UI/buttons/SquareLightBtn'
-import closeProject from '../../services/closeProject'
+import updateMainProject from '../../services/updateMainProject'
 import hideProject from '../../services/hideProject'
 import Loader from '../../../assets/components/loader/Loader'
 
@@ -45,14 +45,21 @@ export default function ProjectsRow({hideLocal,removeLocal,changeLocal,type,proj
       setSelectedProjectId(id)
   },[state,selectedProjectId])
 
-  const changeProjectStatus = useCallback(async (id) => {
-      setLoading(true)
-      const {success} = await closeProject(id,type)
-      if(success){
-        changeLocal(id,index,type)
-        setLoading(false)
-      }
-  },[])
+  const setMainProject = useCallback(async (id) => {
+    const types = {
+      'donate':'donates',
+      'startup':'startups',
+      'crypto':'crypto',
+      'realestate':'business',
+    }
+
+    setLoading(true)
+    const {success} = await updateMainProject(id,types[type])
+    if(success){
+      changeLocal(id,index,type)
+      setLoading(false)
+    }
+},[])
 
   if(loading){
     return (
@@ -76,7 +83,7 @@ export default function ProjectsRow({hideLocal,removeLocal,changeLocal,type,proj
                   hide={hideProjectLocal}
                   edit={editProject} 
                   remove={removeProject} 
-                  change={changeProjectStatus}
+                  setMainProject={setMainProject}
                   key={project._id} 
                   project={project}/>
                 )

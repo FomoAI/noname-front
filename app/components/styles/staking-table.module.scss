@@ -54,7 +54,7 @@
 }
 .head {
   display: grid;
-  grid-template-columns: 0.2fr 0.35fr 0.3fr 0.3fr 0.4fr 0.4fr 0.4fr 0.3fr;
+  grid-template-columns: 0.4fr 0.35fr 0.3fr 0.3fr 0.23fr 0.4fr 0.4fr 0.35fr;
   background: #f5f9fd;
   max-height: 36px;
   border-radius: 16px 16px 0px 0px;
@@ -114,4 +114,10 @@
     border: 4px solid transparent;
     background-clip: content-box;
   }
+}
+.emptyError{
+  margin-top: 20px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 600;
 }

@@ -1,6 +1,9 @@
 import { useState, useCallback, useLayoutEffect, useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { closeModal,openModal } from "../store/slices/modalsSlice";
+import { getPoolInfo } from "../smart/initialSmartMain";
+import addDateAndTime from '../utils/addDateAndTime'
+import parseDate from '../utils/parseDate'
 import blockScroll from '../utils/blockScroll'
 
 const participateCards = [
@@ -8,16 +11,16 @@ const participateCards = [
       title: "Staking",
       start: "2022-06-09 16:00",
       end: "2022-06-09 16:00",
-      state: true,
+      state: false,
       btnName: "Stake",
-      nft: null,
+      nft: false,
     },
     {
       title: "Purchase",
       start: "2022-06-09 16:00",
       end: "2022-06-09 16:00",
       state: false,
-      btnName: "Participate",
+      btnName: "Approve",
       purchase: null,
     },
     {
@@ -29,16 +32,14 @@ const participateCards = [
       claim: null,
     },
 ];
-  
 
 const useParticipate = ({type = '' ,id='',project}) => {
-    const [stakeValue,setStakeValue] = useState('481,11')
+    const [loading,setLoading] = useState(false)
     const [cards,setCards] = useState(participateCards)
     const [isActual,setIsActual] = useState(true)
+    const [claimValue,setClaimValue] = useState(0)
     const modals = useSelector((state) => state.modals)
     const isAuth = useSelector((state) => state.auth.userData.isAuth);
-    const isCompletedKYC = !!useSelector((state) => state.auth.userData.KYC);
-    const [completedKYC,setCompletedKYC] = useState(isCompletedKYC)
     const dispatch = useDispatch()
 
     const modalsHandler = useCallback((action,modal) => {
@@ -50,10 +51,6 @@ const useParticipate = ({type = '' ,id='',project}) => {
       }
     },[modals]) 
 
-    const stakeValueHandler = (event) => {
-      setStakeValue(event.target.value)
-    }
-
     const resetCard = () => {
       setCards([
         {
@@ -61,9 +58,8 @@ const useParticipate = ({type = '' ,id='',project}) => {
           start: "2022-06-09 16:00",
           end: "2022-06-09 16:00",
           state: false,
-          error:'Your NFT is not in staking',
           btnName: "Stake",
-          nft: null,
+          nft: false,
         },
         {
           title: "Purchase",
@@ -71,7 +67,7 @@ const useParticipate = ({type = '' ,id='',project}) => {
           end: "2022-06-09 16:00",
           state: false,
           btnName: "Participate",
-          purchase: null,
+          purchase: false,
         },
         {
           title: "Claim",
@@ -79,202 +75,76 @@ const useParticipate = ({type = '' ,id='',project}) => {
           end: "2022-06-09 16:00",
           state: false,
           btnName: "Claim",
-          claim: null,
+          claim: false,
         },
     ])
     }
 
-    const participate = () => {
-      if(type === 'donate' && !isAuth){
-        modalsHandler('open','connect')
-        blockScroll()
-        return
-      }
-      modalsHandler('open','offers')
-    }
-
-    const confirmStaking = (event) => {
-       if(event && event.target.id === 'toggle-modal'){
-        event.stopPropagation()
-        modalsHandler('close','confirm')
-        return
-      }
-
-      if(event && event.target.id !== 'confirm') return
-
-      modalsHandler('close','confirm')
-      setCards(cards.map((card) => {
-        if(card.title === 'Staking'){
-          return   {
+    const startStaking = () => {
+      setCards(
+        [
+          {
             title: "Staking",
             start: "2022-06-09 16:00",
             end: "2022-06-09 16:00",
-            state: false,
+            state: true,
             btnName: "Stake",
-            nft: null,
-        }}
-        if(card.title === 'Purchase'){
-          return {
+            nft: true,
+          },
+          {
             title: "Purchase",
-            start: "2022-06-09 16:00", 
+            start: "2022-06-09 16:00",
             end: "2022-06-09 16:00",
             state: false,
-            btnName: "Participate",
+            btnName: "Approve",
             purchase: null,
-          }
-        }
-        if(card.title === 'Claim'){
-          return {
+          },
+          {
             title: "Claim",
             start: "2022-06-09 16:00",
             end: "2022-06-09 16:00",
-            state: true,
+            state: false,
             btnName: "Claim",
-            claim: stakeValue,
-          }
-        }
-      }))
+            claim: null,
+          },
+        ]
+      )
     }
 
-    const confirmOffers = (event,data) => {
-      if(typeof event !== 'string' && event.target.id === 'toggle-modal'){
-        event.stopPropagation()
-        modalsHandler('close','offers')
-        return
-      }
-      if(event !== 'confirm-offers') return
-
-      modalsHandler('close','offers')
-      setCards(cards.map((card) => {
+    const startPurchase = () => {
+      setCards(participateCards.map((card) => {
+        if(card.title === 'Purchase'){
+          return {...card,purchase:true,state:true}
+        }
         if(card.title === 'Staking'){
-          return   {
-            title: "Staking",
-            start: "2022-06-09 16:00",
-            end: "2022-06-09 16:00",
-            state: false,
-            btnName: "Stake",
-            nft: null,
-        }}
-        if(card.title === 'Purchase'){
-          return {
-            title: "Purchase",
-            start: "2022-06-09 16:00", 
-            end: "2022-06-09 16:00",
-            state: false,
-            btnName: "Participate",
-            purchase: null,
-          }
+          return {...card,nft:false,state:false}
         }
-        if(card.title === 'Claim'){
-          return {
-            title: "Claim",
-            start: "2022-06-09 16:00",
-            end: "2022-06-09 16:00",
-            state: true,
-            btnName: "Claim",
-            claim: stakeValue,
-          }
-        }
+        return card
       }))
     }
 
-    const claim = () => {
+    const endPurchase = () => {
       setIsActual(false)
     }
 
-    const stakingNft = () => {
-      if(project.isClosed){
-        resetCard()
-        return
-      }
-
-      setCards(cards.map((card) => {
+    const claim = () => {
+      setCards(participateCards.map((card) => {
         if(card.title === 'Staking'){
-          return {
-            title: "Staking",
-            start: "2022-06-09 16:00",
-            end: "2022-06-09 16:00",
-            state: false,
-            btnName: "Stake",
-            nft: null,
-          }
+          return {...card,nft:false,state:false}
         }
         if(card.title === 'Purchase'){
-          return   {
-            title: "Purchase",
-            start: "2022-06-09 16:00",
-            end: "2022-06-09 16:00",
-            state: true,
-            btnName: "Participate",
-            purchase: {claimIn:'15d 20h 25m'},
-          }
+          return {...card,purchase:false,state:false}
         }
-      return card
+        if(card.title === 'Claim'){
+          return {...card,state:true,claim:true}
+        }
+        return card
       }))
     }
 
     const selectNft = () => {
-      if(project.isClosed){
-        resetCard()
-        return
-      }
-
-      setCards(cards.map((card) => {
-        if(card.title === 'Staking'){
-          return   {
-            title: "Staking",
-            start: "2022-06-09 16:00",
-            end: "2022-06-09 16:00",
-            state: true,
-            btnName: "Stake",
-            nft: project,
-          }
-        }
-        return card
-      }))
-      setCompletedKYC(true)
+      
     }
-
-    const connectHandler = useCallback((event) => {
-        if(isAuth && completedKYC){
-          stakingNft()
-        }
-        if(!isAuth){
-          if(event.target.id === 'toggle-modal' && modals.connect.state){
-            modalsHandler('close','connect')
-            blockScroll()
-          }
-          if(!modals.connect.state){
-            modalsHandler('open','connect')
-            blockScroll()
-          }
-          return
-        }
-        if(!completedKYC){
-          if(event.target.id === 'next' && modals.complete.state){
-            modalsHandler('close','complete')
-            modalsHandler('open','buy')
-            return
-          }
-          if(event.target.id === 'toggle-modal' && modals.complete.state){
-            modalsHandler('close','complete')
-            modalsHandler('close','buy')
-            blockScroll()
-            return
-          }
-          if(event.target.id === 'toggle-modal' && modals.buy.state){
-            modalsHandler('close','complete')
-            modalsHandler('close','buy')
-            blockScroll()
-            return
-          }
-         
-          if(!modals.complete.state && !modals.buy.state){
-            modalsHandler('open','complete')
-            blockScroll()
-          }
-        }
-    },[isAuth,modals,completedKYC])
 
     const openWallet = useCallback(() => {
       modalsHandler('open','wallet')
@@ -283,20 +153,84 @@ const useParticipate = ({type = '' ,id='',project}) => {
     },[modals])
 
     useLayoutEffect(() => {
-      if(type === 'project' && isAuth){
-        completedKYC && selectNft()
+      if(!isAuth){
+        return
       }
-      if(type === 'donate'){
-        stakingNft()
+      const checkClaim = () => {
+        
+        const isAlreadyClaimProjects = localStorage.getItem('isClaimed')
+
+        const isAlreadyClaim = 
+        isAlreadyClaimProjects 
+        && 
+        JSON.parse(isAlreadyClaimProjects).find((pr) => {
+          return (
+            pr.project === project._id
+            &&
+            String(pr.poolId) === String(project.poolId)
+          )
+
+        } )
+
+        return isAlreadyClaim
       }
+
+      const cardsStateHandler = async () => {
+        setLoading(true)
+
+        const isAlreadyClaim = checkClaim()
+        
+        if(isAlreadyClaim?.isAlreadyClaim){
+          resetCard()
+          setLoading(false)
+          return
+        }
+
+        const {response} = await getPoolInfo(project.poolId)
+
+        if(response.isClaim){
+          claim()
+          setClaimValue(response.claimed)
+          setLoading(false)
+          return
+        }
+        
+        const stakeNftEndTime = addDateAndTime(parseDate(project.dates.to),project.timeEnd)
+        const purchaseEndTime = addDateAndTime(parseDate(project.purchaseDates.to),project.purchaseTimeEnd)
+        
+        const isPurchaseEnd = purchaseEndTime < new Date().getTime()
+        const isPurchaseStart = stakeNftEndTime < new Date().getTime()
+        
+        if(isPurchaseEnd){
+          endPurchase()
+          setLoading(false)
+          return
+        } 
+
+        if(isPurchaseStart){
+          startPurchase()
+          setLoading(false)
+          return
+        }
+
+        startStaking()
+        setLoading(false)
+      }
+
+      cardsStateHandler()
     }, [id,isAuth]); 
 
     return {
       project,cards,modals,
       modalsHandler,isAuth,isActual,
-      connectHandler,openWallet,
-      selectNft,value:stakeValue,handler:stakeValueHandler,
-      participate,claim,confirmStaking,confirmOffers
+      openWallet,
+      loading,
+      selectNft,
+      claim,
+      startStaking,
+      startPurchase,
+      claimValue,
+      resetCard
     };
 }
 

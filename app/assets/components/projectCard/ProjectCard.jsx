@@ -1,51 +1,35 @@
-import styles from './project-card.module.scss'
+import { useMemo, useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
+import { useSelector, useDispatch } from 'react-redux'
+import { setUserData } from '../../../store/slices/authSlice'
+import { toggleModal, toggleModalWithoutBlock } from '../../../store/slices/modalsSlice'
+import { TelegramShareButton,TwitterShareButton} from 'react-share';
+import { url } from '../../../config/api'
+import { getAllPartnersFromPool } from '../../../smart/initialSmartMain'
+import parseFunded from '../../../utils/parseFunded'
+import parseGoal from '../../../utils/parseGoal'
 import Image from 'next/image'
 import SquareBtn from '../../../components/UI/buttons/SquareLightBtn'
 import heartSvg from '../../icons/heart.svg'
 import heartFillSvg from '../../icons/heartFill.svg'
-import { useMemo, useState } from 'react'
-import { useRouter } from 'next/router'
-import parseFunded from '../../../utils/parseFunded'
 import favourites from '../../../services/favourites'
-import { useSelector, useDispatch } from 'react-redux'
-import { setUserData } from '../../../store/slices/authSlice'
-import { toggleModal, toggleModalWithoutBlock } from '../../../store/slices/modalsSlice'
 import shareSvg from '../../../assets/icons/share.svg'
 import shareLinkSvg from '../../../assets/icons/share-link.svg'
 import telegramSvg from '../../../assets/icons/telegram.svg'
 import twitterSvg from '../../../assets/icons/twitter.svg'
 import loader from '../../../utils/loader'
-import { TelegramShareButton,TwitterShareButton} from 'react-share';
-import { url } from '../../../config/api'
 import icons from '../../icons/socialmedia/socialmedia'
+import styles from './project-card.module.scss'
 
-const participateSteps = [
-    {
-        title:'Staking',
-        description:'Preparing for whitelist',
-        isActive:true,
-    },
-    {
-        title:'Purchase',
-        description:'You can fill your allocations',
-        isActive:true,
-    },
-    {
-        title:'Distribution',
-        description:'Claim allocations',
-        isActive:false,
-    }
-]
-
-export default function ProjectCard({modalHandler,project}) {
+export default function ProjectCard({myInvest,isClaimed,isClaim,modalHandler,project,steps}) {
     const shareModalState = useSelector((state) => state.modals.share.state)
-    const [steps,setSteps] = useState(participateSteps)
     const userData = useSelector((state) => state.auth.userData)
     const isFavourite = userData?.favourites?.includes(project._id)
-
-    const progress = useMemo(() => {
-        return project?.funded && parseFunded(project.funded)
-    },[project])
+    const [progressValue,setProgressValue] = useState(0)
+    const [fundedValue,setFundedValue] = useState(0)
+    const [myInvestValue,setMyInvestValue] = useState(0)
+    const [currentGoal,setCurrentGoal] = useState(0)
+    const router = useRouter()
 
     const dispatch = useDispatch()
     
@@ -73,8 +57,24 @@ export default function ProjectCard({modalHandler,project}) {
         })
     }
 
-    const router = useRouter()
-    
+    useEffect(() => {
+        getAllPartnersFromPool(project.poolId).then(({sumInvest}) => {
+            if(sumInvest){
+                const currentFund =                     
+                project.status.toLowerCase() === 'ended'
+                ?
+                parseGoal(project.totalRaise)
+                :
+                parseGoal(project.goal)
+
+                setCurrentGoal(currentFund)
+                setProgressValue(parseFunded(sumInvest,currentFund))
+                setFundedValue(`$${sumInvest} (${parseFunded(sumInvest,currentFund)}%)`)
+                setMyInvestValue(`$${myInvest} (${parseFunded(myInvest,currentFund)}%)`)
+            }
+        })
+    },[])
+
   return (
     <div className={styles.container}>
     <div className={styles.body}>
@@ -171,10 +171,6 @@ export default function ProjectCard({modalHandler,project}) {
                 :
                 <></>
             }
-            <div className={styles.endDate}>
-                <span className={styles.key}>Allocation pool: </span>
-                <span className={styles.value}>{`$${project.allocationPool || 0}`}</span>
-            </div>
         </div>
         </div>
         <div className={styles.participateSteps}>
@@ -203,9 +199,21 @@ export default function ProjectCard({modalHandler,project}) {
         </div>
         <div className={styles.btns}>
             <SquareBtn
-            handler={() => dispatch(toggleModal('offers'))} 
-            // handler={() => router.push(`/participate/${project.path}/${project._id}`)} 
-            text={'Participate'} width={'524'}/>
+            disabled={isClaimed}
+            // handler={() => dispatch(toggleModal('offers'))} 
+            handler={() => router.push(`/participate/${project.path}/${project._id}`)} 
+            text={
+                isClaim 
+                ? 
+                (
+                isClaimed
+                ?
+                'Ended'
+                :
+                'Claim'
+                ) 
+                : 'Participate'
+                } width={'524'}/>
             <button onClick={addProject} type={'button'} className={styles.likeBtn}>
                 {
                     isFavourite
@@ -246,23 +254,23 @@ export default function ProjectCard({modalHandler,project}) {
     <div className={styles.progress}>
       <div className={styles.progressRow}>
         <div className={styles.rowItem}>
-            <span className={styles.key}>Field:</span>
-            <span className={styles.value}>{project.field}</span>                    
+            <span className={styles.key}>Funded:</span>
+            <span className={styles.value}>{fundedValue || project.funded}</span>                    
         </div>
         <div className={styles.rowItem}>
             <span className={styles.key}>Funding goal:</span>
-            <span className={styles.goalValue}>{project.goal}</span>                    
+            <span className={styles.goalValue}>{currentGoal}$</span>                    
         </div>
       </div>
       <div className={styles.progressBar}>
-        <div style={{width:`${progress ? progress : 0}%`}} className={styles.progressBarBody}>
+        <div style={{width:`${progressValue ? progressValue : 0}%`}} className={styles.progressBarBody}>
 
         </div>
       </div>
     </div>    
     <div className={styles.funded}>
-        <span className={styles.key}>Funded:</span>                    
-        <span className={styles.textBlue}>{project.funded}</span>                    
+        <span className={styles.key}>My investments:</span>                    
+        <span className={styles.textBlue}>{myInvestValue}</span>                    
     </div>
 
     <hr className={styles.line}/>

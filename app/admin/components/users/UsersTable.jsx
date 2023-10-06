@@ -5,6 +5,7 @@ import { useCallback, useMemo, useState } from 'react'
 import {useRouter} from 'next/router'
 import {AiOutlineDownload} from 'react-icons/ai'
 import getUsersData from '../../services/adminServices/getUsersData'
+import deleteUser from '../../services/adminServices/deleteUser'
 import Input from '../../UI/Input'
 import arrow from '../../../assets/icons/arrow-rotate.svg'
 import Image from 'next/image'
@@ -22,6 +23,14 @@ export default function UsersTable({users}) {
         }else{
             alert('Error')
         }
+    },[users])
+
+    const deleteConfirm = useCallback( async (id) => {
+        const {success} = await deleteUser(id)
+
+        if(!success) return
+
+        router.reload()
     },[users])
 
     const downloadData = async () => {
@@ -110,6 +119,11 @@ export default function UsersTable({users}) {
                     return (
                         <div key={user._id}>
                         <div  className={styles.user}>
+                            <SquareBtn
+                            handler={() => deleteConfirm(user._id)}
+                            width='100'
+                            text={'Delete'}
+                            />
                             <SquareBtn
                             handler={() => block(user._id)}
                             width='100'

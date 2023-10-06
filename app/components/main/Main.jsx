@@ -5,7 +5,7 @@ import Projects from '../projects/Projects'
 import Community from '../community/Community'
 import HTMLReactParser from 'html-react-parser'
 
-export default function Main({type,info}) {
+export default function Main({type,info,projects}) {
   return (
     <main className={styles.main}>
       <Welcome type={type}/>
@@ -17,7 +17,7 @@ export default function Main({type,info}) {
             {HTMLReactParser(info.description)}
           </div>
       </div>
-      <Projects type={type} />
+      <Projects allProjects={projects} type={type} />
       <Banner/>
       <Community/>
     </main>

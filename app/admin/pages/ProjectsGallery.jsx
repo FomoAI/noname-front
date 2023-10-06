@@ -27,7 +27,7 @@ export default function Bussiness({projects,title}) {
           {...projectRow,
             projects:projectRow.projects.map((project) => {
               if(project._id === id){
-                return {...project,isClosed:!project.isClosed}
+                return {...project,isMainProject:!project.isMainProject}
               }
               return project
             })

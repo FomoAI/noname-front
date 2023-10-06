@@ -1,6 +1,7 @@
-import styles from '../styles/home.module.scss'
 import Admins from '../components/admins/Admins';
 import UsersTable from '../components/users/UsersTable';
+import Referrals from '../components/referrals/Referrals';
+import styles from '../styles/home.module.scss'
 
 const Home = ({admins,users}) => {
     return (
@@ -13,6 +14,9 @@ const Home = ({admins,users}) => {
             </div>
             <div className={styles.users}>
                 <UsersTable users={users}/>
+            </div>
+            <div className={styles.referrals}>
+                <Referrals/>
             </div>
         </div>
     );

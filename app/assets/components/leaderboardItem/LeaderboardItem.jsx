@@ -1,4 +1,5 @@
 import styles from './leader-item.module.scss'
+import sliceAddress from '../../../utils/sliceAddress'
 
 export default function LeaderboardItem({item}) {
 
@@ -9,7 +10,7 @@ export default function LeaderboardItem({item}) {
             {item.rank}
         </div>
         <div className={styles.value}>
-            {item.address}
+            {sliceAddress(item.address)}
         </div>
         <div className={styles.value}>
             {item.totalScore}

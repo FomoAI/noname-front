@@ -3,9 +3,11 @@ import TableItem from '../tableItem/TableItem'
 
 export default function StakingTable({items,height='343',boxShadow = '4px 4px 10px #eeeeee'}) {
   return (
+    items?.length 
+    ?
     <div style={{boxShadow:boxShadow}} className={styles.table}>
       <div className={styles.head}>
-        <span>Pool</span>
+        <span>Project</span>
         <span>Your investment</span>
         <span>Status</span>
         <span>Locked</span>
@@ -15,10 +17,14 @@ export default function StakingTable({items,height='343',boxShadow = '4px 4px 10
         <span>Action</span>
       </div>
       <div  style={{height:`${height}px`}} className={styles.body}>
-        {items.map((item,index) => {
+        {
+        items.map((item,index) => {
             return <TableItem key={index} item={item}/>
-        })}
+        })
+        }
       </div>
     </div>
+    :
+    <></>
   )
 }

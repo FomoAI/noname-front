@@ -2,6 +2,7 @@ import { useMemo, useState ,useEffect, useCallback} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useRouter } from 'next/router'
 import { setUserData } from '../../store/slices/authSlice'
+import { ColorRing } from  'react-loader-spinner'
 import favourites from '../../services/favourites'
 import Image from 'next/image'
 import parseFunded from '../../utils/parseFunded'
@@ -12,14 +13,13 @@ import starSvg from '../../assets/icons/star.svg'
 import heartSvg from '../../assets/icons/heart.svg'
 import heartFillSvg from '../../assets/icons/heartFill.svg'
 import styles from '../styles/project.module.scss'
-import { ColorRing } from  'react-loader-spinner'
+import parseGoal from '../../utils/parseGoal'
 
-export default function Project({type,project,index,filter,inDashboard}) {
+export default function Project({type,project,index,filter,inDashboard,isNftAccess}) {
     const [loading,setLoading] = useState(false)
     const [time,setTime] = useState({d:0,h:0,m:0})
     const {days,hours,minutes} = useDates(project.dateStart,project.timeStart,project.status === 'Upcoming')
     const user = useSelector((state) => state.auth.userData)
-    const isAuth = useSelector((state) => state.auth.userData.isAuth)
     const isFavourite = user?.favourites?.includes(project._id)
     const dispatch = useDispatch()
     const router = useRouter()
@@ -53,10 +53,19 @@ export default function Project({type,project,index,filter,inDashboard}) {
         dispatch(setUserData({...user,favourites:changedFavourites}))
     }
 
-    const progress = useMemo(() => {
-        return project?.funded && parseFunded(project.funded)
-    },[project])
+    const [progress,goal] = useMemo(() => {
+        const currentGoal = 
+        project.status.toLowerCase() === 'ended'
+        ?
+        parseGoal(project.totalRaise)
+        :
+        parseGoal(project.goal)
+        
+        const currentProgress = project?.funded && parseFunded(project.funded,currentGoal)
 
+        return [currentProgress,currentGoal]
+    },[project])
+    
     useEffect(() => {
         setTime({
             d:days,
@@ -78,9 +87,9 @@ export default function Project({type,project,index,filter,inDashboard}) {
             </div>
         )
     }
-   
+
   return (
-    project.hidden && !isAuth
+    project.hidden && !isNftAccess 
     ?
     <div className={styles.projectWrapper}>
         <div className={styles.hiddenImg}>
@@ -128,7 +137,7 @@ export default function Project({type,project,index,filter,inDashboard}) {
                     </div>
                     <div className={styles.colum}>
                         <span className={styles.key}>Funding goal: </span>
-                        <span className={styles.value}>{project.goal}</span>
+                        <span className={styles.value}>{goal || project.goal}</span>
                     </div>
                 </div>
             </div>
@@ -143,14 +152,14 @@ export default function Project({type,project,index,filter,inDashboard}) {
                 <>
                 <div className={styles.row}>
                     <div className={styles.progressBar}>
-                        <div style={{width:`${progress}%`}} className={styles.progressValue}></div>
+                        <div style={{width:`${progress || 0}%`}} className={styles.progressValue}></div>
                     </div>
                 </div>
                 <div className={styles.rowLast}>
                     <div className={styles.colums}>
                         <div className={styles.columLast}>
                             <span className={styles.key}>Funded: </span>
-                            <span className={styles.textBlue}>{project.funded}</span>
+                            <span className={styles.textBlue}>${project.funded} ({progress || 0})%</span>
                         </div>
                     </div>
                 </div>
@@ -215,7 +224,6 @@ export default function Project({type,project,index,filter,inDashboard}) {
                                         src={heartSvg} 
                                         alt='heart'/>
                                     }
-    
                                 </button>
                                 :
                                 <></>
@@ -231,12 +239,14 @@ export default function Project({type,project,index,filter,inDashboard}) {
             <div className={styles.row}>
                 <div className={styles.colums}>
                     <div className={styles.colum}>
-                        <span className={styles.key}>Field: </span>
-                        <span className={styles.value}>{project.field}</span>
-                    </div>
-                    <div className={styles.colum}>
                         <span className={styles.key}>Funding goal: </span>
-                        <span className={styles.value}>{project.goal}</span>
+                        <span className={styles.value}>{
+                        project.status?.toLowerCase() === 'ended'
+                        ?
+                        `$${goal}`
+                        :
+                        project.goal
+                        }</span>
                     </div>
                 </div>
             </div>
@@ -251,29 +261,42 @@ export default function Project({type,project,index,filter,inDashboard}) {
                 <>
                 <div className={styles.row}>
                     <div className={styles.progressBar}>
-                        <div style={{width:`${progress}%`}} className={styles.progressValue}></div>
+                        <div style={{width:`${progress || 0}%`}} className={styles.progressValue}></div>
                     </div>
                 </div>
                 <div className={styles.rowLast}>
                     <div className={styles.colums}>
                         <div className={styles.columLast}>
-                            <span className={styles.key}>Funded: </span>
-                            <span className={styles.textBlue}>{project.funded}</span>
+                            <span className={styles.key}>{!inDashboard ? 'My investments: ' : 'Funded: ' }</span>
+                            <span className={styles.textBlue}>
+                                {
+                                    !inDashboard
+                                    ?
+                                    `$${project.investments || 0} (${parseFunded(project.investments,goal)}%)`
+                                    :
+                                    `$${progress === 0 ? '0.00': project.funded} (${progress || 0}%)`
+                                }
+                            </span>
                         </div>
                     </div>
                 </div>
                 </>
             }
             {
-                project?.investments 
-                &&
+                project?.investments && inDashboard
+                ?
                 <>
                 <hr className={styles.line}/>
                 <div className={styles.investments}>
                     <span className={styles.key}>My investments: </span>
-                    <span className={styles.value}>{project.investments}</span>
+                    <span className={styles.value}>
+                        ${project.investments || 0}
+                        {project?.investments && ` (${parseFunded(project.investments,goal)}%)`}
+                    </span>
                 </div>
                 </>
+                :
+                <></>
             }
         </div>
     </div>

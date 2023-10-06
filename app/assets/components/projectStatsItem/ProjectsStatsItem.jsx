@@ -3,7 +3,7 @@ import styles from './project-stats-item.module.scss'
 import Image from 'next/image'
 
 export default function ProjectsStatsItem({item}) {
-  console.log(item)
+
   return (
     <>
       <div className={styles.body}>

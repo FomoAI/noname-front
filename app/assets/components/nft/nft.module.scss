@@ -1,4 +1,5 @@
 .nft {
+  position: relative;
   background: #ffffff;
   border-radius: 8px;
   padding: 12px;
@@ -8,12 +9,22 @@
   flex-direction: column;
   gap: 12px;
 }
-.nftTitle{
+.nftTitle {
   color: #738094;
+  font-size: 16px;
 }
 .nftBody {
   display: flex;
   gap: 10px;
+}
+.nftStakedInfo{
+  position: absolute;
+  top: 3px;
+  right: 15px;
+
+  display: flex;
+  flex-direction: column;
+  gap:8px;
 }
 .nftColum {
   display: flex;
@@ -24,8 +35,8 @@
   display: flex;
   align-items: center;
   gap: 126px;
-  @media (max-width:540px) {
-    gap:15px;
+  @media (max-width: 540px) {
+    gap: 15px;
   }
 }
 .nftValue {
@@ -33,17 +44,18 @@
   font-size: 24px;
   line-height: 28px;
   color: #070b35;
-  @media (max-width:540px) {
+  @media (max-width: 540px) {
     font-size: 18px;
     line-height: 21px;
   }
 }
 .nftText {
+  margin-top: 10px;
   font-weight: 400;
   font-size: 14px;
   line-height: 16px;
   color: #738094;
-  @media (max-width:540px) {
+  @media (max-width: 540px) {
     font-size: 12px;
   }
 }
@@ -55,6 +67,7 @@
   overflow: hidden;
 }
 .nftBtn {
+  margin-left: auto;
   max-height: 35px;
   max-width: 84px;
   font-weight: 600;
@@ -76,7 +89,7 @@
     opacity: 0.7;
   }
 }
-.modal{
+.modal {
   position: relative;
   top: 0;
   left: 0;
@@ -92,7 +105,6 @@
   line-height: 29px;
   text-align: center;
   color: #070b35;
-
 }
 .modalBody {
   margin-top: 12px;
@@ -124,4 +136,24 @@
   text-align: center;
   color: #ff507d;
   width: 136px;
+}
+.nftsInput {
+  max-width: 248px;
+  padding-bottom: 5px;
+  color: #070b35;
+  font-family: Raleway;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+.dates {
+  margin-top: 9px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-weight: 400;
+  font-size: 14px;
+  color: #738094;
+  margin-bottom: 16px;
 }

@@ -1,10 +1,11 @@
+import { useCallback , useState, useEffect, useLayoutEffect} from "react"
 import { useRouter } from 'next/router'
 import { ethers } from "ethers";
-import {useEffect} from 'react'
 import { Contract } from "ethers";
 import { useDispatch,useSelector } from 'react-redux'
 import { toggleModal ,closeModal} from '../../store/slices/modalsSlice'
-import styles from '../styles/project-page.module.scss'
+import { getPoolInfo, getMeInPool} from "../../smart/initialSmartMain";
+import checkIsClaim from "../../utils/checkIsClaim";
 import ProjectCard from '../../assets/components/projectCard/ProjectCard'
 import ProjectInfoBlock from '../../assets/components/projectInfoBlock/ProjectInfoBlock'
 import ProjectFilter from '../../assets/components/projectFilter/ProjectFilter'
@@ -24,8 +25,13 @@ import CustomAlert from '../../assets/components/CustomAlert/CustomAlert'
 import { wagmiClient,ethereumClient } from '../../config/provider'
 import useAuth from '../../hooks/useAuth';
 import balanceParse from "../../utils/balanceParse"
-import { useCallback , useState } from "react"
-
+import addReferral from "../../services/addReferral";
+import getInviterInfo from "../../utils/getInviterInfo";
+import getUserData from "../../utils/getUserData";
+import addProjectToUser from '../../services/addProjectToUser'
+import styles from '../styles/project-page.module.scss'
+import getProjectStatus from '../../utils/getProjectStatus'
+import Loader from '../../assets/components/loader/Loader'
 
 const filtersInitialState = [
   {
@@ -120,7 +126,7 @@ async function getStatus() {
  try{
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const chainId = await provider.getNetwork()
-  if (chainId.chainId!=324){
+  if (chainId.chainId!=97){
     return true
   }
  } catch (err) {
@@ -180,25 +186,31 @@ async function provide_for_mint(sum,quantity) {
   return true
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
+const participateSteps = [
+  {
+      title:'Staking',
+      description:'Preparing for whitelist',
+      isActive:true,
+  },
+  {
+      title:'Purchase',
+      description:'You can fill your allocations',
+      isActive:true,
+  },
+  {
+      title:'Distribution',
+      description:'Claim allocations',
+      isActive:false,
+  }
+]
 
 export default function ProjectPage({project}) {
   const {state,modalHandler} = useModal()
   const dispatch = useDispatch()
   const isBuyModal = useSelector((state) => state.modals.offers.state)
   const router = useRouter()
-  //
+
+  const [steps,setSteps] = useState(() => participateSteps)
   const [confirmStaking,setConfirmStaking] = useState(false)
   const [main_btn_text,setMain_btn_text] = useState('Approve')  
   const [main_btn_content,setMain_btn_content] = useState('confirm-offers')  
@@ -210,9 +222,12 @@ export default function ProjectPage({project}) {
   const [isSuccessAlert2, setSuccessAlert2] = useState(false)
   const [config,setConfig] = useState({})    
   const [error_text,set_error_text] = useState('text')  
+  const [isClaim,setIsClaim] = useState(false)
+  const [isClaimed,setIsClaimed] = useState(false)
+  const [myInvest,setMyInvest] = useState(0)
+  const [loader,setLoader] = useState(false)
 
-
-  const buyModalHandler = (event,data,price) => {
+  const buyModalHandler = async (event,data,price) => {
     if(typeof event !== 'string' && event.target.id === 'toggle-modal'){
       event.stopPropagation()
       dispatch(closeModal('offers'))
@@ -221,32 +236,43 @@ export default function ProjectPage({project}) {
     if(event == 'confirm-offers'){ 
         setPending(true)
         set_allowance_for_mint(price,data.quantity).then(result => {
-        if (result==false){
-          setPending(false)
-          setSuccessAlert2(result)
-          setAlert2(true)
-          dispatch(toggleModal('offers'))
-          sleep(3000).then(result => setAlert(false))
-          return          
-        }
-        get_allowance_state(price).then(result => {
-        setPending(false)
-        setSuccessAlert2(result)
-        setAlert2(true)
-        if (result == true){
-            setMain_btn_text('Buy')
-            setMain_btn_content('Mint_offer')
-            console.log('Main_btn_text text set to Buy')
-            
-        }
-        dispatch(toggleModal('offers'))
-        sleep(3000).then(result => setAlert2(false))
-        })})
-        return
-       }
-    console.log(event)  
-    if(event == 'Mint_offer'){ 
+          if (result==false){
+            setPending(false)
+            setSuccessAlert2(result)
+            setAlert2(true)
+            dispatch(toggleModal('offers'))
+            sleep(3000).then(result => setAlert(false))
+            return          
+          }
+        
+          get_allowance_state(price).then( async (result) => {
+            setPending(false)
+            setSuccessAlert2(result)
+            setAlert2(true)
+            if (result == true){
+                setMain_btn_text('Buy')
+                setMain_btn_content('Mint_offer')
+                console.log('Main_btn_text text set to Buy')
+              
+            }
+            dispatch(toggleModal('offers'))
+            sleep(3000).then(result => setAlert2(false))
+            // после успешной покупки реферала в список рефералов пригласителя в базу данных
+            const inviter = getInviterInfo()
+            const referral = getUserData()
       
+            await addReferral(inviter?.user?.address,referral.address)
+
+            // добавляем пользователю проект в его список проектов
+
+            await addProjectToUser(referral.address,project._id)
+
+          })
+        })
+        return
+    }
+ 
+    if(event == 'Mint_offer'){ 
         setPending(true)
         setMain_btn_text('Approve')
         setMain_btn_content('confirm-offers') 
@@ -283,21 +309,55 @@ export default function ProjectPage({project}) {
     return
   }
 
-
   //get_allowance().then(result => {
   //  if (result){
   //    setwalletState(true)
   //
   //  }
   //  }) 
-  getStatus().then(result => setOpen(result))
-
   
+  useLayoutEffect(() => {
+    const initialProjectPage = async () => {
+      setLoader(true)
+
+      const {response} = await getPoolInfo(project.poolId)
+      const {data} = await getMeInPool(project.poolId,window.ethereum.selectedAddress)
+
+      setIsClaimed(!!checkIsClaim(project._id))
+      setMyInvest(data.invest)
+
+      if(response?.isClaim){
+        setSteps(participateSteps.map((step) => {
+          return {...step,isActive:true}
+        }))
+        setIsClaim(response.isClaim)
+        setLoader(false)
+        
+        return
+      }
+
+      const value = await getProjectStatus(participateSteps,project)
+      const result = await getStatus()
+
+      setSteps(value)
+      setOpen(result)
+      setLoader(false)
+    }
+
+    initialProjectPage()
+  },[])
+
+  if(loader) return <Loader/>
+
   return (
     <>
     <div className={styles.container}>
     <div className={styles.body}>
         <ProjectCard 
+        myInvest={myInvest}
+        isClaimed={isClaimed}
+        isClaim={isClaim}
+        steps={steps}
         modalHandler={modalHandler} 
         project={project} 
         />

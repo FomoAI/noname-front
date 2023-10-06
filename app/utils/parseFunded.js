@@ -1,9 +1,7 @@
-export default (funded) => {
-   return (
-    funded.split('%')[0]
-    .slice(funded.split('%')[0].length - 3,funded.split('%')[0].length)
-    .split('')
-    .filter((v) => isFinite(v))
-    .join('')
-   )
+import parseGoal from "./parseGoal"
+
+export default (funded,goal) => {
+   const percent = Number(funded / parseGoal(goal) * 100).toFixed(2)
+   console.log()
+   return isNaN(percent) ? 0 : percent
 }

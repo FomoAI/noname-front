@@ -8,8 +8,6 @@ import { ethers } from "ethers";
 import { Contract } from "ethers";
 import {useEffect} from 'react'
 
-
-
 async function get_allowance() {
  try{
   const address_nft= '0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4';
@@ -50,9 +48,6 @@ function get_sale_price(data,price){
   return(sur)
 }
 
-
-
-
 export default function OffersModal({handler,button_text,button_res}) {
     const [data,setData] = useState({quantity:'',price:''})
     const [confirmStaking,setConfirmStaking] = useState(false)
@@ -71,9 +66,8 @@ export default function OffersModal({handler,button_text,button_res}) {
     //console.log('rerender',real_button_text)
     const [time, setTime] = useState(new Date());
 
-
-
     const [global_price,set_global_price] = useState(all_price );
+
     const inputsHandler = (event,id) => {
         
         setData((prev) => {
@@ -101,10 +95,11 @@ export default function OffersModal({handler,button_text,button_res}) {
           return {all_price}
         })
     }
+
     useEffect(() => {
       console.log('effect used')
       get_allowance().then(result => {
-        console.log('get_allowance', result,price_for_timer,(result < price_for_timer ))
+        // console.log('get_allowance', result,price_for_timer,(result < price_for_timer ))
         if (result < price_for_timer ){
           setReal_button_text('Approve')
           setReal_button_res('confirm-offers')
@@ -116,7 +111,8 @@ export default function OffersModal({handler,button_text,button_res}) {
       })
 
     return;
-  });
+    },[]);
+
   return (
     <>
         {
@@ -171,7 +167,7 @@ export default function OffersModal({handler,button_text,button_res}) {
             </div>
           </div>
           <div className={styles.bottom}>
-          You will gain access to your NFT after public sale
+            You will gain access to your NFT after public sale
           </div>
           <div className={styles.btn}>
             <SquareBtn 

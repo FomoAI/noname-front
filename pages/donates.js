@@ -1,14 +1,15 @@
 import Layout from '../app/components/layout/index'
 import HeadBlock from '../app/components/head/Head'
 import Main from '../app/components/main/Main'
-import fetchProjects from '../app/services/fetchProjects.js'
+import getCurrentProjects from '../app/services/getCurrentProjects'
 import { useDispatch } from 'react-redux'
 import {setProjects} from '../app/store/slices/allProjects'
 import { useEffect } from 'react'
+import getProjectsSmartData from '../app/services/getProjectsSmartData'
 import Hidden from '../app/assets/components/HiddenComponent/Hidden'
 
 export async function getServerSideProps() {
-  const {projects} = await fetchProjects('donates')
+  const {projects} = await getCurrentProjects('donates')
   
   return { props: { projects } }
 }
@@ -16,66 +17,31 @@ export async function getServerSideProps() {
 
 export default function donates({projects}) {
 
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    dispatch(setProjects(projects))
-  },[])
-
-  
   const pageInfo = {
-    title:'Donates',
+    title:'Early rounds',
     description:
     `
-    <div>
+    <div class="center-text">
       <p>
-        Since February of 2022 the war has been devastating Ukrainian lands.
-        Lots of cities and villages destroyed. Many people were killed.
-        Chaos and destruction is spreading. 
-      </p>
-      <p>
-        <b>
-          That is why No name presents section Donates. 
-        </b>
-      </p>
-      <p>
-        If you are willing to aid, No name will help you 
-        to do it right, to do it efficiently and clearly.
-        We take this noble mission seriously because our 
-        country is on fire. 
+      Investing at early rounds of investing rounds might well be quite beneficial as you may be looking at the next gem or a project which will change the industry while the cost of entrance in such a project remains low.  Find here only the best projects powered by zkSync solution with great potential and invest in them.
       </p>
     </div>
-    <div>
-      <p className='no-margin'>
-      Here, you can help people, make a real difference 
-      for those who are in need. By combining our efforts we can:
-      </p>
-      <ul>
-        <li>help rebuild hospitals;</li>
-        <li>help rebuild schools;</li> 
-        <li>provide essentials for those who suffer from combat actions (food, medicine etc.);</li> 
-        <li>help the wounded with rehabilitation.</li>
-      </ul>
-      <p>
-        We can’t change everything at once, 
-        but step by step, together, eventually 
-        we are going to make a huge difference.
-      </p>
-    </div>
+
     `
   }
 
   return (
     <>
-    <HeadBlock title={'Donates'}/>
+    <HeadBlock title={'Early rounds'}/>
     <Layout>
-      {/* <Main 
+      <Main 
+      projects={projects}
       info={pageInfo}
-      type={'Donates'} 
-      /> */}
-      <Hidden>
+      type={'Early rounds'} 
+      />
+      {/* <Hidden>
       A bit of patience... coming soon
-      </Hidden>
+      </Hidden> */}
     </Layout>
     </>
   )

@@ -1,19 +1,20 @@
+import sliceAddress from '../../../utils/sliceAddress'
 import styles from './my-score.module.scss'
 
 const checkStatus = (status) => {
-    if(status === 'pass'){
+    if(status === 'green'){
         return (
             <div className={styles.pass}></div>
         )
     }
-    if(status === 'potential'){
+    if(status === 'yellow'){
         return (
         <div className={styles.potentialWrapper}>
             <div className={styles.potential}></div>
         </div>
         )
     }
-    if(status === 'nopass'){
+    if(status === 'red'){
         return (
             <div className={styles.nopass}></div>
         )
@@ -21,7 +22,7 @@ const checkStatus = (status) => {
 }
 
 export default function MyScore({userData}) {
-    
+
   return (
     <div>       
         <div className={styles.title}>
@@ -33,7 +34,7 @@ export default function MyScore({userData}) {
                     Rank:
                 </div>
                 <div className={styles.value}>
-                    200
+                    {userData.rank || '-'}
                 </div>
             </div>
             <div className={styles.tableItem}>
@@ -41,7 +42,7 @@ export default function MyScore({userData}) {
                     Address:
                 </div>
                 <div className={styles.value}>
-                    0xc038...d4a82
+                    {sliceAddress(userData.address)}
                 </div>
             </div>
             <div className={styles.tableItem}>
@@ -49,7 +50,7 @@ export default function MyScore({userData}) {
                     Projects participated:
                 </div>
                 <div className={styles.value}>
-                    0
+                    {userData?.projects?.length || 0}
                 </div>
             </div>
             <div className={styles.tableItem}>
@@ -57,7 +58,7 @@ export default function MyScore({userData}) {
                     Total score:
                 </div>
                 <div className={styles.value}>
-                    0
+                    {userData.totalScore || '-'}
                 </div>
             </div>
             <div className={styles.tableItem}>
@@ -65,7 +66,7 @@ export default function MyScore({userData}) {
                     Status:
                 </div>
                 <div className={styles.value}>
-                    {checkStatus('pass')}
+                    {checkStatus(userData.status) || checkStatus('red')}
                 </div>
             </div>
         </div>

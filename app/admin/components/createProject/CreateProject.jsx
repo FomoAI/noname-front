@@ -1,241 +1,44 @@
 import { useState , useCallback, useEffect , useRef} from 'react'
 import { useRouter } from 'next/router'
-import styles from '../../styles/create.module.scss'
+import { selectItems,socialItems,participantsItemsInitial,inputs,getInitialData } from './data'
+import { changeComission } from '../../../smart/initialSmartMain'
 import SquareBtn from '../../../components/UI/buttons/SquareLightBtn'
 import Input from '../../UI/Input'
 import Select from '../../UI/Select'
 import FileInput from '../../UI/FileInput'
 import RatingSelect from '../../UI/RatingSelect'
+import CustomCheckbox from '../../../components/UI/inputs/CheckBox'
+import ClaimModal from '../claimModal/ClaimModal'
 import CustomCalender from '../../../assets/components/calendar/Calendar'
 import TextEditor from '../textEditor/TextEditor'
 import SocialMedia from '../socialMedia/SocialMedia'
 import DocumentationLinks from '../documentationLinks/DocumentationLinks'
 import Participants from '../participants/Participants'
-import createProject from '../../services/createProject'
 import editProject from '../../services/editProject'
 import fileFormParse from '../../../utils/fileFormParse'
 import fetchProject from '../../../services/fetchProject'
 import parseOldFiles from '../../../utils/parseOldFiles'
-import icons from '../../../assets/icons/socialmedia/socialmedia'
 import Loader from '../../../assets/components/loader/Loader'
 import Modal from '../../../assets/components/modal/Modal'
 import Success from '../../../assets/components/success/Success'
 import CreateTags from '../createTags/CreateTags'
 import CreateCompany from '../createCompany/CreateCompany'
 import CreateAccordion from '../createAccordion/CreateAccordion'
+import Media from '../media/Media'
 import ProjectNews from '../projectNews/ProjectNews'
 import useModal from '../../../hooks/useModal'
 import getNews from '../../services/newsServices/getNews'
 
-const selectItems = [
-  'Active',
-  'Upcoming',
-  'Ended'
-]
+import { create } from './services/createProject'
+import endProjectPool from './services/endProjectPool'
 
-const socialItems = [
-  {
-      icon:icons.discord,
-      isSelect:false,
-      alt:'discord',
-      link:''
-  },
-  {
-      icon:icons.telegram,
-      isSelect:false,
-      alt:'telegram',
-      link:''
-  },
-   {
-      icon:icons.medium,
-      isSelect:false,
-      alt:'medium',
-      link:''
-  },
- {
-      icon:icons.twitter,
-      isSelect:false,
-      alt:'twitter',
-      link:''
-  },
-  {
-      icon:icons.facebook,
-      isSelect:false,
-      alt:'facebook',
-      link:''
-  },
-  {
-      icon:icons.tikTok,
-      isSelect:false,
-      alt:'tikTok',
-      link:''
-  },
-  {
-      icon:icons.instagram,
-      isSelect:false,
-      alt:'instagram',
-      link:''
-  },
-  {
-    icon:icons.web,
-    isSelect:false,
-    alt:'web-site',
-    link:''
-},
-]
-
-const participantsItemsInitial = [
-  {title:'Investors',name:'investors'},
-  {title:'Team',name:'team'},
-  {title:'Partners',name:'partners'},
-]
-
-const inputs = [
-  {
-    label:'Name:',
-    name:'title', 
-    placeholder:'SharkRace Cd...',
-  },
-  {
-    label:'Short Description:',
-    name:'description', 
-    placeholder:'Short Description...',
-  },
-  {
-    label:'Field:',
-    name:'field', 
-    placeholder:'Field name...',
-  },
-  {
-    label:'Funding Goal:',
-    name:'goal', 
-    placeholder:'$1,8M',
-  },
-  {
-    label:'Type:',
-    name:'type', 
-    placeholder:'Seed',
-  },
-  {
-    label:'Time start:',
-    name:'timeStart', 
-    placeholder:'24:00',
-  },
-  {
-    label:'Time end:',
-    name:'timeEnd', 
-    placeholder:'24:00',
-  },
-  {
-    label:'Banner',
-    name:'banner',
-    placeholder:'SharkRace Club will hold a...'
-  },
-  {
-    label:'Min.investment:',
-    name:'minInvest',
-    placeholder:'$100.00'
-  },
-  {
-    label:'Max.investment:',
-    name:'maxInvest',
-    placeholder:'$1000.00'
-  },
-  {
-    label:'All Time High:',
-    name:'high',
-    placeholder:'3.9'
-  },
-  {
-    label:'Total Raise:',
-    name:'totalRaise',
-    placeholder:'$300.000'
-  },
-  {
-    label:'Price:',
-    name:'price',
-    placeholder:'100.0'
-  },
-  {
-    label:'Allocation Pool:',
-    name:'allocationPool',
-    placeholder:'1000.0'
-  },
-  {
-    label:'Listed:',
-    name:'listed',
-    placeholder:'400'
-  },
-  {
-    label:'Revenue:',
-    name:'revenue',
-    placeholder:'15%'
-  },
-  {
-    label:'Market Cap:',
-    name:'marketCap',
-    placeholder:'$1.38 M'
-  },
-  {
-    label:'Supply:',
-    name:'supply',
-    placeholder:'10000'
-  },
-  {
-    label:'Owners:',
-    name:'owners',
-    placeholder:'394'
-  },
-  {
-    label:'Total Volume:',
-    name:'totalVolume',
-    placeholder:'1000$'
-  },
-  {
-    label:'Royalty Fee:',
-    name:'royaltyFee',
-    placeholder:'0.5%'
-  },
-]
+import styles from '../../styles/create.module.scss'
 
 export default function CreateProject({type,status,id}) {
   const router = useRouter()
   const {modalHandler,state} = useModal()
   const [loading,setLoading] = useState(false)
-  const [data,setData] = useState(() => (
-    {
-      title:'',
-      description:'',
-      dates:{
-        from: 'ТBA',
-        to:'ТBA'
-      },
-      purchaseDates:{
-        from: 'ТBA',
-        to:'ТBA'
-      },
-      distributionStart:'TBA',
-      status:status ? status : 'Active',
-      field:'',
-      goal:'',
-      type:'',
-      rating:3,
-      isClosed:false,
-      path:type,
-      funded:'$0.00 (0%)',
-      descriptionFull:'',
-      lastFunding:'None',
-      links:[],
-      timeEnd:'24:00',
-      timeStart:'24:00',
-      banner:'',
-      tags:[],
-      company:{},
-      faq:[],
-      risks:[],
-      news:[]
-    }
-  ))
+  const [data,setData] = useState(() => getInitialData(status,type))
   const [socialmedia,setSocialmedia] = useState([])
   const [participants,setParticipants] = useState(() => (
     {
@@ -255,10 +58,18 @@ export default function CreateProject({type,status,id}) {
     team:false,
     partners:false
   })
+
+  const [poolId,setPoolId] = useState(null)
+  const [isReturn,setIsReturn] = useState(false)
+  const [modalText,setModalText] = useState(``)
+  const [isClaimModal,setIsClaimModal] = useState(false)
+
   const participantsTmp = useRef(participants)
   const linksTmp = useRef(participants)
   const tagsTmp = useRef(data.tags)
   const companyTmp = useRef(data.company)
+  const mediaTmp = useRef(data.media)
+  const oldComission = useRef()
 
   const changedParticipantsHandler = (name) => {
     setChangedParticipants((state) => ({...state,[name]:true}))
@@ -322,29 +133,6 @@ export default function CreateProject({type,status,id}) {
     setNews(newsData)
     setLoading(false)
   }
-  
-  const create = async () => {
-    const proejctData = new FormData()
-    fileFormParse(participants.investors,'investor',proejctData)
-    fileFormParse(participants.team,'team',proejctData)
-    fileFormParse(participants.partners,'partner',proejctData)
-    proejctData.append('data',JSON.stringify(
-      {...data,socialmedia:socialmedia.filter((item) => item.isSelect),
-      team:participants.team,
-      investors:participants.investors,
-      partners:participants.partners,
-      }))
-    proejctData.append('logo',logo)
-    proejctData.append('descriptionFile',descriptionFile)
-    setLoading(true)
-    const {success} = await createProject(proejctData,type)
-    setLoading(false)
-    if(success){
-      modalHandler(null,true)
-    }else{
-      alert('Uploading error')
-    }
-  }
 
   const edit = async () => {
     const proejctData = new FormData()
@@ -365,12 +153,34 @@ export default function CreateProject({type,status,id}) {
     proejctData.append('oldFiles',JSON.stringify(oldFiles))
     setLoading(true)
     const {success} = await editProject(id,proejctData,type)
+    if(Number(oldComission.current) !== Number(data.comission)){
+      await changeComission(data.poolId,data.comission)
+    }
     setLoading(false)
     if(success){
       router.reload()
     }else{
       alert('Uploading error')
     }
+  }
+
+  const confirmEndPool = async () => {
+    try{
+      if(!poolId) return
+
+      const {success} = await endProjectPool(poolId,isReturn,id,type)
+  
+      if(success){
+        modalHandler(null,true)
+        setModalText('Pool ended!')
+      }
+    }catch(error){
+      alert(error)
+    }
+  }
+
+  const startClaimModalHandler = (event) => {
+    setIsClaimModal(event.target.id !== 'toggle-modal')
   }
 
   useEffect(() => {
@@ -393,10 +203,15 @@ export default function CreateProject({type,status,id}) {
         linksTmp.current = project.links
         tagsTmp.current = project.tags
         companyTmp.current = project.company
+        mediaTmp.current = project.media
+        oldComission.current = project.comission 
+
+        setPoolId(project.poolId)
         setData(project)
         setIsEdit(true)
         getNewsData()
         setLoading(false)
+
         return
       }else{
         alert(`Project ${id} not finded`)
@@ -416,7 +231,7 @@ export default function CreateProject({type,status,id}) {
       <Loader/>
     )
   }
-  
+
   return (
     <>
     <div className={styles.body}>
@@ -424,16 +239,49 @@ export default function CreateProject({type,status,id}) {
         <div className={styles.title}>
           <h2>Create {type}</h2>
         </div>
-        <div className={styles.createBtn}>
           {
             isEdit
             ?
-            <SquareBtn handler={edit} type='red' width={'200'} text={'Save'}/>
+            <div className={styles.editBtns}>
+              <SquareBtn handler={edit} type='red' width={'200'} text={'Save'}/>
+              <SquareBtn 
+              disabled={data?.isClosed}
+              handler={confirmEndPool} type='red' width={'200'} text={'End pool'}/>
+              <div className={styles.endCheckBox}>
+                <div className={styles.subTitle}>
+                  Is this a refund?
+                </div>
+                <CustomCheckbox
+                handler={() => setIsReturn((prev) => !prev)}
+                isChecked={isReturn}
+                />
+              </div>
+              <SquareBtn
+              disabled={!data?.isClosed}
+              text={'Start claim'}
+              width='200'
+              type='red'
+              handler={() => setIsClaimModal(true)}
+              />
+            </div>
             :
-            <SquareBtn handler={create} type='red' width={'200'} text={'Create'}/>
+            <div className={styles.createBtn}>
+              <SquareBtn handler={() => {
+                create(
+                  setLoading,
+                  modalHandler,
+                  data,
+                  participants,
+                  socialmedia,
+                  type,
+                  logo,
+                  descriptionFile
+                )
+              }} type='red' width={'200'} text={'Create'}/>
+            </div>
           }
-        </div>
       </div>
+
       <div className={styles.inputsBlock}>
 
       <div className={styles.inputs}>
@@ -441,6 +289,7 @@ export default function CreateProject({type,status,id}) {
           return(
             <div key={input.name} className={styles.input}>
             <Input 
+            type={input.type || 'string'}
             label={input.label} 
             name={input.name} 
             handler={inputsHandler} 
@@ -449,6 +298,11 @@ export default function CreateProject({type,status,id}) {
             </div>
           )
         })}
+        <Media
+        value={mediaTmp.current}
+        handler={inputsHandler}
+        name={'media'}
+        />
       </div>
 
       <hr className={styles.line}/>
@@ -484,6 +338,28 @@ export default function CreateProject({type,status,id}) {
             stateHandler={inputsHandler} 
             name={'distributionStart'} 
             dates={data.distributionStart}/>
+          </div>
+
+          <div className={styles.calendar}>
+            <div className={styles.subTitle}>
+            Green date start:
+            </div>
+            <CustomCalender
+            range={false} 
+            stateHandler={inputsHandler} 
+            name={'greenTime'} 
+            dates={data.greenTime}/>
+          </div>
+
+          <div className={styles.calendar}>
+            <div className={styles.subTitle}>
+              Yellow date start:
+            </div>
+            <CustomCalender
+            range={false} 
+            stateHandler={inputsHandler} 
+            name={'yellowTime'} 
+            dates={data.yellowTime}/>
           </div>
 
           <div className={styles.file}>
@@ -609,7 +485,9 @@ export default function CreateProject({type,status,id}) {
       </div>
     </div>
     <Modal handler={modalHandler} isVisible={state}>
-      <Success/>
+      <Success
+      text={modalText}
+      />
       <div className={styles.successBtn}>
         <SquareBtn 
         width='340'
@@ -617,6 +495,11 @@ export default function CreateProject({type,status,id}) {
         handler={() => router.push('/admin')}/>
       </div>
     </Modal>
+    <ClaimModal
+    project={data}
+    isVisible={isClaimModal}
+    handler={startClaimModalHandler}
+    />
    </>
   )
 }

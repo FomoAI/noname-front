@@ -1,13 +1,46 @@
-import styles from './participate-card.module.scss'
 import SquareBtn from '../../../components/UI/buttons/SquareLightBtn'
 import Nft from '../nft/Nft'
 import PurchaseData from '../purchaseData/PurchaseData'
 import ClaimData from '../claimData/ClaimData'
 import { useRouter } from 'next/router'
 import getTime from '../../../utils/getTime'
+import styles from './participate-card.module.scss'
 
-export default function ParticipateCard({closes,project,claim,participate,connectHandler,card,index,value,handler}) {
+const getCurrentDate = (index,project) => {
+    const values = {
+        0:{
+            start:project.dateStart,
+            end:project.dateEnd,
+            timeStart:project.timeStart,
+            timeEnd:project.timeEnd,
+        },
+        1:{
+            start:project.purchaseDates.from,
+            end:project.purchaseDates.to,
+            timeStart:project.purchaseTimeStart,
+            timeEnd:project.purchaseTimeEnd,
+            greenTime:project.greenTime,
+            greenTimeStart:project.greenTimeStart,
+            yellowTime:project.yellowTime,
+            yellowTimeStart:project.yellowTimeStart,
+        },
+        2:{
+            start:project.distributionStart,
+            timeStart:project.claimTimeStart,
+        },
+    }
+
+    return values[index]
+}
+
+export default function ParticipateCard({
+        project,claimValue,
+        card,index,
+        resetCard
+    }) {
+
     const router = useRouter()
+    const dates = getCurrentDate(index,project)
 
   return (
         <>
@@ -22,44 +55,40 @@ export default function ParticipateCard({closes,project,claim,participate,connec
                     <div className={styles.title}>
                         {card.title}
                     </div>
-                    <div className={styles.dates}>
-                        <div className={styles.date}>
-                            <span>Starts: </span>
-                            <span>{getTime(project.dateStart)} {project.timeStart}</span>
-                        </div>
-                        <div className={styles.date}>
-                            <span>Ends (Estimated): </span>
-                            <span>{getTime(project.dateEnd)} {project.timeEnd}</span>
-                        </div>
-                    </div>
                 </div>
                 <div className={styles.cardInfo}>
-                   <Nft card={card} isVisible={card?.nft}/>
-                   <PurchaseData 
-                   closes={closes} 
-                   value={value} 
-                   valueHandler={handler} 
-                   card={card} 
-                   isVisible={card?.purchase}
-                   />
-                   <ClaimData card={card} isVisible={card?.claim}/>
-                </div>
-                <div>
                     {
-                        card.title === 'Staking'
-                        &&
-                        <SquareBtn handler={connectHandler} text={card.btnName} width={'548'}/>
+                        card.nft 
+                        ?
+                        <Nft 
+                        project={project}
+                        dates={dates}
+                        card={card} 
+                        />
+                        :
+                        <></>
                     }
                     {
-                        card.title === 'Purchase'
-                        &&
-                        <SquareBtn handler={participate} text={card.btnName} width={'548'}/>
+                        card.purchase 
+                        ?
+                        <PurchaseData 
+                        dates={dates}
+                        project={project}
+                        />
+                        :
+                        <></>
                     }
-                    {
-                        card.title === 'Claim'
-                        &&
-                        <SquareBtn handler={claim} text={card.btnName} width={'548'}/>
-                    }
+                   {
+                    card.claim
+                    ?
+                    <ClaimData 
+                    resetCard={resetCard}
+                    claimValue={claimValue}
+                    project={project}
+                    card={card}/>
+                    :
+                    <></>
+                   }
                 </div>
             </div>
             :
@@ -74,12 +103,18 @@ export default function ParticipateCard({closes,project,claim,participate,connec
                     <div className={styles.dates + ' ' + styles.disabled}>
                         <div className={styles.date}>
                             <span>Starts: </span>
-                            <span>{getTime(project.dateStart)} {project.timeStart}</span>
+                            <span>{getTime(dates.start)} {dates.timeStart}</span>
                         </div>
-                        <div className={styles.date}>
-                            <span>Ends (Estimated): </span>
-                            <span>{getTime(project.dateEnd)} {project.timeEnd}</span>
-                        </div>
+                        {
+                            index === 2
+                            ?
+                            <></>
+                            :
+                            <div className={styles.date}>
+                                <span>Ends: </span>
+                                <span>{getTime(dates.end)} {dates.timeEnd}</span>
+                            </div>
+                        }
                     </div>
                     {
                         card?.error

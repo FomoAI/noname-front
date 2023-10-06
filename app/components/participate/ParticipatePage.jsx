@@ -1,15 +1,8 @@
-import { useState, useEffect } from "react";
-import styles from "../styles/participate.module.scss";
+import useParticipate from "../../hooks/useParticipate";
 import ParticipateCard from "../../assets/components/participateCard/ParticipateCard";
 import EndedProject from "../../assets/components/endedProject/EndedProject";
-import useParticipate from "../../hooks/useParticipate";
-import Modal from "../../assets/components/modal/Modal";
-import CompleteModal from "../../assets/components/completeModal/CompleteModal";
-import ConnectWalletModal from "../../assets/components/connectWalletModal/ConnectWalletModal";
-import BuyModal from "../../assets/components/BuyModal/BuyModal";
-import ConfirmModal from "../../assets/components/confirmModal/ConfirmModal";
-import useDates from "../../hooks/useDates";
-import OffersModal from "../../assets/components/offersModal/OffersModal";
+import LoaderCustom from "../../assets/components/loader/Loader";
+import styles from "../styles/participate.module.scss";
 
 export default function ParticipatePage({ project, type, id }) {
   const {
@@ -17,17 +10,16 @@ export default function ParticipatePage({ project, type, id }) {
     modals,
     isActual,
     connectHandler,
-    openWallet,
+    loading,
     selectNft,
-    participate,
-    claim,
-    value,
-    handler,
-    confirmStaking,
-    confirmOffers
+    claimValue,
+    resetCard
   } = useParticipate({ type, id, project });
 
-  const {days,hours,minutes} = useDates(project.dateEnd,project.timeEnd, true);
+
+  if(loading){
+    return <LoaderCustom/>
+  }
 
   return isActual ? (
     <>
@@ -35,36 +27,19 @@ export default function ParticipatePage({ project, type, id }) {
         {cards.map((card, index) => {
           return (
             <ParticipateCard
-              closes={{days,hours,minutes}}
+              resetCard={resetCard}
+              claimValue={claimValue}
+              selectNft={selectNft}
               project={project}
-              participate={participate}
-              claim={claim}
               connectHandler={connectHandler}
               modals={modals}
               card={card}
               key={card.title}
               index={index}
-              value={value}
-              handler={handler}
             />
           );
         })}
       </div>
-      <Modal handler={connectHandler} isVisible={modals.connect.state}>
-        <ConnectWalletModal closes={{days,hours,minutes}} openWallet={openWallet} />
-      </Modal>
-      <Modal handler={connectHandler} isVisible={modals.complete.state}>
-        <CompleteModal closes={{days,hours,minutes}} handler={connectHandler} />
-      </Modal>
-      <Modal handler={connectHandler} isVisible={modals.buy.state}>
-        <BuyModal closes={{days,hours,minutes}} handler={selectNft} />
-      </Modal>
-      <Modal handler={confirmOffers} isVisible={modals.offers.state}>
-          <OffersModal handler={confirmOffers}/>
-      </Modal>
-      <Modal handler={confirmStaking} isVisible={modals.confirm.state}>
-        <ConfirmModal closes={{days,hours,minutes}} confirm={confirmStaking} card={project} />
-      </Modal>
     </>
   ) : (
     <div className={styles.endedProject}>

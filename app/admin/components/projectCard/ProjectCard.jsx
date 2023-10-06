@@ -6,10 +6,10 @@ import SquareBtn from '../../../components/UI/buttons/SquareLightBtn'
 import {AiOutlineEdit} from 'react-icons/ai'
 import {AiOutlineDelete} from 'react-icons/ai'
 import {AiOutlineClose} from 'react-icons/ai'
-import {AiOutlineFolderOpen,AiFillEyeInvisible,AiFillEye} from 'react-icons/ai'
+import {AiOutlineFolderOpen,AiFillEyeInvisible,AiFillEye, AiFillStar} from 'react-icons/ai'
 
 
-export default function ProjectCard({edit,remove,change,project,hide}) {
+export default function ProjectCard({edit,remove,setMainProject,project,hide}) {
   return (
     <div className={styles.body}>
         <div className={styles.logo}>
@@ -24,7 +24,7 @@ export default function ProjectCard({edit,remove,change,project,hide}) {
             </div>
             <div className={styles.details}>
                 <div className={styles.closed}>
-                    <span>Closed: </span>
+                    <span>Pool status: </span>
                     {
                     project.isClosed
                     ?
@@ -37,6 +37,16 @@ export default function ProjectCard({edit,remove,change,project,hide}) {
                      <span>Hidden: </span>
                     {
                     project.hidden
+                    ?
+                    <div className={styles.closedLight}></div>
+                    :
+                    <div className={styles.activeLigth}></div>
+                    }
+                </div>
+                <div className={styles.closed}>
+                     <span>Is main: </span>
+                    {
+                    !project.isMainProject
                     ?
                     <div className={styles.closedLight}></div>
                     :
@@ -71,13 +81,13 @@ export default function ProjectCard({edit,remove,change,project,hide}) {
                 ?
                 <SquareBtn 
                 width='50' 
-                handler={() => change(project._id)} 
-                text={<AiOutlineFolderOpen/>}/>
+                handler={() => setMainProject(project._id)} 
+                text={<AiFillStar/>}/>
                 :
                 <SquareBtn 
                 width='50' 
-                handler={() => change(project._id)} 
-                text={<AiOutlineClose/>}/>
+                handler={() => setMainProject(project._id)} 
+                text={<AiFillStar/>}/>
             }
         </div>
     </div>

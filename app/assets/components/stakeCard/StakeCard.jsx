@@ -1,37 +1,41 @@
-import styles from './stake-card.module.scss'
+import { useState } from 'react'
+import { stackeNFTprePool } from '../../../smart/initialSmartMain'
 import SquareBtn from '../../../components/UI/buttons/SquareLightBtn'
 import Modal from '../modal/Modal'
-import { useState } from 'react'
 import StakeModal from '../stakeModal/StakeModal'
 import blockScroll from '../../../utils/blockScroll'
+import styles from './stake-card.module.scss'
 
-export default function StakeCard({value = '0.00',breed = '0.00'}) {
-  const [modal,setModal] = useState(false)
-
-  const modalHandler = (event) => {
-    if(event.target.id === 'toggle-modal'){
-      setModal(!modal)
-      blockScroll()
-    }
-  }
+export default function StakeCard({value,nfts,handler,confirmNftStake}) {
 
   return (
     <div className={styles.body}>
         <div className={styles.row}>
-            <span>You staked</span>
-            <span>{breed} BREED</span>
+            <div className={styles.column}>
+              <span>You staked</span>
+              <div className={styles.stakeLabel}>
+                Enter the desired quantity of NFTs
+              </div>
+            </div>
+            <span>{nfts} Noname NFT key</span>
         </div>
         <div className={styles.valueBlock}>
-            <span className={styles.key}>Value</span>
-            <span className={styles.value}>${value}</span>
+            <input
+            type='number'
+            className={styles.valueInput}
+            value={value}
+            onChange={(e) => {
+              const newValue = e.target.value 
+              
+              if(Number(newValue) > Number(nfts)) return
+
+              handler(newValue)
+            }}
+            />
         </div>
         <div className={styles.btns}>
-           <SquareBtn width={'198'} text={'Unstake'}/>
-           <SquareBtn type='red' handler={modalHandler} width={'198'} text={'Stake'}/>
+           <SquareBtn type='red' handler={confirmNftStake} width={'410'} text={'Stake'}/>
         </div>
-          <Modal handler={modalHandler} isVisible={modal} title={'Stake BREED'}>
-            <StakeModal/>
-          </Modal>
     </div>
   )
 }

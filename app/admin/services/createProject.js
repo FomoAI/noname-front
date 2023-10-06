@@ -1,6 +1,5 @@
 import {config} from '../../config/api'
 import getToken from '../../utils/getToken'
-
     
 export default async (data,type = 'project') => {
     try{

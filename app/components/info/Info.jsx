@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
 import { toggleModal } from '../../store/slices/modalsSlice'
@@ -13,6 +13,7 @@ import Gallery from '../../assets/components/gallery/Gallery'
 import Accordion from '../accordion/Accordion'
 import Roadmap from '../../assets/components/roadmap/Roadmap'
 import Community from '../community/Community'
+import CustomAlert from '../../assets/components/CustomAlert/CustomAlert'
 import styles from '../styles/info.module.scss'
 
 const links = [
@@ -36,6 +37,8 @@ const links = [
 
 export default function Info({data}) {
     const {modalHandler,state} = useModal()
+    const [isError,setIsError] = useState(false)
+    const [isSuccess,setIsSuccess] = useState(false)
     const dispatch = useDispatch()
 
     const router = useRouter()
@@ -43,13 +46,26 @@ export default function Info({data}) {
     useEffect(() => {
         const params = router.query
         
+        if(params?.success){
+            setIsSuccess(true)
+            
+            return
+        }
+
+        if(params?.error){
+            setIsError(true)
+
+            return
+        }
+
         if(params?.login){
             dispatch(toggleModal('wallet'))
         }
     },[])
     
   return (
-    <div className={styles.body}>
+    <>
+        <div className={styles.body}>
         <div className={styles.joinUs}>
             <div className={styles.logo}>
                 <Image src={logo} width={166} alt='logo'/>
@@ -190,6 +206,22 @@ export default function Info({data}) {
             <Community/>
         </div>
     </div>
+    <CustomAlert
+    title={'Ref link activate error'}
+    text={'You can`t activate this referral link'}
+    handler={() => setIsError(false)}
+    isVisible={isError}
+    isAutoClose={false}
+    />
+    <CustomAlert
+    title={'Ref link activated'}
+    text={'In order to finish activated referral link buy Noname NFT'}
+    handler={() => setIsSuccess(false)}
+    isVisible={isSuccess}
+    isAutoClose={false}
+    type='success'
+    />
+    </>
   )
 }
 

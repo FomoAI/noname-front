@@ -1,14 +1,14 @@
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import {setProjects} from '../app/store/slices/allProjects'
 import HeadBlock from '../app/components/head/Head'
 import Layout from '../app/components/layout/index'
 import Main from '../app/components/main/Main'
-import fetchProjects from '../app/services/fetchProjects.js'
-import { useDispatch } from 'react-redux'
-import {setProjects} from '../app/store/slices/allProjects'
-import { useEffect } from 'react'
+import getCurrentProjects from '../app/services/getCurrentProjects'
 
 export async function getServerSideProps() {
   try{
-    const {projects} = await fetchProjects()
+    const {projects} = await getCurrentProjects('startups')
     if(!projects){
       return { props: { projects :[]} }   
     }
@@ -20,15 +20,6 @@ export async function getServerSideProps() {
 }
 
 export default function Home({projects}) {
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    if(projects){
-      dispatch(setProjects(projects))
-    }else{
-      dispatch(setProjects([]))
-    }
-  },[])
 
 const pageInfo = {
   title:'NFT Launch',
@@ -50,6 +41,7 @@ const pageInfo = {
       <HeadBlock title={'Home'}/>
       <Layout>    
         <Main 
+        projects={projects}
         info={pageInfo}
         type={'NFT Launch'} 
         />

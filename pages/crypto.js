@@ -1,15 +1,16 @@
 import HeadBlock from '../app/components/head/Head'
 import Layout from '../app/components/layout/index'
 import Main from '../app/components/main/Main'
-import fetchProjects from '../app/services/fetchProjects.js'
+import getCurrentProjects from '../app/services/getCurrentProjects'
 import { useDispatch } from 'react-redux'
 import {setProjects} from '../app/store/slices/allProjects'
 import { useEffect } from 'react'
+import getProjectsSmartData from '../app/services/getProjectsSmartData'
 import Hidden from '../app/assets/components/HiddenComponent/Hidden'
 
 export async function getServerSideProps() {
   try{
-    const {projects} = await fetchProjects('crypto')
+    const {projects} = await getCurrentProjects('crypto')
     if(!projects){
       return { props: { projects :[]} }
     }
@@ -21,15 +22,6 @@ export async function getServerSideProps() {
 }
 
 export default function Home({projects}) {
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    if(projects){
-      dispatch(setProjects(projects))
-    }else{
-      dispatch(setProjects([]))
-    }
-  },[])
 
 const pageInfo = {
   title:'Crypto',
@@ -37,28 +29,24 @@ const pageInfo = {
   `
   <div className='center-text'>
     <p>
-      In this section you will find crypto startups which are based on one
-      of the best Layer 2 solutions - zkSynk. Choose the best for you and
-      invest using our simple interface. Also, here you will find other 
-      interesting and beneficial cryptoprojects which fit our understanding
-      of a qualitative and safe project. Only the best offers here.
+    Various crypto projects powered by zkSync for you to choose to invest in. We provide opportunities to invest in projects we have checked, reviewed and approved to ensure safety of your investments and guarantee that you will not lose what you have invested. Only the best zkSync projects. 
     </p>
   </div>
   `
 }
 
-
   return (
     < >
       <HeadBlock title={'Crypto'}/>
       <Layout>
-        {/* <Main 
-        info={pageInfo}
+        <Main 
+        projects={projects}
+        info={pageInfo}   
         type={'Crypto'} 
-        /> */}
-        <Hidden>
+        />
+        {/* <Hidden>
         A bit of patience... coming soon
-        </Hidden>
+        </Hidden> */}
       </Layout>
     </>
   )

@@ -1,5 +1,6 @@
-import styles from './leader-table.module.scss'
+import { useState, useEffect } from 'react'
 import LeaderboardItem from '../leaderboardItem/LeaderboardItem'
+import styles from './leader-table.module.scss'
 
 const leaderboardInitialState = [
     {
@@ -49,8 +50,7 @@ const leaderboardInitialState = [
     },
 ]
 
-export default function LeaderboardTable() {
-
+export default function LeaderboardTable({list}) {    
 
   return (
     <div className={styles.table}>
@@ -60,7 +60,7 @@ export default function LeaderboardTable() {
         <span>Total score</span>
         </div>
         <div className={styles.body}>
-            {leaderboardInitialState.map((item,index) => {
+            {list.map((item,index) => {
                 return <LeaderboardItem key={index} item={item}/>
             })}
         </div>

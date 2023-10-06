@@ -63,7 +63,7 @@
   flex-direction: column;
   gap: 4px;
   @media (max-width: 595px) {
-    button:first-child{
+    button:first-child {
       width: 80vw;
       padding: 16px;
       align-items: center;
@@ -92,7 +92,7 @@
 .socialTitle {
   margin: 20px 0;
   @media (max-width: 595px) {
-    h2{
+    h2 {
       text-align: center;
     }
   }
@@ -100,7 +100,7 @@
 .linksTitle {
   margin: 20px 0;
   @media (max-width: 695px) {
-    h2{
+    h2 {
       text-align: center;
     }
   }
@@ -108,12 +108,11 @@
 .links {
   padding-bottom: 10px;
 }
-.tags{
+.tags {
   display: flex;
   align-items: flex-start;
   flex-direction: column;
   gap: 20px;
-
 }
 .participants {
   display: grid;
@@ -136,20 +135,20 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 50px;
-  @media (max-width:595px) {
+  @media (max-width: 595px) {
     gap: 20px;
     flex-wrap: wrap;
   }
 }
-.accordions{
+.accordions {
   display: flex;
   justify-content: center;
   width: 100%;
-  @media (max-width:1400px) {
+  @media (max-width: 1400px) {
     flex-direction: column;
   }
 }
-.accordion{
+.accordion {
   width: 100%;
 }
 .createBtn {
@@ -160,33 +159,47 @@
 .successBtn {
   margin-top: 10px;
 }
-.title{
- @media (max-width:500px) {
-  h2{
-    font-size: 19px;
+.title {
+  @media (max-width: 500px) {
+    h2 {
+      font-size: 19px;
+    }
   }
- }
- @media (max-width:390px) {
-  h2{
-    font-size: 26px;
+  @media (max-width: 390px) {
+    h2 {
+      font-size: 26px;
+    }
   }
- }
 }
-.description{
+.description {
   max-width: 1320px;
-  @media (max-width:1400px) {
+  @media (max-width: 1400px) {
     max-width: 1000px;
   }
-  @media (max-width:1190px) {
+  @media (max-width: 1190px) {
     max-width: 900px;
   }
-  @media (max-width:1090px) {
+  @media (max-width: 1090px) {
     max-width: 800px;
   }
-  @media (max-width:1000px) {
+  @media (max-width: 1000px) {
     max-width: 700px;
   }
-  @media (max-width:950px) {
+  @media (max-width: 950px) {
     max-width: 600px;
   }
+}
+.editBtns {
+  max-width: 750px;
+  width: 100%;
+  display: flex;
+  gap: 10px;
+}
+.endCheckBox{
+  div{
+    margin-top: 4px;
+  }
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }

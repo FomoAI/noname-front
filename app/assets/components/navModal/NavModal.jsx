@@ -1,6 +1,5 @@
 import { useDispatch } from 'react-redux'
 import { closeModal } from '../../../store/slices/modalsSlice'
-import styles from './nav-modal.module.scss'
 import { Transition } from 'react-transition-group'
 import { useRef , useEffect} from 'react'
 import closeSvg from '../../icons/close.svg'
@@ -10,6 +9,7 @@ import donateSvg from '../../icons/donate.svg'
 import realEstateSvg from '../../icons/real-estate.svg'
 import rocketSvg from '../../icons/rocket.svg'
 import Link from 'next/link'
+import styles from './nav-modal.module.scss'
 
 const links = [
     {
