@@ -1,5 +1,6 @@
 import HeadBlock from '../app/components/head/Head'
 import Layout from '../app/components/layout/index'
+import Hidden from '../app/assets/components/HiddenComponent/Hidden'
 import AcademyPage from '../app/components/academyPage/AcademyPage'
 
 export async function getServerSideProps() {
@@ -19,9 +20,13 @@ export async function getServerSideProps() {
 export default function Academy({calendar}) {
   return (
     <>
+
       <HeadBlock title={'NN Academy'}/>
       <Layout>
-      <AcademyPage/>
+        <Hidden>
+        A bit of patience... coming soon
+        </Hidden>
+      {/* <AcademyPage/> */}
       </Layout>
     </>
   )

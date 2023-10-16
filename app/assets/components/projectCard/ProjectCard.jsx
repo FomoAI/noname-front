@@ -199,21 +199,23 @@ export default function ProjectCard({myInvest,isClaimed,isClaim,modalHandler,pro
         </div>
         <div className={styles.btns}>
             <SquareBtn
-            disabled={isClaimed}
-            // handler={() => dispatch(toggleModal('offers'))} 
-            handler={() => router.push(`/participate/${project.path}/${project._id}`)} 
-            text={
-                isClaim 
-                ? 
-                (
-                isClaimed
-                ?
-                'Ended'
-                :
-                'Claim'
-                ) 
-                : 'Participate'
-                } width={'524'}/>
+            // disabled={isClaimed}
+            handler={() => dispatch(toggleModal('offers'))} 
+            // handler={() => router.push(`/participate/${project.path}/${project._id}`)} 
+            // text={
+            //     isClaim 
+            //     ? 
+            //     (
+            //     isClaimed
+            //     ?
+            //     'Ended'
+            //     :
+            //     'Claim'
+            //     ) 
+            //     : 'Participate'
+            //     } 
+            text={'Participate'}
+            width={'524'}/>
             <button onClick={addProject} type={'button'} className={styles.likeBtn}>
                 {
                     isFavourite
